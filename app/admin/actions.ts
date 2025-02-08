@@ -57,7 +57,7 @@ export const createUserAction = async (
     email: `tp-${crypto.randomUUID()}@lenalorentzendesign.se`,
     email_confirm: true,
     user_metadata: {
-      name,
+      name_at_creation: name,
     },
   });
 
