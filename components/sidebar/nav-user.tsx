@@ -25,10 +25,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Profile } from "@/app/admin/test-persons/page";
 import { signOutAction } from "@/app/actions";
+import { Tables } from "@/lib/database.types";
 
-export function NavUser({ user }: { user: Profile }) {
+export function NavUser({ user }: { user: Tables<"profile"> }) {
   const { isMobile } = useSidebar();
 
   return (

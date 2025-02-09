@@ -19,9 +19,9 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Profile } from "@/app/admin/test-persons/page";
 import { ThemeSwitcher } from "../theme-switcher";
 import { View } from "../view";
+import { Tables } from "@/lib/database.types";
 
 const data = {
   navMain: [
@@ -128,7 +128,7 @@ const data = {
 export function AppSidebar({
   user,
   ...props
-}: { user: Profile } & React.ComponentProps<typeof Sidebar>) {
+}: { user: Tables<"profile"> } & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>{user && <NavUser user={user} />}</SidebarHeader>

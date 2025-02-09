@@ -1,6 +1,5 @@
 import { View } from "@/components/view";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
-import Link from "next/link";
 
 export type Profile = {
   id: string;
@@ -9,10 +8,7 @@ export type Profile = {
 
 export default async function Page() {
   const supabase = await createServiceRoleClient();
-  const { data, error } = await supabase
-    .from("profile")
-    .select("*")
-    .returns<Profile[]>();
+  const { data, error } = await supabase.from("profile").select("*");
 
   if (error) {
     return (

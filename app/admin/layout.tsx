@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
 import { ReactNode } from "react";
-import { Profile } from "./test-persons/page";
 import { redirect } from "next/navigation";
 import { CurrentPageTitle } from "@/components/current-page-title";
 
@@ -17,16 +16,18 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const supabase = await createClient();
-  const { data: currentUser } = await supabase.auth.getUser();
+  const {
+    data: { user: currentUser },
+  } = await supabase.auth.getUser();
 
   if (!currentUser) {
     redirect("/sign-in");
   }
 
-  const { data: userProfile }: { data: Profile | null } = await supabase
+  const { data: userProfile } = await supabase
     .from("profile")
     .select("*")
-    .eq("id", currentUser.user?.id)
+    .eq("id", currentUser.id)
     .single();
 
   if (!userProfile) {
