@@ -1,3 +1,4 @@
+import { View } from "@/components/view";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import Link from "next/link";
 
@@ -22,19 +23,17 @@ export default async function Page() {
     );
   }
 
-  console.log(data);
-
   return (
-    <div>
-      <Link href="/admin/test-persons/add" className="text-accent underline">
-        Skapa användare
-      </Link>
+    <View className="gap-4">
       <h1>Test Persons:</h1>
       <ul className="flex flex-col gap-4">
         {data.map((user, i) => (
-          <li key={user.id}>{`User ${i + 1}: ${user.name}`}</li>
+          <li
+            key={user.id}
+            className="border rounded-md p-4 bg-muted"
+          >{`User ${i + 1}: ${user.name}`}</li>
         ))}
       </ul>
-    </div>
+    </View>
   );
 }
