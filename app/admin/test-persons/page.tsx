@@ -24,13 +24,12 @@ export default async function Page() {
   }
 
   return (
-    <View className="gap-4">
-      <h1>Test Persons:</h1>
-      <ul className="flex flex-col gap-4">
+    <View>
+      <ul className="flex flex-col gap-3 bg-muted md:rounded-lg p-4">
         {data.map((user, i) => (
           <li
             key={user.id}
-            className="border rounded-md p-4 bg-muted"
+            className="border rounded-md p-4 bg-background"
           >{`User ${i + 1}: ${user.name}`}</li>
         ))}
       </ul>

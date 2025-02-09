@@ -9,6 +9,7 @@ import { createClient } from "@/utils/supabase/server";
 import { ReactNode } from "react";
 import { Profile } from "./test-persons/page";
 import { redirect } from "next/navigation";
+import { CurrentPageTitle } from "@/components/current-page-title";
 
 export default async function DashboardLayout({
   children,
@@ -40,10 +41,10 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <h1>Page title?</h1>
+            <CurrentPageTitle />
           </div>
         </header>
-        <div className="p-4">{children}</div>
+        <div className="md:p-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
