@@ -24,7 +24,7 @@ export default function AddUserPage() {
       <h1>Skapa användare</h1>
       <form action={formAction}>
         <Label htmlFor="name">Namn:</Label>
-        <Input name="name" />
+        <Input name="name" required />
         <Button type="submit" disabled={pending}>
           {pending ? "Laddar..." : "Skapa"}
         </Button>
