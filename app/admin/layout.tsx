@@ -36,16 +36,16 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={userProfile} />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <AppSidebar user={userProfile} className="border-none shadow-sm" />
+      <SidebarInset className="bg-muted">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+            <SidebarTrigger className="-ml-1 md:h-5 md:w-5 md:p-2 box-content" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <CurrentPageTitle />
           </div>
         </header>
-        <div className="md:p-4">{children}</div>
+        <div className="md:px-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
