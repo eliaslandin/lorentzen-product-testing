@@ -7,7 +7,7 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
+  Users,
 } from "lucide-react";
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavProjects } from "@/components/sidebar/nav-projects";
@@ -19,31 +19,23 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-// This is sample data.
+import { Profile } from "@/app/admin/test-persons/page";
+
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Test Persons",
+      url: "/admin/test-persons",
+      icon: Users,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "View All",
+          url: "/admin/test-persons",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: "Add New",
+          url: "/admin/test-persons/add",
         },
       ],
     },
@@ -131,12 +123,13 @@ const data = {
     },
   ],
 };
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  user,
+  ...props
+}: { user: Profile } & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <NavUser user={data.user} />
-      </SidebarHeader>
+      <SidebarHeader>{user && <NavUser user={user} />}</SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />

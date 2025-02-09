@@ -1,7 +1,7 @@
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import Link from "next/link";
 
-type Profile = {
+export type Profile = {
   id: string;
   name: string;
 };
