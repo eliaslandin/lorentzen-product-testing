@@ -8,7 +8,7 @@ export type Profile = {
 
 export default async function Page() {
   const supabase = await createServiceRoleClient();
-  const { data, error } = await supabase.from("profile").select("*");
+  const { data, error } = await supabase.from("profile").select();
 
   if (error) {
     return (
