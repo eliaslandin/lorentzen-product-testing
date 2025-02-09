@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Profile } from "@/app/admin/test-persons/page";
+import { signOutAction } from "@/app/actions";
 
 export function NavUser({ user }: { user: Profile }) {
   const { isMobile } = useSidebar();
@@ -89,7 +90,7 @@ export function NavUser({ user }: { user: Profile }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={signOutAction}>
               <LogOut />
               Log out
             </DropdownMenuItem>
