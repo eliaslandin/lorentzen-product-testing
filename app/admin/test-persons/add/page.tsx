@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
-import { createUserAction, ServerSuccessResponse } from "../../actions";
+import { createTestPersonAction, ServerSuccessResponse } from "../../actions";
 import { User } from "@supabase/supabase-js";
 
 export default function AddUserPage() {
   const initialState: ServerSuccessResponse<{ user: User }> | null = null;
 
   const [createUser, formAction, pending] = useActionState(
-    createUserAction,
+    createTestPersonAction,
     initialState,
   );
 
@@ -21,7 +21,7 @@ export default function AddUserPage() {
 
   return (
     <div>
-      <h1>Skapa användare</h1>
+      <h1>Skapa ny testperson</h1>
       <form action={formAction}>
         <Label htmlFor="name">Namn:</Label>
         <Input name="name" required />
@@ -31,10 +31,14 @@ export default function AddUserPage() {
       </form>
 
       {createUser?.isSuccess && (
-        <p className="text-blue-800">
-          User created with id: {createUser.data.user.id}
-          Dummy email is: {createUser.data.user.email}
-        </p>
+        <>
+          <p className="text-blue-800">
+            User created with id: {createUser.data.user.id}
+          </p>
+          <p className="text-blue-800">
+            Dummy email is: {createUser.data.user.email}
+          </p>
+        </>
       )}
 
       {createUser?.isError && (

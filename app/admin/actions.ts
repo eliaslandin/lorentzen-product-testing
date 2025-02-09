@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { getUserVerifiedAsAdmin } from "@/lib/dal";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { AuthError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
@@ -22,7 +22,7 @@ export type ServerSuccessResponse<T> = {
   data: T;
 };
 
-export const createUserAction = async (
+export const createTestPersonAction = async (
   prevState: any,
   formData: FormData,
 ): Promise<
@@ -41,23 +41,11 @@ export const createUserAction = async (
     };
   }
 
-  const supabase = await createClient();
-  const { data: getUserData } = await supabase.auth.getUser();
+  const invokingAdmin = await getUserVerifiedAsAdmin();
+  console.log(`Invoked by: ${invokingAdmin.email || invokingAdmin.id}`);
 
-  if (
-    !getUserData.user ||
-    getUserData.user.id !== "c3936b27-ada1-4f72-b3cc-8db2ab18fe5b"
-  ) {
-    console.error(
-      `Unauthorized. Get user response: ${JSON.stringify(getUserData)}`,
-    );
-    throw new Error("Unauthorized.");
-  }
-
-  console.log("Invoking user: ", getUserData.user);
-
-  const supabaseAdmin = await createServiceRoleClient();
-  const { data, error } = await supabaseAdmin.auth.admin.createUser({
+  const supabaseServiceRole = await createServiceRoleClient();
+  const { data, error } = await supabaseServiceRole.auth.admin.createUser({
     email: `tp-${crypto.randomUUID()}@lenalorentzendesign.se`,
     email_confirm: true,
     user_metadata: {
