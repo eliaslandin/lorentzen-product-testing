@@ -20,6 +20,8 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Profile } from "@/app/admin/test-persons/page";
+import { ThemeSwitcher } from "../theme-switcher";
+import { View } from "../view";
 
 const data = {
   navMain: [
@@ -135,7 +137,10 @@ export function AppSidebar({
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <h2>Footer</h2>
+        <View className="flex-row gap-4 justify-center items-center">
+          <p>Theme:</p>
+          <ThemeSwitcher />
+        </View>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
