@@ -44,14 +44,15 @@ export const createUserAction = async (
 
   const { data: getUserData } = await supabase.auth.getUser();
 
-  console.log("Got user: ", getUserData);
-
   if (
     !getUserData.user ||
     getUserData.user.id !== "c3936b27-ada1-4f72-b3cc-8db2ab18fe5b"
   ) {
-    console.error("Unauthorized user!");
+    console.error(`Unauthorized. Get user response: ${getUserData}`);
+    throw new Error("Unauthorized.");
   }
+
+  console.log("Invoking user: ", getUserData.user);
 
   const { data, error } = await supabase.auth.admin.createUser({
     email: `tp-${crypto.randomUUID()}@lenalorentzendesign.se`,
