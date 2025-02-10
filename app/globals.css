@@ -20,12 +20,12 @@
     --accent-foreground: 358 5% 15%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 358 5% 100%;
-    --border: 255 9% 80%;
-    --input: 358 30% 70%;
+    --border: 255 9% 86%;
+    --input: 255 9% 86%;
     --ring: 358 85.8% 50.4%;
     --radius: 0.75rem;
     --sidebar-background: 358 0% 100%;
-    --sidebar-foreground: 225 11% 40%;
+    --sidebar-foreground: 225 11% 42%;
     --sidebar-primary: 358 85.8% 50.4%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 358 89% 94%;
