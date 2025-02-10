@@ -4,6 +4,7 @@ import { getUserVerifiedAsAdmin } from "@/lib/dal";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { AuthError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export type CustomError = {
   isCustom: true;
@@ -22,6 +23,12 @@ export type ServerSuccessResponse<T> = {
   data: T;
 };
 
+const stringMax255Schema = z.string().max(255, "Texten är för lång.");
+
+const creatTestPersonSchema = z.object({
+  name: stringMax255Schema,
+});
+
 export const createTestPersonAction = async (
   prevState: any,
   formData: FormData,
@@ -29,17 +36,9 @@ export const createTestPersonAction = async (
   | ServerSuccessResponse<{ user: User }>
   | ServerErrorResponse<AuthError | CustomError>
 > => {
-  const name = formData.get("name") as string;
-
-  if (!name) {
-    return {
-      isError: true,
-      error: {
-        isCustom: true,
-        message: "Input a name",
-      },
-    };
-  }
+  const { name } = creatTestPersonSchema.parse({
+    name: formData.get("name"),
+  });
 
   const invokingAdmin = await getUserVerifiedAsAdmin();
   console.log(`Invoked by: ${invokingAdmin.email || invokingAdmin.id}`);
