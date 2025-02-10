@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
-import { createTestPersonAction, ServerSuccessResponse } from "../../actions";
+import { createTestPersonAction } from "../../actions";
 import { User } from "@supabase/supabase-js";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { View } from "@/components/view";
+import { ServerSuccessResponse } from "@/lib/types";
 
 export default function AddUserPage() {
   const initialState: ServerSuccessResponse<{ user: User }> | null = null;
@@ -16,10 +17,6 @@ export default function AddUserPage() {
     createTestPersonAction,
     initialState,
   );
-
-  if (createUser?.data) {
-    console.log(createUser.data.user);
-  }
 
   return (
     <Card>
@@ -38,16 +35,16 @@ export default function AddUserPage() {
         </form>
 
         {createUser?.error && (
-          <p className="text-red-800">Failed. Error: {createUser.error}</p>
+          <p className="text-red-800">{createUser.error}</p>
         )}
 
         {createUser?.data && (
           <>
             <p className="text-blue-800">
-              User created with id: {createUser.data.user.id}
+              Ny testperson skapad med ID: {createUser.data.user.id}
             </p>
             <p className="text-blue-800">
-              Dummy email is: {createUser.data.user.email}
+              Dummy email är: {createUser.data.user.email}
             </p>
           </>
         )}

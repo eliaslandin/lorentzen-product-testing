@@ -1,26 +1,11 @@
 "use server";
 
 import { getUserVerifiedAsAdmin } from "@/lib/dal";
+import { creatTestPersonSchema } from "@/lib/schemas";
+import { ServerErrorResponse, ServerSuccessResponse } from "@/lib/types";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
-import { AuthError, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
-
-export type ServerErrorResponse = {
-  data: null;
-  error: string;
-};
-
-export type ServerSuccessResponse<T> = {
-  error: null;
-  data: T;
-};
-
-const stringMax255Schema = z.string().max(255, "Texten är för lång.");
-
-const creatTestPersonSchema = z.object({
-  name: stringMax255Schema,
-});
 
 export const createTestPersonAction = async (
   prevState: any,
