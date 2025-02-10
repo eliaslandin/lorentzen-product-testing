@@ -6,20 +6,13 @@ import { AuthError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export type CustomError = {
-  isCustom: true;
-  message: string;
-};
-
-export type ServerErrorResponse<T> = {
-  isError: true;
-  isSuccess?: false;
-  error: T;
+export type ServerErrorResponse = {
+  data: null;
+  error: string;
 };
 
 export type ServerSuccessResponse<T> = {
-  isSuccess: true;
-  isError?: false;
+  error: null;
   data: T;
 };
 
@@ -32,10 +25,7 @@ const creatTestPersonSchema = z.object({
 export const createTestPersonAction = async (
   prevState: any,
   formData: FormData,
-): Promise<
-  | ServerSuccessResponse<{ user: User }>
-  | ServerErrorResponse<AuthError | CustomError>
-> => {
+): Promise<ServerSuccessResponse<{ user: User }> | ServerErrorResponse> => {
   const { name } = creatTestPersonSchema.parse({
     name: formData.get("name"),
   });
@@ -53,16 +43,17 @@ export const createTestPersonAction = async (
   });
 
   if (error) {
+    console.error(JSON.stringify(error));
     return {
-      isError: true,
-      error,
+      data: null,
+      error: "Kunde inte lägga till ny testperson.",
     };
   }
 
   revalidatePath("/admin/test-persons");
 
   return {
-    isSuccess: true,
+    error: null,
     data: data,
   };
 };

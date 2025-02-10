@@ -17,7 +17,7 @@ export default function AddUserPage() {
     initialState,
   );
 
-  if (createUser?.isSuccess) {
+  if (createUser?.data) {
     console.log(createUser.data.user);
   }
 
@@ -37,7 +37,11 @@ export default function AddUserPage() {
           </View>
         </form>
 
-        {createUser?.isSuccess && (
+        {createUser?.error && (
+          <p className="text-red-800">Failed. Error: {createUser.error}</p>
+        )}
+
+        {createUser?.data && (
           <>
             <p className="text-blue-800">
               User created with id: {createUser.data.user.id}
@@ -46,12 +50,6 @@ export default function AddUserPage() {
               Dummy email is: {createUser.data.user.email}
             </p>
           </>
-        )}
-
-        {createUser?.isError && (
-          <p className="text-red-800">
-            Failed. Error: {createUser.error.message}
-          </p>
         )}
       </CardContent>
     </Card>
