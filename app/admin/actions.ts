@@ -1,19 +1,22 @@
 "use server";
 
 import { getUserVerifiedAsAdmin } from "@/lib/dal";
-import { creatTestPersonSchema } from "@/lib/schemas";
-import { ServerErrorResponse, ServerSuccessResponse } from "@/lib/types";
+import { createTestPersonSchema } from "@/lib/schemas";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
-import { User } from "@supabase/supabase-js";
+import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 
 export const createTestPersonAction = async (
-  prevState: any,
+  prevState: unknown,
   formData: FormData,
-): Promise<ServerSuccessResponse<{ user: User }> | ServerErrorResponse> => {
-  const { name } = creatTestPersonSchema.parse({
-    name: formData.get("name"),
+) => {
+  const submission = parseWithZod(formData, {
+    schema: createTestPersonSchema,
   });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
 
   const invokingAdmin = await getUserVerifiedAsAdmin();
   console.log(`Invoked by: ${invokingAdmin.email || invokingAdmin.id}`);
@@ -23,22 +26,18 @@ export const createTestPersonAction = async (
     email: `tp-${crypto.randomUUID()}@lenalorentzendesign.se`,
     email_confirm: true,
     user_metadata: {
-      name_at_creation: name,
+      name_at_creation: submission.value.name,
     },
   });
 
   if (error) {
     console.error(JSON.stringify(error));
-    return {
-      data: null,
-      error: "Kunde inte lägga till ny testperson.",
-    };
+    return submission.reply({
+      formErrors: ["Servererror."],
+    });
   }
 
-  revalidatePath("/admin/test-persons");
+  console.log(`Test Person successfully created with ID: ${data.user.id}`);
 
-  return {
-    error: null,
-    data: data,
-  };
+  revalidatePath("/admin/test-persons");
 };
