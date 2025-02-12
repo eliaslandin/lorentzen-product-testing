@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { createTestPersonAction } from "@/app/admin/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -30,28 +29,23 @@ export const CreateTestPersonForm = () => {
   });
 
   return (
-    <Card>
-      <CardHeader>Skapa ny testperson</CardHeader>
-      <CardContent>
-        <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
-          <FormContent>
-            <FormField
-              label="Namn"
-              inputId={fields.name.id}
-              errorMessage={fields.name.errors}
-            >
-              <Input
-                id={fields.name.id}
-                key={fields.name.key}
-                name={fields.name.name}
-                defaultValue={fields.name.initialValue}
-              />
-            </FormField>
-            <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
-            <FormErrorMessage>{form.errors}</FormErrorMessage>
-          </FormContent>
-        </form>
-      </CardContent>
-    </Card>
+    <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
+      <FormContent>
+        <FormField
+          label="Namn"
+          inputId={fields.name.id}
+          errorMessage={fields.name.errors}
+        >
+          <Input
+            id={fields.name.id}
+            key={fields.name.key}
+            name={fields.name.name}
+            defaultValue={fields.name.initialValue}
+          />
+        </FormField>
+        <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
+        <FormErrorMessage>{form.errors}</FormErrorMessage>
+      </FormContent>
+    </form>
   );
 };
