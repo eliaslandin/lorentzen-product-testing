@@ -10,6 +10,11 @@ import { createTestPersonAction } from "@/app/admin/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { createTestPersonSchema } from "@/lib/schemas";
+import { FormContent } from "./form-content";
+import { FormField } from "./form-field";
+import { FormErrorMessage } from "./form-error-message";
+import { FormSubmitButton } from "./form-submit-button";
+import { Spinner } from "./spinner";
 
 export const CreateTestPersonForm = () => {
   const [lastResult, formAction, pending] = useActionState(
@@ -33,22 +38,22 @@ export const CreateTestPersonForm = () => {
       <CardHeader>Skapa ny testperson</CardHeader>
       <CardContent>
         <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
-          <View className="gap-4">
-            <div>
-              <Label htmlFor={fields.name.id}>Namn:</Label>
+          <FormContent>
+            <FormField
+              label="Namn"
+              inputId={fields.name.id}
+              errorMessage={fields.name.errors}
+            >
               <Input
                 id={fields.name.id}
                 key={fields.name.key}
                 name={fields.name.name}
                 defaultValue={fields.name.initialValue}
               />
-              <p className="mt-2 text-destructive">{fields.name.errors}</p>
-            </div>
-            <Button disabled={pending}>
-              {pending ? "Laddar..." : "Skapa"}
-            </Button>
-            <p className="text-destructive">{form.errors}</p>
-          </View>
+            </FormField>
+            <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
+            <FormErrorMessage>{form.errors}</FormErrorMessage>
+          </FormContent>
         </form>
       </CardContent>
     </Card>
