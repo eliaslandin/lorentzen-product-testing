@@ -29,7 +29,7 @@ const data = {
       title: "Test Persons",
       url: "/admin/test-persons",
       icon: Users,
-      isActive: true,
+      defaultOpen: true,
       items: [
         {
           title: "View All",

@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 export function NavMain({
   items,
@@ -28,7 +27,7 @@ export function NavMain({
     title: string;
     url: string;
     icon?: LucideIcon;
-    isActive?: boolean;
+    defaultOpen?: boolean;
     items?: {
       title: string;
       url: string;
@@ -45,7 +44,7 @@ export function NavMain({
           <Collapsible
             key={item.title}
             asChild
-            defaultOpen={item.isActive}
+            defaultOpen={item.defaultOpen}
             className="group/collapsible"
           >
             <SidebarMenuItem>
