@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, ReactNode } from "react";
-import NextLink, { LinkProps } from "next/link";
+import { default as NextLink, LinkProps } from "next/link";
 
 export const Link = forwardRef(
   (
@@ -11,7 +11,7 @@ export const Link = forwardRef(
     return (
       <NextLink
         ref={ref}
-        className="ring-offset-background transition-colors focus-visible:ring-none focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-4 rounded-md"
+        className="ring-offset-background transition-colors focus-visible:ring-none focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-4 rounded-sm"
         {...props}
       >
         {props.children}
