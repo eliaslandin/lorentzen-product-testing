@@ -17,7 +17,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
+import { Link } from "@/components/link";
 import { usePathname } from "next/navigation";
 
 export function NavMain({
