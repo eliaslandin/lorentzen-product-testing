@@ -1,11 +1,17 @@
-import { ForwardedRef, forwardRef, ReactNode } from "react";
+import {
+  AnchorHTMLAttributes,
+  ForwardedRef,
+  forwardRef,
+  ReactNode,
+} from "react";
 import { default as NextLink, LinkProps } from "next/link";
 
 export const Link = forwardRef(
   (
     props: {
       children: ReactNode;
-    } & LinkProps,
+    } & LinkProps &
+      AnchorHTMLAttributes<HTMLAnchorElement>,
     ref: ForwardedRef<HTMLAnchorElement>,
   ) => {
     return (
