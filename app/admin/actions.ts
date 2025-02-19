@@ -2,6 +2,7 @@
 
 import { getUserVerifiedAsAdmin } from "@/lib/dal";
 import { createTestPersonSchema } from "@/lib/schemas";
+import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
@@ -23,11 +24,8 @@ export const createTestPersonAction = async (
 
   const supabaseServiceRole = await createServiceRoleClient();
   const { data, error } = await supabaseServiceRole.auth.admin.createUser({
-    email: `tp-${crypto.randomUUID()}@lenalorentzendesign.se`,
+    email: `tp-${submission.value.personal_number}@lenalorentzendesign.se`,
     email_confirm: true,
-    user_metadata: {
-      name_at_creation: submission.value.name,
-    },
   });
 
   if (error) {
@@ -37,7 +35,23 @@ export const createTestPersonAction = async (
     });
   }
 
-  console.log(`Test Person successfully created with ID: ${data.user.id}`);
+  console.log(`User with ID ${data.user.id} added to auth.users table.`);
+
+  const supabase = await createClient();
+  const { data: profileData, error: profileError } = await supabase
+    .from("profile")
+    .insert({
+      id: data.user.id,
+      name: submission.value.name,
+      personal_number: submission.value.personal_number,
+    });
+
+  if (profileError) {
+    console.error(JSON.stringify(profileError));
+    return submission.reply({
+      formErrors: ["Servererror."],
+    });
+  }
 
   revalidatePath("/admin/test-persons");
 };
