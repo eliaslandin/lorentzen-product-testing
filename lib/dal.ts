@@ -1,29 +1,32 @@
 "server-only";
 
 import { createClient } from "../utils/supabase/server";
+import * as jwt from "jsonwebtoken";
 
-export const getUserVerifiedAsAdmin = async () => {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error(
-      `Error getting invoking user. Error: ${JSON.stringify(error)}`,
-    );
-    throw new Error("Server Error.");
-  }
-
-  if (
-    !data.user ||
-    !data.user.app_metadata.user_role ||
-    data.user.app_metadata.user_role !== "admin"
-  ) {
-    console.error(`Unauthorized. Get user response: ${JSON.stringify(data)}`);
-    throw new Error("Unauthorized.");
-  }
-
-  return {
-    id: data.user.id,
-    email: data.user.email,
+type AuthTokenClaims = {
+  app_metadata: {
+    user_roles?: string[];
   };
+};
+
+export const checkIfUserIsAdmin = async () => {
+  const supabase = await createClient();
+
+  await supabase.auth.getUser();
+  const session = await supabase.auth.getSession();
+
+  if (session.error || !session.data.session) {
+    console.error(session.error?.message || "Session error");
+    throw new Error("Session error");
+  }
+
+  const payload = jwt.verify(session.data.session.access_token, process.env.SUPABASE_JWT_SECRET_KEY!) as AuthTokenClaims;
+
+  console.log("Payload", payload);
+
+  if (payload.app_metadata?.user_roles && payload.app_metadata?.user_roles.includes("admin")) {
+    return true;
+  } else {
+    return false;
+  }
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserVerifiedAsAdmin } from "@/lib/dal";
+import { checkIfUserIsAdmin } from "@/lib/dal";
 import { createTestPersonSchema } from "@/lib/schemas";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
@@ -18,8 +18,16 @@ export const createTestPersonAction = async (
     return submission.reply();
   }
 
-  const invokingAdmin = await getUserVerifiedAsAdmin();
-  console.log(`Invoked by: ${invokingAdmin.email || invokingAdmin.id}`);
+  const userIsAdmin = await checkIfUserIsAdmin();
+
+  console.log("User is admin", userIsAdmin);
+
+  if (!userIsAdmin) {
+    console.error("User is not admin!");
+    return submission.reply({
+      formErrors: ["Servererror."],
+    });
+  }
 
   const supabaseServiceRole = await createServiceRoleClient();
   const { data, error } = await supabaseServiceRole.auth.admin.createUser({
