@@ -1,4 +1,4 @@
-INSERT INTO api.role_permissions (role, permission)
+INSERT INTO api.role_permission_relations (role, permission)
 VALUES
   ('admin', 'profiles.select'),
   ('admin', 'profiles.insert'),
