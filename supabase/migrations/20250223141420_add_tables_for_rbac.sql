@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS api.roles (
+  role VARCHAR(255) PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT
+);
+
+ALTER TABLE api.roles ENABLE ROW LEVEL SECURITY;
+
+
+CREATE TABLE IF NOT EXISTS api.permissions (
+  permission TEXT PRIMARY KEY
+);
+
+ALTER TABLE api.permissions ENABLE ROW LEVEL SECURITY;
+
+
+CREATE TABLE IF NOT EXISTS api.role_permission_relations (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  role VARCHAR(255) REFERENCES api.roles(role) ON DELETE CASCADE NOT NULL,
+  permission VARCHAR(255) REFERENCES api.permissions(permission) ON DELETE CASCADE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (role, permission)
+);
+
+ALTER TABLE api.role_permission_relations ENABLE ROW LEVEL SECURITY;
+
+
+CREATE TABLE IF NOT EXISTS api.role_user_relations (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role VARCHAR(255) REFERENCES api.roles(role) ON DELETE CASCADE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (role, user_id)
+);
+
+ALTER TABLE api.role_user_relations ENABLE ROW LEVEL SECURITY;
