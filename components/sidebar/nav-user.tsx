@@ -26,9 +26,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { signOutAction } from "@/app/actions";
-import { Tables } from "@/lib/database.types";
+import { User } from "@supabase/auth-js";
 
-export function NavUser({ user }: { user: Tables<"profile"> }) {
+export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
 
   return (
@@ -41,10 +41,10 @@ export function NavUser({ user }: { user: Tables<"profile"> }) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-none">
-                <AvatarImage src="/lll-icon-red.png" alt={user.name} />
+                <AvatarImage src="/lll-icon-red.png" alt={user.email} />
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
+                <span className="truncate font-semibold">{user.email}</span>
                 <span className="truncate text-xs">{user.id}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -59,10 +59,10 @@ export function NavUser({ user }: { user: Tables<"profile"> }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-none">
-                  <AvatarImage src="/lll-icon-red.png" alt={user.name} />
+                  <AvatarImage src="/lll-icon-red.png" alt={user.email} />
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
+                  <span className="truncate font-semibold">{user.email}</span>
                   <span className="truncate text-xs">{user.id}</span>
                 </div>
               </div>

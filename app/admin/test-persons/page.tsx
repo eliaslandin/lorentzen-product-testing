@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { View } from "@/components/view";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 
 export type Profile = {
@@ -9,7 +8,7 @@ export type Profile = {
 
 export default async function Page() {
   const supabase = await createServiceRoleClient();
-  const { data, error } = await supabase.from("profile").select();
+  const { data, error } = await supabase.schema("api").from("profiles").select();
 
   if (error) {
     return (

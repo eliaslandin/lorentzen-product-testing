@@ -2,7 +2,6 @@
 
 import { getUserVerifiedAsAdmin } from "@/lib/dal";
 import { createTestPersonSchema } from "@/lib/schemas";
-import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
@@ -37,9 +36,9 @@ export const createTestPersonAction = async (
 
   console.log(`User with ID ${data.user.id} added to auth.users table.`);
 
-  const supabase = await createClient();
-  const { data: profileData, error: profileError } = await supabase
-    .from("profile")
+  const { data: profileData, error: profileError } = await supabaseServiceRole
+    .schema("api")
+    .from("profiles")
     .insert({
       id: data.user.id,
       name: submission.value.name,

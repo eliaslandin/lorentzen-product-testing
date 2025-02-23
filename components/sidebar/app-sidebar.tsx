@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ThemeSwitcher } from "../theme-switcher";
 import { View } from "../view";
-import { Tables } from "@/lib/database.types";
+import { User } from "@supabase/auth-js";
 
 const data = {
   navMain: [
@@ -128,7 +128,7 @@ const data = {
 export function AppSidebar({
   user,
   ...props
-}: { user: Tables<"profile"> } & React.ComponentProps<typeof Sidebar>) {
+}: { user: User } & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>{user && <NavUser user={user} />}</SidebarHeader>
