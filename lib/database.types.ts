@@ -7,65 +7,35 @@ export type Json =
   | Json[]
 
 export type Database = {
-  public: {
+  api: {
     Tables: {
-      profile: {
+      profiles: {
         Row: {
-          city: string | null
+          cities: string[] | null
           created_at: string
           email: string | null
           id: string
           name: string
-          personal_number: number | null
+          personal_number: number
           tel: string | null
         }
         Insert: {
-          city?: string | null
+          cities?: string[] | null
           created_at?: string
           email?: string | null
           id: string
           name: string
-          personal_number?: number | null
+          personal_number: number
           tel?: string | null
         }
         Update: {
-          city?: string | null
+          cities?: string[] | null
           created_at?: string
           email?: string | null
           id?: string
           name?: string
-          personal_number?: number | null
+          personal_number?: number
           tel?: string | null
-        }
-        Relationships: []
-      }
-      test: {
-        Row: {
-          active: boolean
-          company: string | null
-          created_at: string
-          description: string | null
-          id: number
-          test_date: string | null
-          title: string
-        }
-        Insert: {
-          active?: boolean
-          company?: string | null
-          created_at?: string
-          description?: string | null
-          id?: never
-          test_date?: string | null
-          title: string
-        }
-        Update: {
-          active?: boolean
-          company?: string | null
-          created_at?: string
-          description?: string | null
-          id?: never
-          test_date?: string | null
-          title?: string
         }
         Relationships: []
       }
