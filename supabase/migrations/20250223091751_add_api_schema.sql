@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS api;
+
+GRANT USAGE ON SCHEMA api TO authenticated;
