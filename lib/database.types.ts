@@ -9,6 +9,18 @@ export type Json =
 export type Database = {
   api: {
     Tables: {
+      permissions: {
+        Row: {
+          permission: string
+        }
+        Insert: {
+          permission: string
+        }
+        Update: {
+          permission?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           cities: string[] | null
@@ -39,12 +51,106 @@ export type Database = {
         }
         Relationships: []
       }
+      role_permission_relations: {
+        Row: {
+          created_at: string
+          id: number
+          permission: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          permission: string
+          role: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          permission?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_permission_relations_permission_fkey"
+            columns: ["permission"]
+            isOneToOne: false
+            referencedRelation: "permissions"
+            referencedColumns: ["permission"]
+          },
+          {
+            foreignKeyName: "role_permission_relations_role_fkey"
+            columns: ["role"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["role"]
+          },
+        ]
+      }
+      role_user_relations: {
+        Row: {
+          created_at: string
+          id: number
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          role: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_user_relations_role_fkey"
+            columns: ["role"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["role"]
+          },
+        ]
+      }
+      roles: {
+        Row: {
+          description: string | null
+          role: string
+          title: string
+        }
+        Insert: {
+          description?: string | null
+          role: string
+          title: string
+        }
+        Update: {
+          description?: string | null
+          role?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_user_permissions: {
+        Args: {
+          requested_permission: string
+        }
+        Returns: boolean
+      }
+      custom_access_token_hook: {
+        Args: {
+          event: Json
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,32 +1,36 @@
 "server-only";
 
+import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
-import * as jwt from "jsonwebtoken";
 
-type AuthTokenClaims = {
-  app_metadata: {
-    user_roles?: string[];
-  };
-};
-
-export const checkIfUserIsAdmin = async () => {
+export const checkIfUserIsAdmin = async (): Promise<boolean> => {
   const supabase = await createClient();
 
-  await supabase.auth.getUser();
-  const session = await supabase.auth.getSession();
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-  if (session.error || !session.data.session) {
-    console.error(session.error?.message || "Session error");
-    throw new Error("Session error");
+  if (userError || !user) {
+    console.error(userError);
+    redirect("/sign-in");
   }
 
-  const payload = jwt.verify(session.data.session.access_token, process.env.SUPABASE_JWT_SECRET_KEY!) as AuthTokenClaims;
+  console.log(`Checking if user ${user.email || user.id} is admin...`);
 
-  console.log("Payload", payload);
+  const { data: userRoles, error } = await supabase.schema("api").from("role_user_relations").select().eq("user_id", user.id);
 
-  if (payload.app_metadata?.user_roles && payload.app_metadata?.user_roles.includes("admin")) {
+  if (error) {
+    console.error(error);
+    throw new Error("Servererror");
+  }
+
+  console.log(`User's roles: ${JSON.stringify(userRoles)}`);
+
+  const adminRole = userRoles.some(role => role.role === "admin");
+
+  if (adminRole) {
+    console.log("User verified as admin!");
     return true;
   } else {
+    console.log("User is not admin!");
     return false;
   }
 };

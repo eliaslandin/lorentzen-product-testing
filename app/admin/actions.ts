@@ -5,6 +5,7 @@ import { createTestPersonSchema } from "@/lib/schemas";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/dist/client/components/navigation";
 
 export const createTestPersonAction = async (
   prevState: unknown,
@@ -20,12 +21,10 @@ export const createTestPersonAction = async (
 
   const userIsAdmin = await checkIfUserIsAdmin();
 
-  console.log("User is admin", userIsAdmin);
-
   if (!userIsAdmin) {
-    console.error("User is not admin!");
+    console.error("Non-admin trying to perform admin action.");
     return submission.reply({
-      formErrors: ["Servererror."],
+      formErrors: ["Behörighet saknas"],
     });
   }
 
@@ -38,13 +37,13 @@ export const createTestPersonAction = async (
   if (error) {
     console.error(JSON.stringify(error));
     return submission.reply({
-      formErrors: ["Servererror."],
+      formErrors: ["Servererror"],
     });
   }
 
   console.log(`User with ID ${data.user.id} added to auth.users table.`);
 
-  const { data: profileData, error: profileError } = await supabaseServiceRole
+  const addUser = await supabaseServiceRole
     .schema("api")
     .from("profiles")
     .insert({
@@ -53,12 +52,13 @@ export const createTestPersonAction = async (
       personal_number: submission.value.personal_number,
     });
 
-  if (profileError) {
-    console.error(JSON.stringify(profileError));
+  if (addUser.error) {
+    console.error(addUser.error);
     return submission.reply({
-      formErrors: ["Servererror."],
+      formErrors: ["Servererror"],
     });
   }
 
   revalidatePath("/admin/test-persons");
+  redirect("/admin/test-persons");
 };
