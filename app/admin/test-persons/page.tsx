@@ -1,9 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { createClient } from "@/utils/supabase/server";
+import { getTestPersons } from "@/lib/fetchers";
 
 export default async function Page() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.schema("api").from("profiles").select();
+  const { data, error } = await getTestPersons();
 
   if (error) {
     return (
