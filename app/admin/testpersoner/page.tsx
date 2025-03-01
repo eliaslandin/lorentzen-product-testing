@@ -17,11 +17,10 @@ export default async function Page() {
     <Card>
       <CardContent>
         <ul className="flex flex-col gap-3">
-          {data.map((user, i) => (
-            <li
-              key={user.id}
-              className="border rounded-md p-4 bg-background"
-            >{`User ${i + 1}: ${user.name}`}</li>
+          {data.map((user) => (
+            <li key={user.id} className="border rounded-md p-4 bg-background">
+              {user.name}
+            </li>
           ))}
         </ul>
       </CardContent>

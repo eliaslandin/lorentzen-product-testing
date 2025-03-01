@@ -26,18 +26,18 @@ import { User } from "@supabase/auth-js";
 const data = {
   navMain: [
     {
-      title: "Test Persons",
-      url: "/admin/test-persons",
+      title: "Testpersoner",
+      url: "/admin/testpersoner",
       icon: Users,
       defaultOpen: true,
       items: [
         {
-          title: "View All",
-          url: "/admin/test-persons",
+          title: "Visa alla",
+          url: "/admin/testpersoner",
         },
         {
-          title: "Add New",
-          url: "/admin/test-persons/add",
+          title: "Lägg till",
+          url: "/admin/testpersoner/ny",
         },
       ],
     },
