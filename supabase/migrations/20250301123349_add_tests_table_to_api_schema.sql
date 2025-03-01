@@ -3,9 +3,7 @@ CREATE TABLE IF NOT EXISTS api.tests (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   date TIMESTAMPTZ,
-  city BIGINT REFERENCES api.cities(id) NOT NULL,
   active BOOLEAN DEFAULT FALSE NOT NULL,
-  company BIGINT REFERENCES api.companies(id) NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 

@@ -7,4 +7,4 @@ VALUES
   ('admin', 'companies.select'),
   ('admin', 'companies.insert'),
   ('admin', 'companies.update'),
-  ('admin', 'companies.delete'),
+  ('admin', 'companies.delete');
