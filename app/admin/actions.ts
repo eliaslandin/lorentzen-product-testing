@@ -1,7 +1,8 @@
 "use server";
 
 import { checkIfUserIsAdmin } from "@/lib/dal";
-import { createTestPersonSchema } from "@/lib/schemas";
+import { createTestPersonSchema, createTestSchema } from "@/lib/schemas";
+import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
@@ -59,6 +60,48 @@ export const createTestPersonAction = async (
     });
   }
 
-  revalidatePath("/admin/test-persons");
-  redirect("/admin/test-persons");
+  revalidatePath("/admin/testpersoner");
+  redirect("/admin/testpersoner");
+};
+
+export const createTestAction = async (
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const submission = parseWithZod(formData, {
+    schema: createTestSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const userIsAdmin = await checkIfUserIsAdmin();
+
+  if (!userIsAdmin) {
+    console.error("Non-admin trying to perform admin action.");
+    return submission.reply({
+      formErrors: ["Behörighet saknas"],
+    });
+  }
+
+  const supabase = await createClient();
+
+  const addTest = await supabase.schema("api").from("tests").insert({
+    name: submission.value.name,
+    city: submission.value.city,
+    company: submission.value.company,
+    description: submission.value.description,
+    date: submission.value.date.toISOString(),
+  });
+
+  if (addTest.error) {
+    console.error(addTest.error);
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  revalidatePath("/admin/tester");
+  redirect("/admin/tester");
 };
