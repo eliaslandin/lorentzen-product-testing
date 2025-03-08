@@ -42,28 +42,24 @@ const data = {
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: "Tester",
+      url: "/admin/tester",
+      icon: BookOpen,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Visa alla",
+          url: "/admin/tester",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Lägg till",
+          url: "/admin/tester/nytt",
         },
       ],
     },
     {
       title: "Documentation",
       url: "#",
-      icon: BookOpen,
+      icon: Bot,
       items: [
         {
           title: "Introduction",

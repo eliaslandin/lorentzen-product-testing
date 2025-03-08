@@ -73,7 +73,8 @@ export const CreateTestForm = () => {
             key={fields.description.key}
             name={fields.description.name}
             defaultValue={fields.description.initialValue}
-            table="tests"
+            table="cities"
+            column="name"
           />
         </FormField>
         <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
