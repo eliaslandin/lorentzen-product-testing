@@ -9,6 +9,68 @@ export type Json =
 export type Database = {
   api: {
     Tables: {
+      cities: {
+        Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: never
+          name?: string | null
+        }
+        Update: {
+          id?: never
+          name?: string | null
+        }
+        Relationships: []
+      }
+      city_user_relations: {
+        Row: {
+          city_id: number
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          city_id: number
+          created_at?: string
+          id?: never
+          user_id: string
+        }
+        Update: {
+          city_id?: number
+          created_at?: string
+          id?: never
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "city_user_relations_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      companies: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          name?: string
+        }
+        Relationships: []
+      }
       permissions: {
         Row: {
           permission: string
@@ -23,7 +85,6 @@ export type Database = {
       }
       profiles: {
         Row: {
-          cities: string[] | null
           created_at: string
           email: string | null
           id: string
@@ -32,7 +93,6 @@ export type Database = {
           tel: string | null
         }
         Insert: {
-          cities?: string[] | null
           created_at?: string
           email?: string | null
           id: string
@@ -41,7 +101,6 @@ export type Database = {
           tel?: string | null
         }
         Update: {
-          cities?: string[] | null
           created_at?: string
           email?: string | null
           id?: string
@@ -133,6 +192,54 @@ export type Database = {
           title?: string
         }
         Relationships: []
+      }
+      tests: {
+        Row: {
+          active: boolean
+          city: number | null
+          company: number | null
+          created_at: string
+          date: string | null
+          description: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          active?: boolean
+          city?: number | null
+          company?: number | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: never
+          name: string
+        }
+        Update: {
+          active?: boolean
+          city?: number | null
+          company?: number | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: never
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tests_city_fkey"
+            columns: ["city"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tests_company_fkey"
+            columns: ["company"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
