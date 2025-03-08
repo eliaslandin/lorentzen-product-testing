@@ -1,7 +1,11 @@
 "use server";
 
 import { checkIfUserIsAdmin } from "@/lib/dal";
-import { createTestPersonSchema, createTestSchema } from "@/lib/schemas";
+import {
+  createCitySchema,
+  createTestPersonSchema,
+  createTestSchema,
+} from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
@@ -74,15 +78,6 @@ export const createTestAction = async (
 
   if (submission.status !== "success") {
     return submission.reply();
-  }
-
-  const userIsAdmin = await checkIfUserIsAdmin();
-
-  if (!userIsAdmin) {
-    console.error("Non-admin trying to perform admin action.");
-    return submission.reply({
-      formErrors: ["Behörighet saknas"],
-    });
   }
 
   const supabase = await createClient();

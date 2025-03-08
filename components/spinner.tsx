@@ -3,6 +3,8 @@ import { Loader2 } from "lucide-react";
 
 export const Spinner = ({ className }: { className?: string }) => {
   return (
-    <Loader2 className={cn("w-6 h-6 animate-spin text-white", className)} />
+    <Loader2
+      className={cn("w-6 h-6 mx-auto animate-spin text-white", className)}
+    />
   );
 };

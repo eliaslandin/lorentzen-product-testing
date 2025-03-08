@@ -2,21 +2,14 @@
 
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
-import { createTestAction, createTestPersonAction } from "@/app/admin/actions";
-import { useForm } from "@conform-to/react";
+import { createTestAction } from "@/app/admin/actions";
+import { useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { createTestPersonSchema, createTestSchema } from "@/lib/schemas";
+import { createTestSchema } from "@/lib/schemas";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "./ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { InputWithLookup } from "./input-with-lookup";
 
 export const CreateTestForm = () => {
@@ -35,6 +28,13 @@ export const CreateTestForm = () => {
     shouldRevalidate: "onInput",
     shouldValidate: "onBlur",
   });
+
+  const city = useInputControl(fields.city);
+
+  const handleSelectCity = (cityId: number) => {
+    city.change(String(cityId));
+  };
+  console.log(form.value);
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
@@ -65,14 +65,12 @@ export const CreateTestForm = () => {
         </FormField>
         <FormField
           label="Stad"
-          inputId={fields.city.id}
+          inputId="cityInput"
           errorMessage={fields.city.errors}
         >
           <InputWithLookup
-            id={fields.description.id}
-            key={fields.description.key}
-            name={fields.description.name}
-            defaultValue={fields.description.initialValue}
+            id="cityInput"
+            handleSelectValue={handleSelectCity}
             table="cities"
             column="name"
           />
