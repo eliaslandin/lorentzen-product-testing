@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { createTestAction } from "@/app/admin/actions";
 import { useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -11,10 +11,8 @@ import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
 import { InputWithLookup } from "./input-with-lookup";
-import { createClient } from "@/utils/supabase/client";
 
 export const CreateTestForm = () => {
-  const supabase = createClient();
   const [cityName, setCityName] = useState<string | null>(null);
   const [lastResult, formAction, pending] = useActionState(
     createTestAction,
@@ -32,34 +30,9 @@ export const CreateTestForm = () => {
     shouldValidate: "onBlur",
   });
 
-  const city = useInputControl(fields.city);
+  const cityField = useInputControl(fields.city);
 
-  const handleSelectCity = (cityId: number) => {
-    city.change(String(cityId));
-  };
-
-  const getCityName = async (id: number) => {
-    const { data, error } = await supabase
-      .schema("api")
-      .from("cities")
-      .select()
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      throw new Error("Servererror");
-    }
-
-    setCityName(data.name);
-  };
-
-  useEffect(() => {
-    if (city.value) {
-      getCityName(Number(city.value));
-    } else {
-      setCityName(null);
-    }
-  }, [city.value]);
+  console.log(form.value);
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
@@ -95,9 +68,10 @@ export const CreateTestForm = () => {
         >
           <InputWithLookup
             id="cityInput"
-            handleSelectValue={handleSelectCity}
             table="cities"
             column="name"
+            field={cityField}
+            setFieldName={setCityName}
           />
           {cityName && (
             <p className="text-accent-foreground bg-accent rounded-full px-4 py-2">
