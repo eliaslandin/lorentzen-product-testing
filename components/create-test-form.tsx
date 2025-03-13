@@ -14,6 +14,7 @@ import { InputWithLookup } from "./input-with-lookup";
 
 export const CreateTestForm = () => {
   const [cityName, setCityName] = useState<string | null>(null);
+  const [companyName, setCompanyName] = useState<string | null>(null);
   const [lastResult, formAction, pending] = useActionState(
     createTestAction,
     undefined,
@@ -31,6 +32,7 @@ export const CreateTestForm = () => {
   });
 
   const cityField = useInputControl(fields.city);
+  const companyField = useInputControl(fields.company);
 
   console.log(form.value);
 
@@ -71,11 +73,29 @@ export const CreateTestForm = () => {
             table="cities"
             column="name"
             field={cityField}
-            setFieldName={setCityName}
+            setFieldNameAction={setCityName}
           />
           {cityName && (
             <p className="text-accent-foreground bg-accent rounded-full px-4 py-2">
               Vald stad: {cityName}
+            </p>
+          )}
+        </FormField>
+        <FormField
+          label="Företag"
+          inputId="companyInput"
+          errorMessage={fields.company.errors}
+        >
+          <InputWithLookup
+            id="companyInput"
+            table="companies"
+            column="name"
+            field={companyField}
+            setFieldNameAction={setCompanyName}
+          />
+          {companyName && (
+            <p className="text-accent-foreground bg-accent rounded-full px-4 py-2">
+              Valt företag: {companyName}
             </p>
           )}
         </FormField>

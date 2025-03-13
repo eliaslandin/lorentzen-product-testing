@@ -19,7 +19,7 @@ export const InputWithLookup = ({
   setFieldNameAction,
   ...props
 }: {
-  table: "cities";
+  table: "cities" | "companies";
   column: "name";
   field: ReturnType<typeof useInputControl<string>>;
   setFieldNameAction: Dispatch<SetStateAction<string | null>>;
