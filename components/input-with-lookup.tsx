@@ -101,7 +101,10 @@ export const InputWithLookup = ({
                   <li>
                     <Button
                       variant="outline"
-                      onClick={() => handleSelectValue(match.id)}
+                      onClick={() => {
+                        handleSelectValue(match.id);
+                        setQuery("");
+                      }}
                       className="w-full"
                     >
                       {match[column]}
