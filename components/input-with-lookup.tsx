@@ -61,21 +61,9 @@ export const InputWithLookup = ({
 
   const insertIntoTable = async () => {
     setIsPending(true);
-    const { data, error } = await supabase
-      .schema("api")
-      .from(table)
-      .insert({
-        [column]: query,
-      })
-      .select()
-      .single();
+    const { data, error } = await insertCall;
 
-    if (error) {
-      setIsPending(false);
-      throw new Error("Servererror");
-    }
-
-    if (!data) {
+    if (error || !data) {
       setIsPending(false);
       throw new Error("Servererror");
     }
