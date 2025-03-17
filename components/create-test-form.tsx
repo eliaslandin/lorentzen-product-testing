@@ -77,7 +77,7 @@ export const CreateTestForm = () => {
         >
           <InputWithLookup
             id={fields.city.id}
-            name={fields.city.name}
+            defaultValue={Number(fields.city.initialValue)}
             table="cities"
             column="name"
             field={cityField}
@@ -96,7 +96,7 @@ export const CreateTestForm = () => {
         >
           <InputWithLookup
             id={fields.company.id}
-            name={fields.company.name}
+            defaultValue={Number(fields.company.initialValue)}
             table="companies"
             column="name"
             field={companyField}

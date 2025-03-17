@@ -8,45 +8,35 @@ import { Button } from "./ui/button";
 import { PlusIcon } from "lucide-react";
 import { Spinner } from "./spinner";
 import { useInputControl } from "@conform-to/react";
-import { QueryData } from "@supabase/supabase-js";
+import { Database } from "@/lib/database.types";
 
 const DEBOUNCE_TIME_MS = 2000;
+
+type SupportedTables = "cities" | "companies";
+type ItemDbType = Database["api"]["Tables"][SupportedTables]["Row"];
 
 export const InputWithLookup = ({
   table,
   column,
   field,
   setFieldNameAction,
+  defaultValue,
   ...props
 }: {
-  table: "cities" | "companies";
+  table: SupportedTables;
   column: "name";
   field: ReturnType<typeof useInputControl<string>>;
   setFieldNameAction: Dispatch<SetStateAction<string | null>>;
+  defaultValue?: ItemDbType["id"];
 } & React.InputHTMLAttributes<HTMLInputElement>) => {
   const [query, setQuery] = useState("");
   const supabase = createClient();
-  const queryCall = supabase
-    .schema("api")
-    .from(table)
-    .select()
-    .ilike(column, `%${query}%`);
-  const insertCall = supabase
-    .schema("api")
-    .from(table)
-    .insert({
-      [column]: query,
-    })
-    .select()
-    .single();
-  type InsertResponseType = QueryData<typeof insertCall>;
-  type QueryResponseType = QueryData<typeof queryCall>;
-  const [matches, setMatches] = useState<QueryResponseType>([]);
+  const [matches, setMatches] = useState<ItemDbType[]>([]);
   const [isPending, setIsPending] = useState(false);
 
-  const handleSelectValue = (
-    id: string | number,
-    insertedItem?: InsertResponseType,
+  const handleSelectValue = async (
+    id: ItemDbType["id"],
+    insertedItem?: ItemDbType,
   ) => {
     const item = insertedItem || matches.find((match) => match.id === id);
 
@@ -61,7 +51,14 @@ export const InputWithLookup = ({
 
   const insertIntoTable = async () => {
     setIsPending(true);
-    const { data, error } = await insertCall;
+    const { data, error } = await supabase
+      .schema("api")
+      .from(table)
+      .insert({
+        [column]: query,
+      })
+      .select()
+      .single();
 
     if (error || !data) {
       setIsPending(false);
@@ -73,7 +70,11 @@ export const InputWithLookup = ({
   };
 
   const queryTable = async () => {
-    const { data, error } = await queryCall;
+    const { data, error } = await supabase
+      .schema("api")
+      .from(table)
+      .select()
+      .ilike(column, `%${query}%`);
 
     if (error) {
       setIsPending(false);
@@ -97,6 +98,27 @@ export const InputWithLookup = ({
 
     return () => clearTimeout(debounce);
   }, [query]);
+
+  useEffect(() => {
+    if (!defaultValue) {
+      return;
+    }
+
+    const getLookupValueForDefaultValue = async () => {
+      const { data } = await supabase
+        .schema("api")
+        .from(table)
+        .select()
+        .eq("id", defaultValue)
+        .single();
+
+      if (data) {
+        setFieldNameAction(data[column]);
+      }
+    };
+
+    getLookupValueForDefaultValue();
+  }, []);
 
   return (
     <>
