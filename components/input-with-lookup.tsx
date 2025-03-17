@@ -103,6 +103,8 @@ export const InputWithLookup = ({
       <Input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onBlur={field.blur}
+        onFocus={field.focus}
         {...props}
       />
       <Popover open={Boolean(query)}>

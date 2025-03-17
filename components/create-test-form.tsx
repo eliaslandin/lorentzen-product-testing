@@ -72,11 +72,12 @@ export const CreateTestForm = () => {
         </FormField>
         <FormField
           label="Stad"
-          inputId="cityInput"
+          inputId={fields.city.id}
           errorMessage={fields.city.errors}
         >
           <InputWithLookup
-            id="cityInput"
+            id={fields.city.id}
+            name={fields.city.name}
             table="cities"
             column="name"
             field={cityField}
@@ -90,11 +91,12 @@ export const CreateTestForm = () => {
         </FormField>
         <FormField
           label="Företag"
-          inputId="companyInput"
+          inputId={fields.company.id}
           errorMessage={fields.company.errors}
         >
           <InputWithLookup
-            id="companyInput"
+            id={fields.company.id}
+            name={fields.company.name}
             table="companies"
             column="name"
             field={companyField}
