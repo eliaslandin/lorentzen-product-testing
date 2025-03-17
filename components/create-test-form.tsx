@@ -11,11 +11,9 @@ import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
 import { InputWithLookup } from "./input-with-lookup";
-import { DatePicker } from "./date-picker";
+import { DateInput } from "./date-input";
 
 export const CreateTestForm = () => {
-  const [cityName, setCityName] = useState<string | null>(null);
-  const [companyName, setCompanyName] = useState<string | null>(null);
   const [lastResult, formAction, pending] = useActionState(
     createTestAction,
     undefined,
@@ -32,8 +30,16 @@ export const CreateTestForm = () => {
     shouldValidate: "onBlur",
   });
 
+  const [cityName, setCityName] = useState<string | null>(
+    fields.city.initialValue || null,
+  );
+  const [companyName, setCompanyName] = useState<string | null>(
+    fields.company.initialValue || null,
+  );
+
   const cityField = useInputControl(fields.city);
   const companyField = useInputControl(fields.company);
+  const dateField = useInputControl(fields.date);
 
   console.log(form.value);
 
@@ -105,7 +111,7 @@ export const CreateTestForm = () => {
           inputId={fields.date.id}
           errorMessage={fields.date.errors}
         >
-          <DatePicker />
+          <DateInput id={fields.date.id} field={dateField} />
         </FormField>
         <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
