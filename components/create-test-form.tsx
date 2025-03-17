@@ -11,6 +11,7 @@ import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
 import { InputWithLookup } from "./input-with-lookup";
+import { DatePicker } from "./date-picker";
 
 export const CreateTestForm = () => {
   const [cityName, setCityName] = useState<string | null>(null);
@@ -98,6 +99,13 @@ export const CreateTestForm = () => {
               Valt företag: {companyName}
             </p>
           )}
+        </FormField>
+        <FormField
+          label="Datum för test"
+          inputId={fields.date.id}
+          errorMessage={fields.date.errors}
+        >
+          <DatePicker />
         </FormField>
         <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
