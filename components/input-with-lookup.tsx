@@ -16,7 +16,7 @@ import { Spinner } from "./spinner";
 import { useInputControl } from "@conform-to/react";
 import { Database } from "@/lib/database.types";
 
-const DEBOUNCE_TIME_MS = 2000;
+const DEBOUNCE_TIME_MS = 1000;
 
 type SupportedTables = "cities" | "companies";
 type ItemDbType = Database["api"]["Tables"][SupportedTables]["Row"];
@@ -130,6 +130,7 @@ export const InputWithLookup = ({
     <>
       <Input
         value={query}
+        type="search"
         onChange={(e) => setQuery(e.target.value)}
         onBlur={field.blur}
         onFocus={field.focus}
