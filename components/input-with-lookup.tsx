@@ -1,6 +1,12 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Input } from "./ui/input";
 import { createClient } from "@/utils/supabase/client";
 import { Popover, PopoverAnchor, PopoverContent } from "./ui/popover";
@@ -69,7 +75,7 @@ export const InputWithLookup = ({
     setIsPending(false);
   };
 
-  const queryTable = async () => {
+  const queryTable = useCallback(async () => {
     const { data, error } = await supabase
       .schema("api")
       .from(table)
@@ -83,7 +89,7 @@ export const InputWithLookup = ({
 
     setMatches(data);
     setIsPending(false);
-  };
+  }, [query]);
 
   useEffect(() => {
     setIsPending(true);

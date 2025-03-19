@@ -41,8 +41,6 @@ export const CreateTestForm = () => {
   const companyField = useInputControl(fields.company);
   const dateField = useInputControl(fields.date);
 
-  console.log(form.value);
-
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
       <FormContent>
