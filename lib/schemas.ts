@@ -19,8 +19,8 @@ export const createTestPersonSchema = z.object({
 
 export const createTestSchema = z.object({
   name: stringMax255Schema,
-  description: z.string(),
-  city: z.number(),
-  company: z.number(),
-  date: z.date(),
+  description: z.string().optional(),
+  city: z.number().optional(),
+  company: z.number().optional(),
+  date: z.date().optional(),
 });
