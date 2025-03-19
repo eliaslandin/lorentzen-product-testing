@@ -14,5 +14,21 @@ export const getTests = cache(async () => {
     *,
     ...cities(city_name:name),
     ...companies(company_name:name)
-`);
+  `);
+});
+
+export const getTest = cache(async (id: number) => {
+  const supabase = await createClient();
+  return await supabase
+    .schema("api")
+    .from("tests")
+    .select(
+      `
+      *,
+      ...cities(city_name:name),
+      ...companies(company_name:name)
+    `,
+    )
+    .eq("id", id)
+    .single();
 });
