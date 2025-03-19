@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
 
-export const Heading1 = ({
+export const H2 = ({
   className,
   children,
   ...props
 }: {
   className?: string;
-  children: string;
+  children: React.ReactNode;
 } & React.HTMLAttributes<HTMLHeadingElement>) => (
-  <h1 className={cn("text-lg", className)} {...props}>
+  <h2 className={cn("text-lg", className)} {...props}>
     {children}
-  </h1>
+  </h2>
 );
