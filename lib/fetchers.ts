@@ -32,3 +32,12 @@ export const getTest = cache(async (id: number) => {
     .eq("id", id)
     .single();
 });
+
+export const getTestsTestPersons = cache(async (id: number) => {
+  const supabase = await createClient();
+  return supabase
+    .schema("api")
+    .from("user_test_relations")
+    .select()
+    .eq("test_id", id);
+});
