@@ -38,6 +38,11 @@ export const getTestsTestPersons = cache(async (id: number) => {
   return supabase
     .schema("api")
     .from("user_test_relations")
-    .select()
+    .select(
+      `
+      user_id,
+      ...profiles(*)
+      `,
+    )
     .eq("test_id", id);
 });
