@@ -35,7 +35,7 @@ export const getTest = cache(async (id: number) => {
 
 export const getTestsTestPersons = cache(async (id: number) => {
   const supabase = await createClient();
-  return supabase
+  return await supabase
     .schema("api")
     .from("user_test_relations")
     .select(
@@ -46,3 +46,11 @@ export const getTestsTestPersons = cache(async (id: number) => {
     )
     .eq("test_id", id);
 });
+
+export const addTestPersonToTest = async (testId: number, userId: string) => {
+  const supabase = await createClient();
+  await supabase.schema("api").from("user_test_relations").insert({
+    test_id: testId,
+    user_id: userId,
+  });
+};
