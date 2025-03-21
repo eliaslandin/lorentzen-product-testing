@@ -11,16 +11,19 @@ export type Database = {
     Tables: {
       cities: {
         Row: {
+          created_at: string
           id: number
-          name: string | null
+          name: string
         }
         Insert: {
+          created_at?: string
           id?: never
-          name?: string | null
+          name: string
         }
         Update: {
+          created_at?: string
           id?: never
-          name?: string | null
+          name?: string
         }
         Relationships: []
       }
@@ -237,6 +240,35 @@ export type Database = {
             columns: ["company"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_test_relations: {
+        Row: {
+          created_at: string
+          id: number
+          test_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          test_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          test_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_test_relations_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
             referencedColumns: ["id"]
           },
         ]
