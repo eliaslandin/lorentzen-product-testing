@@ -1,5 +1,5 @@
-import { LoadingCard } from "@/components/LoadingCard";
-import { TestInfoSection } from "@/components/TestInfoSection";
+import { LoadingCard } from "@/components/loading-card";
+import { TestInfoSection } from "@/components/test-info-section";
 import { View } from "@/components/view";
 import { Suspense } from "react";
 
