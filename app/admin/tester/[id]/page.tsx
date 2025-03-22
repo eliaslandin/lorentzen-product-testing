@@ -17,7 +17,7 @@ export default async function Page({
         <TestInfoSection id={id} />
       </Suspense>
       <View>
-        <ParticipantsSection />
+        <ParticipantsSection id={id} />
       </View>
     </View>
   );
