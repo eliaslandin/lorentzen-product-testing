@@ -1,6 +1,7 @@
 "server-only";
 
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import { cache } from "react";
 
 export const getTestPersons = cache(async () => {
@@ -49,8 +50,17 @@ export const getTestsTestPersons = cache(async (id: number) => {
 
 export const addTestPersonToTest = async (testId: number, userId: string) => {
   const supabase = await createClient();
-  await supabase.schema("api").from("user_test_relations").insert({
-    test_id: testId,
-    user_id: userId,
-  });
+  const res = await supabase
+    .schema("api")
+    .from("user_test_relations")
+    .insert({
+      test_id: testId,
+      user_id: userId,
+    })
+    .select()
+    .single();
+
+  revalidatePath(`/admin/tester/${testId}`);
+
+  return res;
 };
