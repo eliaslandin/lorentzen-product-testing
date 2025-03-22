@@ -1,11 +1,7 @@
 "use server";
 
 import { checkIfUserIsAdmin } from "@/lib/dal";
-import {
-  createCitySchema,
-  createTestPersonSchema,
-  createTestSchema,
-} from "@/lib/schemas";
+import { createTestPersonSchema, createTestSchema } from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
@@ -82,13 +78,16 @@ export const createTestAction = async (
 
   const supabase = await createClient();
 
-  const addTest = await supabase.schema("api").from("tests").insert({
-    name: submission.value.name,
-    city: submission.value.city,
-    company: submission.value.company,
-    description: submission.value.description,
-    date: submission.value.date.toISOString(),
-  });
+  const addTest = await supabase
+    .schema("api")
+    .from("tests")
+    .insert({
+      name: submission.value.name,
+      city: submission.value.city,
+      company: submission.value.company,
+      description: submission.value.description,
+      date: submission.value.date && submission.value.date.toISOString(),
+    });
 
   if (addTest.error) {
     console.error(addTest.error);
