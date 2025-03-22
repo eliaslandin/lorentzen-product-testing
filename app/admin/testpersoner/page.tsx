@@ -1,3 +1,4 @@
+import { List } from "@/components/list";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTestPersons } from "@/lib/fetchers";
 
@@ -16,13 +17,13 @@ export default async function Page() {
   return (
     <Card>
       <CardContent>
-        <ul className="flex flex-col gap-3">
+        <List>
           {data.map((user) => (
             <li key={user.id} className="border rounded-md p-4 bg-background">
               {user.name}
             </li>
           ))}
-        </ul>
+        </List>
       </CardContent>
     </Card>
   );
