@@ -17,9 +17,7 @@ export default async function Page({
         <TestInfoSection id={id} />
       </Suspense>
       <View>
-        <Suspense fallback={<LoadingCard />}>
-          <ParticipantsSection />
-        </Suspense>
+        <ParticipantsSection />
       </View>
     </View>
   );

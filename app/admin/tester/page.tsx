@@ -19,11 +19,8 @@ export default async function Page() {
       <CardContent>
         <ul className="flex flex-col gap-3">
           {data.map((test) => (
-            <Link href={`/admin/tester/${test.id}`}>
-              <li
-                key={test.id}
-                className="flex w-full justify-between border rounded-md p-4 bg-background"
-              >
+            <Link key={test.id} href={`/admin/tester/${test.id}`}>
+              <li className="flex w-full justify-between border rounded-md p-4 bg-background">
                 <p>{test.name}</p>
                 <p>{test.city_name}</p>
               </li>
