@@ -2,6 +2,7 @@ import { getTestsTestPersons } from "@/lib/fetchers";
 import { List } from "./list";
 import Link from "next/link";
 import { RemovePersonFromTestButton } from "./remove-person-from-test-button";
+import { UserRoundIcon } from "lucide-react";
 
 export const TestAddedParticipants = async ({ id }: { id: number }) => {
   const { data, error } = await getTestsTestPersons(id);
@@ -16,10 +17,16 @@ export const TestAddedParticipants = async ({ id }: { id: number }) => {
   }
 
   return (
-    <List>
+    <List className="gap-1">
       {data.map((user) => (
         <li key={user.user_test_relation_id} className="flex justify-between">
-          <Link href={`/admin/testpersoner/${user.id}`}>{user.name}</Link>
+          <Link
+            href={`/admin/testpersoner/${user.id}`}
+            className="flex gap-3 w-full items-center hover:bg-accent rounded-xl p-2 transition-colors group"
+          >
+            <UserRoundIcon className="bg-secondary rounded-full text-white p-1 h-8 w-8 transition-colors group-hover:bg-primary" />
+            {user.name}
+          </Link>
           <RemovePersonFromTestButton
             relationId={user.user_test_relation_id}
             testId={id}

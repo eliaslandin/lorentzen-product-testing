@@ -20,7 +20,7 @@ export const ParticipantsSection = ({ id }: { id: number }) => {
                 <TabsTrigger value="add-new">Lägg till</TabsTrigger>
               </TabsList>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-2">
               <TabsContent value="added">
                 <TestAddedParticipants id={id} />
               </TabsContent>
