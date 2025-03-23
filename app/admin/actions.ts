@@ -117,6 +117,10 @@ export const addPersonToTestAction = async (
 
   revalidatePath(`/admin/tester/${testId}`);
 
+  if (error) {
+    console.error(error);
+  }
+
   return {
     error: error ? (status === 409 ? "Redan tillagd" : "Servererror") : null,
   };
@@ -134,6 +138,10 @@ export const removePersonFromTestAction = async (
     .eq("id", id);
 
   revalidatePath(`/admin/tester/${testId}`);
+
+  if (error) {
+    console.error(error);
+  }
 
   return {
     error: error ? "Servererror" : null,
