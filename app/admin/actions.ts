@@ -99,3 +99,25 @@ export const createTestAction = async (
   revalidatePath("/admin/tester");
   redirect("/admin/tester");
 };
+
+export const addPersonToTestAction = async (
+  prevState: { error: string | null } | null,
+  { testId, userId }: { testId: number; userId: string },
+) => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("user_test_relations")
+    .insert({
+      test_id: testId,
+      user_id: userId,
+    })
+    .select()
+    .single();
+
+  revalidatePath(`/admin/tester/${testId}`);
+
+  return {
+    error: error ? "Servererror" : null,
+  };
+};

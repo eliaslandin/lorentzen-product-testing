@@ -3,7 +3,7 @@
 import { Database } from "@/lib/database.types";
 import { Button } from "./ui/button";
 import { useActionState, startTransition } from "react";
-import { addPersonToTestAction } from "@/app/actions";
+import { addPersonToTestAction } from "@/app/admin/actions";
 
 export const AddPersonToTestButton = ({
   testId,

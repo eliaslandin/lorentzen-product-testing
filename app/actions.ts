@@ -5,8 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { Database } from "@/lib/database.types";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -134,26 +132,4 @@ export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect("/sign-in");
-};
-
-export const addPersonToTestAction = async (
-  prevState: { error: string | null } | null,
-  { testId, userId }: { testId: number; userId: string },
-) => {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .schema("api")
-    .from("user_test_relations")
-    .insert({
-      test_id: testId,
-      user_id: userId,
-    })
-    .select()
-    .single();
-
-  revalidatePath(`/admin/tester/${testId}`);
-
-  return {
-    error: error ? "Servererror" : null,
-  };
 };
