@@ -17,7 +17,9 @@ export const TestAddNewParticipant = async ({ id }: { id: number }) => {
   return (
     <List>
       {data.map((user) => (
-        <AddPersonToTestButton key={user.id} testId={id} user={user} />
+        <li key={user.id}>
+          <AddPersonToTestButton testId={id} user={user} />
+        </li>
       ))}
     </List>
   );

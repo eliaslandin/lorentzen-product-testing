@@ -19,6 +19,7 @@ export const AddPersonToTestButton = ({
 
   return (
     <Button
+      className="w-full"
       variant="outline"
       onClick={() =>
         startTransition(() => formAction({ testId, userId: user.id }))
