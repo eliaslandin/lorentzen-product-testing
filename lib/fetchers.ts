@@ -5,7 +5,7 @@ import { cache } from "react";
 
 export const getTestPersons = cache(async () => {
   const supabase = await createClient();
-  await supabase.schema("api").from("profiles").select(`
+  return await supabase.schema("api").from("profiles").select(`
       *, 
       cities:city_user_relations (
         ...cities (
