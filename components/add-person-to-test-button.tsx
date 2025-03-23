@@ -14,7 +14,9 @@ export const AddPersonToTestButton = ({
   alreadyAdded,
 }: {
   testId: number;
-  user: Database["api"]["Tables"]["profiles"]["Row"];
+  user: Database["api"]["Tables"]["profiles"]["Row"] & {
+    cities: { name: string }[];
+  };
   alreadyAdded: boolean;
 }) => {
   const [state, formAction, isPending] = useActionState(
@@ -41,11 +43,17 @@ export const AddPersonToTestButton = ({
       }
 
       {
-        <div className="w-auto leading-tight">
+        <div className="w-auto leading-tight text-left">
           {isPending ? "Laddar..." : state?.error ? state.error : user.name}
           <View className="flex-row gap-1 items-center">
-            <MapPinIcon className="w-3 h-3 text-foreground/45" />
-            <p className="text-sm text-foreground/45 text-left">Sundsvall</p>
+            {user.cities.length > 0 && (
+              <MapPinIcon className="w-3 h-3 text-foreground/45" />
+            )}
+            <p className="text-sm text-foreground/45">
+              {user.cities.map((city, idx) =>
+                idx === 0 ? city.name : ` • ${city.name}`,
+              )}
+            </p>
           </View>
         </div>
       }
