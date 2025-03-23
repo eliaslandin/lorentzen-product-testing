@@ -28,7 +28,7 @@ export const AddPersonToTestButton = ({
       onClick={() =>
         startTransition(() => formAction({ testId, userId: user.id }))
       }
-      disabled={alreadyAdded}
+      disabled={alreadyAdded || isPending}
     >
       {
         <UserRoundIcon
