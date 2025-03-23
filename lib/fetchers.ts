@@ -40,7 +40,7 @@ export const getTestsTestPersons = cache(async (id: number) => {
     .from("user_test_relations")
     .select(
       `
-      user_id,
+      user_test_relation_id:id,
       ...profiles(*)
       `,
     )
