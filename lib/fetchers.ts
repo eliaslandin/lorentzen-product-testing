@@ -5,7 +5,14 @@ import { cache } from "react";
 
 export const getTestPersons = cache(async () => {
   const supabase = await createClient();
-  return await supabase.schema("api").from("profiles").select();
+  await supabase.schema("api").from("profiles").select(`
+      *, 
+      cities:city_user_relations (
+        ...cities (
+          name
+        )
+      )
+    `);
 });
 
 export const getTests = cache(async () => {
@@ -41,7 +48,14 @@ export const getTestsTestPersons = cache(async (id: number) => {
     .select(
       `
       user_test_relation_id:id,
-      ...profiles(*)
+      ...profiles (
+        *, 
+        cities:city_user_relations (
+          ...cities (
+            name
+          )
+        )
+      )
       `,
     )
     .eq("test_id", id);
