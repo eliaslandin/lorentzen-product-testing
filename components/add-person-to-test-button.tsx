@@ -9,9 +9,11 @@ import { UserRoundIcon } from "lucide-react";
 export const AddPersonToTestButton = ({
   testId,
   user,
+  alreadyAdded,
 }: {
   testId: number;
   user: Database["api"]["Tables"]["profiles"]["Row"];
+  alreadyAdded: boolean;
 }) => {
   const [state, formAction, isPending] = useActionState(
     addPersonToTestAction,
@@ -25,6 +27,7 @@ export const AddPersonToTestButton = ({
       onClick={() =>
         startTransition(() => formAction({ testId, userId: user.id }))
       }
+      disabled={alreadyAdded}
     >
       {
         <UserRoundIcon className="bg-secondary rounded-full text-white p-1 h-8 w-8 transition-colors group-hover:bg-primary" />
