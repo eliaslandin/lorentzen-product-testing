@@ -54,6 +54,13 @@ export type Database = {
             referencedRelation: "cities"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "city_user_relations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       companies: {
@@ -269,6 +276,13 @@ export type Database = {
             columns: ["test_id"]
             isOneToOne: false
             referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_test_relations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
