@@ -105,7 +105,7 @@ export const addPersonToTestAction = async (
   { testId, userId }: { testId: number; userId: string },
 ) => {
   const supabase = await createClient();
-  const { error } = await supabase
+  const { error, status } = await supabase
     .schema("api")
     .from("user_test_relations")
     .insert({
@@ -118,6 +118,6 @@ export const addPersonToTestAction = async (
   revalidatePath(`/admin/tester/${testId}`);
 
   return {
-    error: error ? "Servererror" : null,
+    error: error ? (status === 409 ? "Redan tillagd" : "Servererror") : null,
   };
 };
