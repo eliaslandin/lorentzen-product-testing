@@ -2,7 +2,7 @@
 
 import { Database } from "@/lib/database.types";
 import { Button } from "./ui/button";
-import { useActionState } from "react";
+import { useActionState, startTransition } from "react";
 import { addPersonToTestAction } from "@/app/actions";
 
 export const AddPersonToTestButton = ({
@@ -20,7 +20,9 @@ export const AddPersonToTestButton = ({
   return (
     <Button
       variant="outline"
-      onClick={() => formAction({ testId, userId: user.id })}
+      onClick={() =>
+        startTransition(() => formAction({ testId, userId: user.id }))
+      }
     >
       {isPending ? "Laddar..." : state?.error ? state.error : user.name}
     </Button>
