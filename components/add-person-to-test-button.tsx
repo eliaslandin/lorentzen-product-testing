@@ -4,8 +4,9 @@ import { Database } from "@/lib/database.types";
 import { Button } from "./ui/button";
 import { useActionState, startTransition } from "react";
 import { addPersonToTestAction } from "@/app/admin/actions";
-import { UserRoundCheckIcon, UserRoundIcon } from "lucide-react";
+import { MapPinIcon, UserRoundIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { View } from "./view";
 
 export const AddPersonToTestButton = ({
   testId,
@@ -38,7 +39,17 @@ export const AddPersonToTestButton = ({
           )}
         />
       }
-      {isPending ? "Laddar..." : state?.error ? state.error : user.name}
+
+      {
+        <div className="w-auto leading-tight">
+          {isPending ? "Laddar..." : state?.error ? state.error : user.name}
+          <View className="flex-row gap-1 items-center">
+            <MapPinIcon className="w-3 h-3 text-foreground/45" />
+            <p className="text-sm text-foreground/45 text-left">Sundsvall</p>
+          </View>
+        </div>
+      }
+
       {alreadyAdded && (
         <p className="bg-secondary text-secondary-foreground rounded-full px-3">
           Tillagd
