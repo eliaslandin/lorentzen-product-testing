@@ -4,7 +4,8 @@ import { Database } from "@/lib/database.types";
 import { Button } from "./ui/button";
 import { useActionState, startTransition } from "react";
 import { addPersonToTestAction } from "@/app/admin/actions";
-import { UserRoundIcon } from "lucide-react";
+import { UserRoundCheckIcon, UserRoundIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const AddPersonToTestButton = ({
   testId,
@@ -22,7 +23,7 @@ export const AddPersonToTestButton = ({
 
   return (
     <Button
-      className="w-full justify-start gap-3 px-2 py-2 h-auto rounded-xl"
+      className="w-full justify-start gap-3 px-2 py-2 h-auto rounded-xl disabled:opacity-100 disabled:text-foreground/50"
       variant="ghost"
       onClick={() =>
         startTransition(() => formAction({ testId, userId: user.id }))
@@ -30,9 +31,19 @@ export const AddPersonToTestButton = ({
       disabled={alreadyAdded}
     >
       {
-        <UserRoundIcon className="bg-secondary rounded-full text-white p-1 h-8 w-8 transition-colors group-hover:bg-primary" />
+        <UserRoundIcon
+          className={cn(
+            "bg-secondary rounded-full text-white p-1 h-8 w-8 transition-colors group-hover:bg-primary",
+            alreadyAdded && "opacity-50",
+          )}
+        />
       }
       {isPending ? "Laddar..." : state?.error ? state.error : user.name}
+      {alreadyAdded && (
+        <p className="bg-secondary text-secondary-foreground rounded-full px-3">
+          Tillagd
+        </p>
+      )}
     </Button>
   );
 };

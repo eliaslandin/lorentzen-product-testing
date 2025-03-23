@@ -12,8 +12,8 @@
     --popover-foreground: 358 100% 10%;
     --primary: 358 65.8% 50.4%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 358 30% 90%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 255 11% 90%;
+    --secondary-foreground: 358 5% 15%;
     --muted: 255 11% 97%;
     --muted-foreground: 358 5% 20%;
     --accent: 358 80% 90%;
@@ -42,8 +42,8 @@
     --popover-foreground: 358 0% 100%;
     --primary: 358 65.8% 50.4%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 358 30% 10%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 255 5.9% 14%;
+    --secondary-foreground: 358 0% 70%;
     --muted: 255 5.9% 8%;
     --muted-foreground: 358 5% 70%;
     --accent: 255 3.7% 15.9%;
