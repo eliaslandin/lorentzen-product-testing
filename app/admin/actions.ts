@@ -121,3 +121,21 @@ export const addPersonToTestAction = async (
     error: error ? (status === 409 ? "Redan tillagd" : "Servererror") : null,
   };
 };
+
+export const removePersonFromTestAction = async (
+  prevState: { error: string | null } | null,
+  { id, testId }: { id: number; testId: number },
+) => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("user_test_relations")
+    .delete()
+    .eq("id", id);
+
+  revalidatePath(`/admin/tester/${testId}`);
+
+  return {
+    error: error ? "Servererror" : null,
+  };
+};
