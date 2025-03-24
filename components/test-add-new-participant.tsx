@@ -1,9 +1,17 @@
 import { getTestPersons, getTestsTestPersons } from "@/lib/fetchers";
 import { List } from "./list";
 import { AddPersonToTestButton } from "./add-person-to-test-button";
+import { View } from "./view";
+import { SearchInput } from "./search-input";
 
-export const TestAddNewParticipant = async ({ id }: { id: number }) => {
-  const { data, error } = await getTestPersons();
+export const TestAddNewParticipant = async ({
+  id,
+  query,
+}: {
+  id: number;
+  query?: string;
+}) => {
+  const { data, error } = await getTestPersons(query);
   const { data: addedPersons, error: addedError } =
     await getTestsTestPersons(id);
 
@@ -26,18 +34,23 @@ export const TestAddNewParticipant = async ({ id }: { id: number }) => {
   }
 
   return (
-    <List className="gap-1">
-      {data.map((user) => (
-        <li key={user.id}>
-          <AddPersonToTestButton
-            testId={id}
-            user={user}
-            alreadyAdded={addedPersons.some(
-              (addedPerson) => addedPerson.id === user.id,
-            )}
-          />
-        </li>
-      ))}
-    </List>
+    <View className="gap-3">
+      <div className="px-2">
+        <SearchInput queryKey="q2" placeholder="Sök testperson..." />
+      </div>
+      <List className="gap-1">
+        {data.map((user) => (
+          <li key={user.id}>
+            <AddPersonToTestButton
+              testId={id}
+              user={user}
+              alreadyAdded={addedPersons.some(
+                (addedPerson) => addedPerson.id === user.id,
+              )}
+            />
+          </li>
+        ))}
+      </List>
+    </View>
   );
 };

@@ -9,7 +9,7 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ id: number }>;
-  searchParams?: Promise<{ q1?: string }>;
+  searchParams?: Promise<{ q1?: string; q2?: string }>;
 }) {
   const { id } = await params;
   const search = await searchParams;

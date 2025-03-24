@@ -12,7 +12,7 @@ export const ParticipantsSection = ({
   searchParams,
 }: {
   id: number;
-  searchParams?: { q1?: string };
+  searchParams?: { q1?: string; q2?: string };
 }) => {
   return (
     <View>
@@ -31,7 +31,7 @@ export const ParticipantsSection = ({
                 <TestAddedParticipants id={id} query={searchParams?.q1} />
               </TabsContent>
               <TabsContent value="add-new">
-                <TestAddNewParticipant id={id} />
+                <TestAddNewParticipant id={id} query={searchParams?.q2} />
               </TabsContent>
             </CardContent>
           </Tabs>
