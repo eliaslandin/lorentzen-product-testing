@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RemovePersonFromTestButton } from "./remove-person-from-test-button";
 import { UserRoundIcon } from "lucide-react";
 import { View } from "./view";
-import { Input } from "./ui/input";
+import { SearchInput } from "./search-input";
 
 export const TestAddedParticipants = async ({ id }: { id: number }) => {
   const { data, error } = await getTestsTestPersons(id);
@@ -21,11 +21,7 @@ export const TestAddedParticipants = async ({ id }: { id: number }) => {
   return (
     <View className="gap-3">
       <div className="px-2">
-        <Input
-          type="search"
-          placeholder="Sök testperson..."
-          autoComplete="off"
-        />
+        <SearchInput queryKey="tpAdded" placeholder="Sök testperson..." />
       </div>
       <List className="gap-1">
         {data.map((user) => (
