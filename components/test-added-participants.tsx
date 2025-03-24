@@ -21,7 +21,7 @@ export const TestAddedParticipants = async ({ id }: { id: number }) => {
   return (
     <View className="gap-3">
       <div className="px-2">
-        <SearchInput queryKey="tpAdded" placeholder="Sök testperson..." />
+        <SearchInput queryKey="q1" placeholder="Sök testperson..." />
       </div>
       <List className="gap-1">
         {data.map((user) => (
