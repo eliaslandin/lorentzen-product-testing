@@ -3,16 +3,22 @@
 import { createClient } from "@/utils/supabase/server";
 import { cache } from "react";
 
-export const getTestPersons = cache(async () => {
+export const getTestPersons = cache(async (query: string = "") => {
   const supabase = await createClient();
-  return await supabase.schema("api").from("profiles").select(`
+  return await supabase
+    .schema("api")
+    .from("profiles")
+    .select(
+      `
       *, 
       cities:city_user_relations (
         ...cities (
           name
         )
       )
-    `);
+    `,
+    )
+    .ilike("name", `%${query}%`);
 });
 
 export const getTests = cache(async () => {
@@ -40,15 +46,16 @@ export const getTest = cache(async (id: number) => {
     .single();
 });
 
-export const getTestsTestPersons = cache(async (id: number) => {
-  const supabase = await createClient();
-  return await supabase
-    .schema("api")
-    .from("user_test_relations")
-    .select(
-      `
+export const getTestsTestPersons = cache(
+  async (id: number, query: string = "") => {
+    const supabase = await createClient();
+    return await supabase
+      .schema("api")
+      .from("user_test_relations")
+      .select(
+        `
       user_test_relation_id:id,
-      ...profiles (
+      ...profiles!inner (
         *, 
         cities:city_user_relations (
           ...cities (
@@ -57,6 +64,8 @@ export const getTestsTestPersons = cache(async (id: number) => {
         )
       )
       `,
-    )
-    .eq("test_id", id);
-});
+      )
+      .eq("test_id", id)
+      .or(`name.ilike.%${query}%`, { referencedTable: "profiles" });
+  },
+);
