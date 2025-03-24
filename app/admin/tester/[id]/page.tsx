@@ -6,10 +6,13 @@ import { Suspense } from "react";
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: number }>;
+  searchParams?: Promise<{ q1?: string }>;
 }) {
   const { id } = await params;
+  const search = await searchParams;
 
   return (
     <View className="gap-4">
@@ -17,7 +20,7 @@ export default async function Page({
         <TestInfoSection id={id} />
       </Suspense>
       <View>
-        <ParticipantsSection id={id} />
+        <ParticipantsSection id={id} searchParams={search} />
       </View>
     </View>
   );

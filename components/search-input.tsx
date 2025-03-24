@@ -13,7 +13,7 @@ export const SearchInput = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchParams.get(queryKey) || "");
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -36,7 +36,6 @@ export const SearchInput = ({
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       type="search"
-      defaultValue={searchParams.get(queryKey) || ""}
       autoComplete="off"
       {...props}
     />

@@ -7,7 +7,13 @@ import { Tabs, TabsTrigger, TabsList, TabsContent } from "./ui/tabs";
 import { TestAddedParticipants } from "./test-added-participants";
 import { TestAddNewParticipant } from "./test-add-new-participant";
 
-export const ParticipantsSection = ({ id }: { id: number }) => {
+export const ParticipantsSection = ({
+  id,
+  searchParams,
+}: {
+  id: number;
+  searchParams?: { q1?: string };
+}) => {
   return (
     <View>
       <H2>Testpersoner</H2>
@@ -22,7 +28,7 @@ export const ParticipantsSection = ({ id }: { id: number }) => {
             </CardHeader>
             <CardContent className="px-2 pt-1">
               <TabsContent value="added">
-                <TestAddedParticipants id={id} />
+                <TestAddedParticipants id={id} query={searchParams?.q1} />
               </TabsContent>
               <TabsContent value="add-new">
                 <TestAddNewParticipant id={id} />

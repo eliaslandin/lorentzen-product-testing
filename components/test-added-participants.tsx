@@ -6,8 +6,14 @@ import { UserRoundIcon } from "lucide-react";
 import { View } from "./view";
 import { SearchInput } from "./search-input";
 
-export const TestAddedParticipants = async ({ id }: { id: number }) => {
-  const { data, error } = await getTestsTestPersons(id);
+export const TestAddedParticipants = async ({
+  id,
+  query,
+}: {
+  id: number;
+  query?: string;
+}) => {
+  const { data, error } = await getTestsTestPersons(id, query);
 
   if (error) {
     return (
