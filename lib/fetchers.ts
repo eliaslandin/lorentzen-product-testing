@@ -3,13 +3,26 @@
 import { createClient } from "@/utils/supabase/server";
 import { cache } from "react";
 
-export const getTestPersons = cache(async (query: string = "") => {
-  const supabase = await createClient();
-  return await supabase
-    .schema("api")
-    .from("profiles")
-    .select(
-      `
+export const getTestPersons = cache(
+  async (
+    query: string = "",
+    {
+      page,
+      pageSize,
+    }: {
+      page: number;
+      pageSize: number;
+    } = {
+      page: 1,
+      pageSize: 5,
+    },
+  ) => {
+    const supabase = await createClient();
+    return await supabase
+      .schema("api")
+      .from("profiles")
+      .select(
+        `
       *, 
       cities:city_user_relations (
         ...cities (
@@ -17,9 +30,11 @@ export const getTestPersons = cache(async (query: string = "") => {
         )
       )
     `,
-    )
-    .ilike("name", `%${query}%`);
-});
+      )
+      .ilike("name", `%${query}%`)
+      .range((page - 1) * pageSize, (page - 1) * pageSize + pageSize - 1);
+  },
+);
 
 export const getTests = cache(async () => {
   const supabase = await createClient();
