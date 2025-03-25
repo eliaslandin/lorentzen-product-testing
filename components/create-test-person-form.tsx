@@ -1,17 +1,23 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createTestPersonAction } from "@/app/admin/actions";
-import { useForm } from "@conform-to/react";
+import { useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { createTestPersonSchema } from "@/lib/schemas";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "./ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { InputWithLookup } from "./input-with-lookup";
 
 export const CreateTestPersonForm = () => {
   const [lastResult, formAction, pending] = useActionState(
@@ -29,6 +35,12 @@ export const CreateTestPersonForm = () => {
     shouldRevalidate: "onInput",
     shouldValidate: "onBlur",
   });
+
+  const [cityName, setCityName] = useState<string | null>(
+    fields.city.initialValue || null,
+  );
+
+  const cityField = useInputControl(fields.city);
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
@@ -82,6 +94,25 @@ export const CreateTestPersonForm = () => {
               <InputOTPSlot index={11} />
             </InputOTPGroup>
           </InputOTP>
+        </FormField>
+        <FormField
+          label="Stad"
+          inputId={fields.city.id}
+          errorMessage={fields.city.errors}
+        >
+          <InputWithLookup
+            id={fields.city.id}
+            defaultValue={Number(fields.city.initialValue)}
+            table="cities"
+            column="name"
+            field={cityField}
+            setFieldNameAction={setCityName}
+          />
+          {cityName && (
+            <p className="text-accent-foreground bg-accent rounded-full px-4 py-2">
+              Vald stad: {cityName}
+            </p>
+          )}
         </FormField>
         <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
