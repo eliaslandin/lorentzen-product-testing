@@ -15,6 +15,7 @@ export const createTestPersonSchema = z.object({
     .number()
     .min(190000000000, "Ogiltigt personnummer")
     .max(999999999999, "Ogiltigt personnummber"),
+  city: z.number().optional(),
 });
 
 export const createTestSchema = z.object({

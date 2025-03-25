@@ -29,6 +29,7 @@ export const createTestPersonAction = async (
     });
   }
 
+  // Create a user for test person to be used for authentication
   const supabaseServiceRole = await createServiceRoleClient();
   const { data, error } = await supabaseServiceRole.auth.admin.createUser({
     email: `tp-${submission.value.personal_number}@lenalorentzendesign.se`,
@@ -44,23 +45,44 @@ export const createTestPersonAction = async (
 
   console.log(`User with ID ${data.user.id} added to auth.users table.`);
 
-  const addUser = await supabaseServiceRole
-    .schema("api")
-    .from("profiles")
-    .insert({
+  // Add test person to profiles and city_user_relations table
+  const supabase = await createClient();
+  const addUserPromises: Record<string, any>[] = [
+    supabase.schema("api").from("profiles").insert({
       id: data.user.id,
       name: submission.value.name,
       personal_number: submission.value.personal_number,
-    });
+    }),
+  ];
 
-  if (addUser.error) {
-    console.error(addUser.error);
+  if (submission.value.city) {
+    addUserPromises.push(
+      supabase.schema("api").from("city_user_relations").insert({
+        user_id: data.user.id,
+        city_id: submission.value.city,
+      }),
+    );
+  }
+
+  const [addUserRes, addUserCityRes] = await Promise.all(addUserPromises);
+
+  if (addUserRes.error || addUserCityRes?.error) {
+    console.error(JSON.stringify("Add user profile error:" + addUserRes.error));
+    addUserCityRes?.error &&
+      console.error(
+        "Add user city relation error:" + JSON.stringify(addUserCityRes.error),
+      );
     return submission.reply({
       formErrors: ["Servererror"],
     });
   }
 
+  console.log(
+    `User with ID ${data.user.id} added to profiles and city_user_relations table.`,
+  );
+
   revalidatePath("/admin/testpersoner");
+  revalidatePath("/admin/tester/[id]", "page");
   redirect("/admin/testpersoner");
 };
 
