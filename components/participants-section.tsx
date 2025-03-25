@@ -16,7 +16,7 @@ export const ParticipantsSection = ({
 }) => {
   return (
     <View>
-      <H2>Testpersoner</H2>
+      <H2 className="px-4">Testpersoner</H2>
       <Suspense fallback={<LoadingCard />}>
         <Card>
           <Tabs defaultValue="added">
