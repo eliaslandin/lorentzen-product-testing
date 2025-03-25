@@ -47,27 +47,28 @@ export const createTestPersonAction = async (
 
   // Add test person to profiles and city_user_relations table
   const supabase = await createClient();
-  const addUserPromises: Record<string, any>[] = [
-    supabase.schema("api").from("profiles").insert({
-      id: data.user.id,
-      name: submission.value.name,
-      personal_number: submission.value.personal_number,
-    }),
-  ];
+  const addUserRes = await supabase.schema("api").from("profiles").insert({
+    id: data.user.id,
+    name: submission.value.name,
+    personal_number: submission.value.personal_number,
+  });
 
+  let addUserCityRes;
   if (submission.value.city) {
-    addUserPromises.push(
-      supabase.schema("api").from("city_user_relations").insert({
+    addUserCityRes = await supabase
+      .schema("api")
+      .from("city_user_relations")
+      .insert({
         user_id: data.user.id,
         city_id: submission.value.city,
-      }),
-    );
+      });
   }
 
-  const [addUserRes, addUserCityRes] = await Promise.all(addUserPromises);
-
   if (addUserRes.error || addUserCityRes?.error) {
-    console.error(JSON.stringify("Add user profile error:" + addUserRes.error));
+    addUserRes.error &&
+      console.error(
+        JSON.stringify("Add user profile error:" + addUserRes.error),
+      );
     addUserCityRes?.error &&
       console.error(
         "Add user city relation error:" + JSON.stringify(addUserCityRes.error),
