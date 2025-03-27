@@ -30,6 +30,7 @@ export const getTestPersons = cache(
         )
       )
     `,
+        { count: "exact" },
       )
       .ilike("name", `%${query}%`)
       .range((page - 1) * pageSize, (page - 1) * pageSize + pageSize - 1);
@@ -79,6 +80,7 @@ export const getTestsTestPersons = cache(
         )
       )
       `,
+        { count: "exact" },
       )
       .eq("test_id", id)
       .or(`name.ilike.%${query}%`, { referencedTable: "profiles" });
