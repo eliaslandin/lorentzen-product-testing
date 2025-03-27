@@ -11,9 +11,11 @@ import {
 
 export const PaginationUrlState = ({
   itemCount,
+  pageSize,
   queryKey,
 }: {
   itemCount: number | null;
+  pageSize: number;
   queryKey: string;
 }) => {
   if (!itemCount) {
@@ -23,6 +25,7 @@ export const PaginationUrlState = ({
   const pathname = usePathname();
   const readOnlyParams = useSearchParams();
 
+  const lastPage = Math.ceil(itemCount / pageSize);
   const currentPage = Number(readOnlyParams.get(queryKey)) || 1;
   const searchParams = new URLSearchParams(readOnlyParams);
   searchParams.delete(queryKey);
@@ -37,11 +40,14 @@ export const PaginationUrlState = ({
               pathname,
               query: {
                 ...newParams,
-                ...(currentPage - 1 > 1 && {
-                  [queryKey]: currentPage - 1 > 1 && currentPage - 1,
+                ...(currentPage > 1 && {
+                  [queryKey]: currentPage - 1,
                 }),
               },
             }}
+            className={
+              currentPage > 1 ? "" : "pointer-events-none text-muted-foreground"
+            }
           />
         </PaginationItem>
         <PaginationItem>
@@ -50,6 +56,11 @@ export const PaginationUrlState = ({
               pathname,
               query: { ...newParams, [queryKey]: currentPage + 1 },
             }}
+            className={
+              currentPage >= lastPage
+                ? "pointer-events-none text-muted-foreground"
+                : ""
+            }
           />
         </PaginationItem>
       </PaginationContent>

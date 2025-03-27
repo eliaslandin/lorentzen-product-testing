@@ -7,6 +7,8 @@ import { View } from "./view";
 import { SearchInput } from "./search-input";
 import { PaginationUrlState } from "./pagination-url-state";
 
+const PAGINATION_PAGE_SIZE = 15;
+
 export const TestAddedParticipants = async ({
   id,
   query,
@@ -47,7 +49,11 @@ export const TestAddedParticipants = async ({
           </li>
         ))}
       </List>
-      <PaginationUrlState itemCount={count} queryKey="p1" />
+      <PaginationUrlState
+        itemCount={count}
+        pageSize={PAGINATION_PAGE_SIZE}
+        queryKey="p1"
+      />
     </View>
   );
 };

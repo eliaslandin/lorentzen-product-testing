@@ -5,6 +5,8 @@ import { View } from "./view";
 import { SearchInput } from "./search-input";
 import { PaginationUrlState } from "./pagination-url-state";
 
+const PAGINATION_PAGE_SIZE = 5;
+
 export const TestAddNewParticipant = async ({
   id,
   query,
@@ -16,11 +18,10 @@ export const TestAddNewParticipant = async ({
 }) => {
   const { data, count, error } = await getTestPersons(query, {
     page: Math.max(1, Number(page) || 1),
-    pageSize: 5,
+    pageSize: PAGINATION_PAGE_SIZE,
   });
   const { data: addedPersons, error: addedError } =
     await getTestsTestPersons(id);
-  console.log("p", page);
 
   if (error) {
     return (
@@ -58,7 +59,11 @@ export const TestAddNewParticipant = async ({
           </li>
         ))}
       </List>
-      <PaginationUrlState itemCount={count} queryKey="p2" />
+      <PaginationUrlState
+        itemCount={count}
+        pageSize={PAGINATION_PAGE_SIZE}
+        queryKey="p2"
+      />
     </View>
   );
 };
