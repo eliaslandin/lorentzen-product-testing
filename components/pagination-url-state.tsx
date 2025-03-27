@@ -23,9 +23,6 @@ export const PaginationUrlState = ({
   }
 
   const lastPage = Math.ceil(itemCount / pageSize);
-  if (lastPage === 1) {
-    return;
-  }
 
   const pathname = usePathname();
   const readOnlyParams = useSearchParams();
@@ -37,38 +34,49 @@ export const PaginationUrlState = ({
 
   return (
     <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            href={{
-              pathname,
-              query: {
-                ...newParams,
-                ...(currentPage > 2 && {
-                  [queryKey]: currentPage - 1,
-                }),
-              },
-            }}
-            replace
-            className={
-              currentPage > 1 ? "" : "pointer-events-none text-muted-foreground"
-            }
-          />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext
-            href={{
-              pathname,
-              query: { ...newParams, [queryKey]: currentPage + 1 },
-            }}
-            replace
-            className={
-              currentPage >= lastPage
-                ? "pointer-events-none text-muted-foreground"
-                : ""
-            }
-          />
-        </PaginationItem>
+      <PaginationContent className="w-full justify-between">
+        {lastPage !== 1 && (
+          <PaginationItem>
+            <PaginationPrevious
+              href={{
+                pathname,
+                query: {
+                  ...newParams,
+                  ...(currentPage > 2 && {
+                    [queryKey]: currentPage - 1,
+                  }),
+                },
+              }}
+              replace
+              size="sm"
+              className={
+                currentPage > 1 ? "" : "pointer-events-none text-secondary"
+              }
+            />
+          </PaginationItem>
+        )}
+
+        <p className="w-full text-muted-foreground text-sm text-center">
+          Totalt: {itemCount}
+        </p>
+
+        {lastPage !== 1 && (
+          <PaginationItem>
+            <PaginationNext
+              href={{
+                pathname,
+                query: { ...newParams, [queryKey]: currentPage + 1 },
+              }}
+              replace
+              size="sm"
+              className={
+                currentPage >= lastPage
+                  ? "pointer-events-none text-secondary"
+                  : ""
+              }
+            />
+          </PaginationItem>
+        )}
       </PaginationContent>
     </Pagination>
   );
