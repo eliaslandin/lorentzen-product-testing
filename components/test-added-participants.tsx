@@ -5,6 +5,7 @@ import { RemovePersonFromTestButton } from "./remove-person-from-test-button";
 import { UserRoundIcon } from "lucide-react";
 import { View } from "./view";
 import { SearchInput } from "./search-input";
+import { PaginationUrlState } from "./pagination-url-state";
 
 export const TestAddedParticipants = async ({
   id,
@@ -46,6 +47,7 @@ export const TestAddedParticipants = async ({
           </li>
         ))}
       </List>
+      <PaginationUrlState />
     </View>
   );
 };
