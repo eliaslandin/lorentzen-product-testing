@@ -22,10 +22,14 @@ export const PaginationUrlState = ({
     return;
   }
 
+  const lastPage = Math.ceil(itemCount / pageSize);
+  if (lastPage === 1) {
+    return;
+  }
+
   const pathname = usePathname();
   const readOnlyParams = useSearchParams();
 
-  const lastPage = Math.ceil(itemCount / pageSize);
   const currentPage = Number(readOnlyParams.get(queryKey)) || 1;
   const searchParams = new URLSearchParams(readOnlyParams);
   searchParams.delete(queryKey);
