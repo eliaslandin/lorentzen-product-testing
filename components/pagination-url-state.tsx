@@ -44,7 +44,7 @@ export const PaginationUrlState = ({
               pathname,
               query: {
                 ...newParams,
-                ...(currentPage > 1 && {
+                ...(currentPage > 2 && {
                   [queryKey]: currentPage - 1,
                 }),
               },
