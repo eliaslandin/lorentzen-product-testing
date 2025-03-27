@@ -49,6 +49,7 @@ export const PaginationUrlState = ({
                 }),
               },
             }}
+            replace
             className={
               currentPage > 1 ? "" : "pointer-events-none text-muted-foreground"
             }
@@ -60,6 +61,7 @@ export const PaginationUrlState = ({
               pathname,
               query: { ...newParams, [queryKey]: currentPage + 1 },
             }}
+            replace
             className={
               currentPage >= lastPage
                 ? "pointer-events-none text-muted-foreground"
