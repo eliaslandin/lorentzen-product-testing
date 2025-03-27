@@ -8,13 +8,19 @@ import { PaginationUrlState } from "./pagination-url-state";
 export const TestAddNewParticipant = async ({
   id,
   query,
+  page,
 }: {
   id: number;
   query?: string;
+  page?: string;
 }) => {
-  const { data, count, error } = await getTestPersons(query);
+  const { data, count, error } = await getTestPersons(query, {
+    page: Math.max(1, Number(page) || 1),
+    pageSize: 5,
+  });
   const { data: addedPersons, error: addedError } =
     await getTestsTestPersons(id);
+  console.log("p", page);
 
   if (error) {
     return (

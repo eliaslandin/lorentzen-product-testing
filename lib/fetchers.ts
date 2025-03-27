@@ -7,14 +7,11 @@ export const getTestPersons = cache(
   async (
     query: string = "",
     {
-      page,
-      pageSize,
+      page = 1,
+      pageSize = 5,
     }: {
       page: number;
       pageSize: number;
-    } = {
-      page: 1,
-      pageSize: 5,
     },
   ) => {
     const supabase = await createClient();
