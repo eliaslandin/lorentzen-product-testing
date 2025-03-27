@@ -57,7 +57,9 @@ export const PaginationUrlState = ({
         )}
 
         <p className="w-full text-muted-foreground text-sm text-center">
-          Totalt: {itemCount}
+          Visar {(currentPage - 1) * pageSize}-
+          {currentPage !== lastPage ? currentPage * pageSize : itemCount} av{" "}
+          {itemCount}
         </p>
 
         {lastPage !== 1 && (
