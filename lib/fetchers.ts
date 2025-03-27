@@ -36,11 +36,17 @@ export const getTestPersons = cache(
 
 export const getTests = cache(async () => {
   const supabase = await createClient();
-  return await supabase.schema("api").from("tests").select(`
+  return await supabase
+    .schema("api")
+    .from("tests")
+    .select(
+      `
     *,
     ...cities(city_name:name),
     ...companies(company_name:name)
-  `);
+  `,
+    )
+    .order("date", { ascending: false });
 });
 
 export const getTest = cache(async (id: number) => {
