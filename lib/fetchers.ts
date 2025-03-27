@@ -8,11 +8,11 @@ export const getTestPersons = cache(
     query: string = "",
     {
       page = 1,
-      pageSize = 5,
+      pageSize = 20,
     }: {
-      page: number;
-      pageSize: number;
-    },
+      page?: number;
+      pageSize?: number;
+    } = {},
   ) => {
     const supabase = await createClient();
     return await supabase
