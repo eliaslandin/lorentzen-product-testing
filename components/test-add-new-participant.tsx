@@ -52,7 +52,7 @@ export const TestAddNewParticipant = async ({
           </li>
         ))}
       </List>
-      <PaginationUrlState itemCount={count} />
+      <PaginationUrlState itemCount={count} queryKey="p2" />
     </View>
   );
 };

@@ -14,7 +14,7 @@ export const TestAddedParticipants = async ({
   id: number;
   query?: string;
 }) => {
-  const { data, error } = await getTestsTestPersons(id, query);
+  const { data, count, error } = await getTestsTestPersons(id, query);
 
   if (error) {
     return (
@@ -47,7 +47,7 @@ export const TestAddedParticipants = async ({
           </li>
         ))}
       </List>
-      <PaginationUrlState />
+      <PaginationUrlState itemCount={count} queryKey="p1" />
     </View>
   );
 };

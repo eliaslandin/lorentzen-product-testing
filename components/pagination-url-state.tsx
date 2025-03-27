@@ -8,8 +8,10 @@ import {
 
 export const PaginationUrlState = ({
   itemCount,
+  queryKey,
 }: {
   itemCount: number | null;
+  queryKey: string;
 }) => {
   if (!itemCount) {
     return;
@@ -19,10 +21,10 @@ export const PaginationUrlState = ({
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious />
+          <PaginationPrevious href={"#"} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext />
+          <PaginationNext href={"#"} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
