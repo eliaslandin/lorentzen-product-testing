@@ -7,7 +7,7 @@ import { View } from "./view";
 import { SearchInput } from "./search-input";
 import { PaginationUrlState } from "./pagination-url-state";
 
-const PAGINATION_PAGE_SIZE = 2;
+const PAGINATION_PAGE_SIZE = 15;
 
 export const TestAddedParticipants = async ({
   id,
