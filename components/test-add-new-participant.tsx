@@ -3,6 +3,7 @@ import { List } from "./list";
 import { AddPersonToTestButton } from "./add-person-to-test-button";
 import { View } from "./view";
 import { SearchInput } from "./search-input";
+import { PaginationUrlState } from "./pagination-url-state";
 
 export const TestAddNewParticipant = async ({
   id,
@@ -11,7 +12,7 @@ export const TestAddNewParticipant = async ({
   id: number;
   query?: string;
 }) => {
-  const { data, error } = await getTestPersons(query);
+  const { data, count, error } = await getTestPersons(query);
   const { data: addedPersons, error: addedError } =
     await getTestsTestPersons(id);
 
@@ -51,6 +52,7 @@ export const TestAddNewParticipant = async ({
           </li>
         ))}
       </List>
+      <PaginationUrlState itemCount={count} />
     </View>
   );
 };

@@ -6,7 +6,15 @@ import {
   PaginationPrevious,
 } from "./ui/pagination";
 
-export const PaginationUrlState = () => {
+export const PaginationUrlState = ({
+  itemCount,
+}: {
+  itemCount: number | null;
+}) => {
+  if (!itemCount) {
+    return;
+  }
+
   return (
     <Pagination>
       <PaginationContent>
