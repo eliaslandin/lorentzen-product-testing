@@ -18,7 +18,7 @@ export default async function DashboardLayout({
   const supabase = await createClient();
   const {
     data: { user },
-    error
+    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -32,7 +32,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar user={user} className="border-none shadow-sm" />
-      <SidebarInset className="bg-muted">
+      <SidebarInset className="bg-muted pb-4">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1 md:h-5 md:w-5 md:p-2 box-content" />
