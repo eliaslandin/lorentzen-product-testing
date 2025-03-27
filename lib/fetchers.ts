@@ -60,7 +60,17 @@ export const getTest = cache(async (id: number) => {
 });
 
 export const getTestsTestPersons = cache(
-  async (id: number, query: string = "") => {
+  async (
+    id: number,
+    query: string = "",
+    {
+      page = 1,
+      pageSize = 20,
+    }: {
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => {
     const supabase = await createClient();
     return await supabase
       .schema("api")
@@ -80,6 +90,7 @@ export const getTestsTestPersons = cache(
         { count: "exact" },
       )
       .eq("test_id", id)
-      .or(`name.ilike.%${query}%`, { referencedTable: "profiles" });
+      .or(`name.ilike.%${query}%`, { referencedTable: "profiles" })
+      .range((page - 1) * pageSize, (page - 1) * pageSize + pageSize - 1);
   },
 );

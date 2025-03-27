@@ -7,16 +7,21 @@ import { View } from "./view";
 import { SearchInput } from "./search-input";
 import { PaginationUrlState } from "./pagination-url-state";
 
-const PAGINATION_PAGE_SIZE = 15;
+const PAGINATION_PAGE_SIZE = 2;
 
 export const TestAddedParticipants = async ({
   id,
   query,
+  page,
 }: {
   id: number;
   query?: string;
+  page?: string;
 }) => {
-  const { data, count, error } = await getTestsTestPersons(id, query);
+  const { data, count, error } = await getTestsTestPersons(id, query, {
+    page: Math.max(1, Number(page) || 1),
+    pageSize: PAGINATION_PAGE_SIZE,
+  });
 
   if (error) {
     return (

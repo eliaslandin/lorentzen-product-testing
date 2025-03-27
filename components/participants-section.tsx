@@ -28,7 +28,11 @@ export const ParticipantsSection = ({
             </CardHeader>
             <CardContent className="px-2 pt-1">
               <TabsContent value="added">
-                <TestAddedParticipants id={id} query={searchParams?.q1} />
+                <TestAddedParticipants
+                  id={id}
+                  query={searchParams?.q1}
+                  page={searchParams?.p1}
+                />
               </TabsContent>
               <TabsContent value="add-new">
                 <TestAddNewParticipant
