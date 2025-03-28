@@ -58,7 +58,7 @@ export const CreateTestPersonForm = () => {
           />
         </FormField>
         <FormField
-          label="Personnummer (YYYY-MM-DD-NNNN)"
+          label="Personnummer (ÅÅÅÅ-MM-DD-NNNN)"
           inputId={fields.personal_number.id}
           errorMessage={fields.personal_number.errors}
         >

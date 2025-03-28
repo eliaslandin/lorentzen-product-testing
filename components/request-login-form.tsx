@@ -44,7 +44,7 @@ export const RequestLoginForm = () => {
             defaultValue={fields.personal_number.initialValue}
             maxLength={12}
             pattern={REGEXP_ONLY_DIGITS}
-            aria-label="Personnummer (YYYY-MM-DD-NNNN)"
+            aria-label="Personnummer (ÅÅÅÅ-MM-DD-NNNN)"
             containerClassName="gap-2"
           >
             <InputOTPGroup>
