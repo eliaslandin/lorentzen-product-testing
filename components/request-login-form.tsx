@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState } from "react";
-import { createTestPersonAction } from "@/app/admin/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { FormContent } from "./form-content";
@@ -16,9 +15,11 @@ import {
 } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { requestLoginSchema } from "@/lib/schemas";
+import { requestLoginAction } from "@/app/actions";
+
 export const RequestLoginForm = () => {
   const [lastResult, formAction, pending] = useActionState(
-    createTestPersonAction,
+    requestLoginAction,
     undefined,
   );
 

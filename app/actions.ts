@@ -4,7 +4,8 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { parseWithZod } from "@conform-to/zod";
+import { requestLoginSchema } from "@/lib/schemas";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -132,4 +133,19 @@ export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect("/");
+};
+
+export const requestLoginAction = async (
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const submission = parseWithZod(formData, {
+    schema: requestLoginSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  console.log(`PN ${submission.value.personal_number} requesting login...`);
 };
