@@ -1,6 +1,7 @@
 import { H1 } from "@/components/H1";
+import { P } from "@/components/P";
 import { RequestLoginForm } from "@/components/request-login-form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { View } from "@/components/view";
 
 export default async function Home() {
@@ -9,7 +10,11 @@ export default async function Home() {
       <img src="lll-icon-red.png" className="max-w-40" />
       <Card className="w-auto">
         <CardHeader>
-          <H1>Välkommen</H1>
+          <H1 className="md:text-2xl">Välkommen!</H1>
+          <P>
+            Skriv in ditt personnummer i formatet (ÅÅÅÅ-MM-DD-NNNN) för att
+            börja.
+          </P>
         </CardHeader>
         <CardContent>
           <RequestLoginForm />
