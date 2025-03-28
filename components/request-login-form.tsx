@@ -45,6 +45,7 @@ export const RequestLoginForm = () => {
             maxLength={12}
             pattern={REGEXP_ONLY_DIGITS}
             aria-label="Personnummer (YYYY-MM-DD-NNNN)"
+            containerClassName="gap-2"
           >
             <InputOTPGroup>
               <InputOTPSlotBig index={0} />
@@ -52,17 +53,14 @@ export const RequestLoginForm = () => {
               <InputOTPSlotBig index={2} />
               <InputOTPSlotBig index={3} />
             </InputOTPGroup>
-            <InputOTPSeparator />
             <InputOTPGroup>
               <InputOTPSlotBig index={4} />
               <InputOTPSlotBig index={5} />
             </InputOTPGroup>
-            <InputOTPSeparator />
             <InputOTPGroup>
               <InputOTPSlotBig index={6} />
               <InputOTPSlotBig index={7} />
             </InputOTPGroup>
-            <InputOTPSeparator />
             <InputOTPGroup>
               <InputOTPSlotBig index={8} />
               <InputOTPSlotBig index={9} />
