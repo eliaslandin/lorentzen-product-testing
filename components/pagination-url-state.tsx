@@ -57,7 +57,7 @@ export const PaginationUrlState = ({
         )}
 
         <p className="w-full text-muted-foreground text-sm text-center">
-          Visar {(currentPage - 1) * pageSize}-
+          Visar {(currentPage - 1) * pageSize + 1}-
           {currentPage !== lastPage ? currentPage * pageSize : itemCount} av{" "}
           {itemCount}
         </p>
