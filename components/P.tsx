@@ -8,7 +8,7 @@ export const P = ({
   className?: string;
   children: React.ReactNode;
 } & React.HTMLAttributes<HTMLParagraphElement>) => (
-  <p className={cn("text-muted-foreground", className)} {...props}>
+  <p className={cn("text-muted-foreground md:text-lg", className)} {...props}>
     {children}
   </p>
 );
