@@ -15,6 +15,7 @@ import {
   InputOTPSlot,
 } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { requestLoginSchema } from "@/lib/schemas";
 export const RequestLoginForm = () => {
   const [lastResult, formAction, pending] = useActionState(
     createTestPersonAction,
@@ -24,9 +25,9 @@ export const RequestLoginForm = () => {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      //return parseWithZod(formData, {
-      //  schema: ,
-      //});
+      return parseWithZod(formData, {
+        schema: requestLoginSchema,
+      });
     },
     shouldRevalidate: "onInput",
     shouldValidate: "onBlur",

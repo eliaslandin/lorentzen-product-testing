@@ -9,12 +9,14 @@ export const stringMax255Schema = nonEmptyStringSchema.max(
   "Texten får vara max 255 tecken lång",
 );
 
+export const personalNumberSchema = z
+  .number()
+  .min(190000000000, "Ogiltigt personnummer")
+  .max(999999999999, "Ogiltigt personnummber");
+
 export const createTestPersonSchema = z.object({
   name: stringMax255Schema,
-  personal_number: z
-    .number()
-    .min(190000000000, "Ogiltigt personnummer")
-    .max(999999999999, "Ogiltigt personnummber"),
+  personal_number: personalNumberSchema,
   city: z.number().optional(),
 });
 
@@ -24,4 +26,8 @@ export const createTestSchema = z.object({
   city: z.number().optional(),
   company: z.number().optional(),
   date: z.date().optional(),
+});
+
+export const requestLoginSchema = z.object({
+  personal_number: personalNumberSchema,
 });
