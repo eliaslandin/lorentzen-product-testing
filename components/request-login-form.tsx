@@ -27,7 +27,7 @@ export const RequestLoginForm = () => {
       });
     },
     shouldRevalidate: "onInput",
-    shouldValidate: "onBlur",
+    shouldValidate: "onSubmit",
   });
 
   return (
