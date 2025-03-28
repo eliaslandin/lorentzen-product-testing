@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { createTestPersonAction } from "@/app/admin/actions";
-import { useForm, useInputControl } from "@conform-to/react";
+import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
@@ -74,6 +74,8 @@ export const RequestLoginForm = () => {
             </InputOTPGroup>
           </InputOTP>
         </FormField>
+        <FormSubmitButton pending={pending}>Bekräfta</FormSubmitButton>
+        <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
     </form>
   );
