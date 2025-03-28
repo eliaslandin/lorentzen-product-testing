@@ -1,3 +1,4 @@
+import { RequestLoginForm } from "@/components/request-login-form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { View } from "@/components/view";
 
@@ -6,7 +7,9 @@ export default async function Home() {
     <View className="bg-muted min-h-screen justify-center items-center">
       <Card className="max-w-3xl">
         <CardHeader>Välkommen</CardHeader>
-        <CardContent>Personnummer</CardContent>
+        <CardContent>
+          <RequestLoginForm />
+        </CardContent>
       </Card>
     </View>
   );
