@@ -11,7 +11,7 @@ export const FormField = ({
   orientation = "vertical",
 }: {
   children: ReactNode;
-  label: string;
+  label?: string;
   inputId: string;
   errorMessage?: string | string[];
   orientation?: "vertical" | "horizontal";
@@ -24,7 +24,7 @@ export const FormField = ({
           orientation === "horizontal" && "flex-row items-center gap-4",
         )}
       >
-        <Label htmlFor={inputId}>{label}</Label>
+        {label && <Label htmlFor={inputId}>{label}</Label>}
         {children}
       </View>
       <p className="mt-2 text-destructive">{errorMessage}</p>

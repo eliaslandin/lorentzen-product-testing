@@ -34,7 +34,6 @@ export const RequestLoginForm = () => {
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
       <FormContent>
         <FormField
-          label="Personnummer (YYYY-MM-DD-NNNN)"
           inputId={fields.personal_number.id}
           errorMessage={fields.personal_number.errors}
         >
@@ -45,6 +44,7 @@ export const RequestLoginForm = () => {
             defaultValue={fields.personal_number.initialValue}
             maxLength={12}
             pattern={REGEXP_ONLY_DIGITS}
+            aria-label="Personnummer (YYYY-MM-DD-NNNN)"
           >
             <InputOTPGroup>
               <InputOTPSlotBig index={0} />
