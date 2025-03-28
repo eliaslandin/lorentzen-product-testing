@@ -7,15 +7,11 @@ import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "./ui/input-otp";
+import { InputOTP, InputOTPGroup, InputOTPSeparator } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { requestLoginSchema } from "@/lib/schemas";
 import { requestLoginAction } from "@/app/actions";
+import { InputOTPSlotBig } from "./input-otp-slot-big";
 
 export const RequestLoginForm = () => {
   const [lastResult, formAction, pending] = useActionState(
@@ -51,27 +47,27 @@ export const RequestLoginForm = () => {
             pattern={REGEXP_ONLY_DIGITS}
           >
             <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
+              <InputOTPSlotBig index={0} />
+              <InputOTPSlotBig index={1} />
+              <InputOTPSlotBig index={2} />
+              <InputOTPSlotBig index={3} />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
+              <InputOTPSlotBig index={4} />
+              <InputOTPSlotBig index={5} />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={6} />
-              <InputOTPSlot index={7} />
+              <InputOTPSlotBig index={6} />
+              <InputOTPSlotBig index={7} />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={8} />
-              <InputOTPSlot index={9} />
-              <InputOTPSlot index={10} />
-              <InputOTPSlot index={11} />
+              <InputOTPSlotBig index={8} />
+              <InputOTPSlotBig index={9} />
+              <InputOTPSlotBig index={10} />
+              <InputOTPSlotBig index={11} />
             </InputOTPGroup>
           </InputOTP>
         </FormField>
