@@ -8,7 +8,7 @@ export const InputOTPSlotBig = ({
 }: React.ComponentPropsWithoutRef<"div"> & { index: number }) => (
   <InputOTPSlot
     index={index}
-    className={cn("h-14 w-14 text-2xl", className)}
+    className={cn("md:h-14 md:w-14 md:text-2xl", className)}
     {...props}
   />
 );
