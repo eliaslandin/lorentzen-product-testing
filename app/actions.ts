@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
 import { requestLoginSchema } from "@/lib/schemas";
+import { createServiceRoleClient } from "@/utils/supabase/service-role";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -147,5 +148,30 @@ export const requestLoginAction = async (
     return submission.reply();
   }
 
-  console.log(`PN ${submission.value.personal_number} requesting login...`);
+  console.log(
+    `Personal number ${submission.value.personal_number} requesting login...`,
+  );
+
+  const supabaseServiceRole = await createServiceRoleClient();
+
+  console.log(
+    "Attempting to retrieve user with matching personal number from db...",
+  );
+  const { data, error } = await supabaseServiceRole
+    .schema("api")
+    .from("profiles")
+    .select("name, id, personal_number")
+    .eq("personal_number", submission.value.personal_number)
+    .single();
+
+  if (error) {
+    console.error(JSON.stringify(error));
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  console.log(
+    `User found in database! User ID: ${data.id}. User's name: ${data.name}`,
+  );
 };
