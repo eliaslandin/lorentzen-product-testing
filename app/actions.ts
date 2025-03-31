@@ -166,9 +166,16 @@ export const requestLoginAction = async (
 
   if (error) {
     console.error(JSON.stringify(error));
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
+    // 0 or more than 1 item returned when requesting single item
+    if (error.code === "PGRST116") {
+      return submission.reply({
+        formErrors: ["Testpersonen hittades inte i databasen"],
+      });
+    } else {
+      return submission.reply({
+        formErrors: ["Servererror"],
+      });
+    }
   }
 
   console.log(
