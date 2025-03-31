@@ -27,7 +27,7 @@ export const FormField = ({
         {label && <Label htmlFor={inputId}>{label}</Label>}
         {children}
       </View>
-      <p className="mt-2 text-destructive">{errorMessage}</p>
+      <p className="mt-2 md:text-lg text-destructive">{errorMessage}</p>
     </div>
   );
 };
