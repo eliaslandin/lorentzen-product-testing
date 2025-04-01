@@ -256,4 +256,6 @@ export const requestLoginAction = async (
   console.log(
     "User successfully signed in to anonymous user account with magic link.",
   );
+
+  redirect("invanta-inloggning");
 };
