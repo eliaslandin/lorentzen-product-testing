@@ -182,18 +182,16 @@ export const requestLoginAction = async (
     `User found in database! User ID: ${getUserData.id}. User's name: ${getUserData.name}`,
   );
 
+  // Create temp user to use for auth until login req is approved
+  const anonUserId = crypto.randomUUID();
   const { data: anonUserData, error: anonUserError } =
-    await supabaseServiceRole.auth.signInAnonymously();
+    await supabaseServiceRole.auth.admin.createUser({
+      email: `login-req-anon-user-${anonUserId}@lenalorentzendesign.se`,
+      email_confirm: true,
+    });
 
   if (anonUserError) {
     console.error(JSON.stringify(anonUserError));
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
-  }
-
-  if (!anonUserData.user) {
-    console.error("No user returned from anonymous sign in call");
     return submission.reply({
       formErrors: ["Servererror"],
     });
