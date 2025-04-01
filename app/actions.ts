@@ -157,17 +157,17 @@ export const requestLoginAction = async (
   console.log(
     "Attempting to retrieve user with matching personal number from db...",
   );
-  const { data, error } = await supabaseServiceRole
+  const { data: getUserData, error: getUserError } = await supabaseServiceRole
     .schema("api")
     .from("profiles")
     .select("name, id, personal_number")
     .eq("personal_number", submission.value.personal_number)
     .single();
 
-  if (error) {
-    console.error(JSON.stringify(error));
+  if (getUserError) {
+    console.error(JSON.stringify(getUserError));
     // 0 or more than 1 item returned when requesting single item
-    if (error.code === "PGRST116") {
+    if (getUserError.code === "PGRST116") {
       return submission.reply({
         formErrors: ["Testpersonen hittades inte i databasen"],
       });
@@ -179,6 +179,27 @@ export const requestLoginAction = async (
   }
 
   console.log(
-    `User found in database! User ID: ${data.id}. User's name: ${data.name}`,
+    `User found in database! User ID: ${getUserData.id}. User's name: ${getUserData.name}`,
+  );
+
+  const { data: anonUserData, error: anonUserError } =
+    await supabaseServiceRole.auth.signInAnonymously();
+
+  if (anonUserError) {
+    console.error(JSON.stringify(anonUserError));
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  if (!anonUserData.user) {
+    console.error("No user returned from anonymous sign in call");
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  console.log(
+    `User successfully signed in anonymously. Anonymous user ID is: ${anonUserData.user.id}`,
   );
 };
