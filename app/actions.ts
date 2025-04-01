@@ -198,6 +198,6 @@ export const requestLoginAction = async (
   }
 
   console.log(
-    `User successfully signed in anonymously. Anonymous user ID is: ${anonUserData.user.id}`,
+    `Anonymous user successfully created. Anonymous user ID is: ${anonUserData.user.id}`,
   );
 };
