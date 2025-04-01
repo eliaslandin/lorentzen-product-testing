@@ -224,4 +224,36 @@ export const requestLoginAction = async (
   console.log(
     `Login request successfully added to login requests table as: ${JSON.stringify(loginReqItem)}`,
   );
+
+  // Sign in user as anonymous user with magic link
+  const { data: magicLinkData, error: magicLinkError } =
+    await supabaseServiceRole.auth.admin.generateLink({
+      type: "magiclink",
+      email: anonUserEmail,
+    });
+
+  if (magicLinkError) {
+    console.error(JSON.stringify(magicLinkError));
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  const { error: anonSignInError } = await supabaseServiceRole.auth.verifyOtp({
+    type: "magiclink",
+    token_hash: magicLinkData.properties.hashed_token,
+  });
+
+  console.log("Magic link for anonymous sign in successfully created.");
+
+  if (anonSignInError) {
+    console.error(JSON.stringify(anonSignInError));
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  console.log(
+    "User successfully signed in to anonymous user account with magic link.",
+  );
 };
