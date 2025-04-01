@@ -184,9 +184,10 @@ export const requestLoginAction = async (
 
   // Create temp user to use for auth until login req is approved
   const anonUserId = crypto.randomUUID();
+  const anonUserEmail = `login-req-anon-user-${anonUserId}@lenalorentzendesign.se`;
   const { data: anonUserData, error: anonUserError } =
     await supabaseServiceRole.auth.admin.createUser({
-      email: `login-req-anon-user-${anonUserId}@lenalorentzendesign.se`,
+      email: anonUserEmail,
       email_confirm: true,
     });
 
@@ -199,5 +200,28 @@ export const requestLoginAction = async (
 
   console.log(
     `Anonymous user successfully created. Anonymous user ID is: ${anonUserData.user.id}`,
+  );
+
+  // Add login request to db
+  const pairCode = Math.floor(Math.random() * 99);
+  const loginReqItem = {
+    anonymous_user_id: anonUserId,
+    personal_number: submission.value.personal_number,
+    pair_code: pairCode,
+  };
+  const { data: logReqData, error: logReqError } = await supabaseServiceRole
+    .schema("api")
+    .from("login_requests")
+    .insert(loginReqItem);
+
+  if (logReqError) {
+    console.error(JSON.stringify(logReqError));
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  console.log(
+    `Login request successfully added to login requests table as: ${JSON.stringify(loginReqItem)}`,
   );
 };
