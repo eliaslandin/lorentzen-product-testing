@@ -46,6 +46,13 @@ TO authenticated
 USING ( (SELECT api.check_user_permissions('login_requests.delete')) );
 
 -- Permissions for admins and moderators
+INSERT INTO api.permissions (permission)
+VALUES
+  ('login_requests.select'),
+  ('login_requests.insert'),
+  ('login_requests.update'),
+  ('login_requests.delete');
+
 INSERT INTO api.role_permission_relations (role, permission)
 VALUES
   ('admin', 'login_requests.select'),
