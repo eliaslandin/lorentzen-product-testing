@@ -81,6 +81,30 @@ export type Database = {
         }
         Relationships: []
       }
+      login_requests: {
+        Row: {
+          anonymous_user_id: string
+          approved: boolean
+          created_at: string
+          pair_code: number
+          personal_number: number
+        }
+        Insert: {
+          anonymous_user_id: string
+          approved?: boolean
+          created_at?: string
+          pair_code: number
+          personal_number: number
+        }
+        Update: {
+          anonymous_user_id?: string
+          approved?: boolean
+          created_at?: string
+          pair_code?: number
+          personal_number?: number
+        }
+        Relationships: []
+      }
       permissions: {
         Row: {
           permission: string
