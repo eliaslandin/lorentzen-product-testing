@@ -209,7 +209,7 @@ export const requestLoginAction = async (
     personal_number: submission.value.personal_number,
     pair_code: pairCode,
   };
-  const { data: logReqData, error: logReqError } = await supabaseServiceRole
+  const { error: logReqError } = await supabaseServiceRole
     .schema("api")
     .from("login_requests")
     .insert(loginReqItem);
@@ -239,23 +239,13 @@ export const requestLoginAction = async (
     });
   }
 
-  const { error: anonSignInError } = await supabaseServiceRole.auth.verifyOtp({
-    type: "magiclink",
-    token_hash: magicLinkData.properties.hashed_token,
-  });
-
   console.log("Magic link for anonymous sign in successfully created.");
 
-  if (anonSignInError) {
-    console.error(JSON.stringify(anonSignInError));
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
-  }
-
   console.log(
-    "User successfully signed in to anonymous user account with magic link.",
+    "Redirecting user to confirm page to get logged in with magic link.",
   );
-
-  redirect("invanta-inloggning");
+  const origin = (await headers()).get("origin");
+  redirect(
+    `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/protected")}`,
+  );
 };
