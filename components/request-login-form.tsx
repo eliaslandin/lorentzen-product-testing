@@ -7,7 +7,7 @@ import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
-import { InputOTP, InputOTPGroup, InputOTPSeparator } from "./ui/input-otp";
+import { InputOTP, InputOTPGroup } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { requestLoginSchema } from "@/lib/schemas";
 import { requestLoginAction } from "@/app/actions";
