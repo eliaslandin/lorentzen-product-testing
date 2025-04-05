@@ -183,8 +183,8 @@ export const requestLoginAction = async (
   );
 
   // Create temp user to use for auth until login req is approved
-  const anonUserId = crypto.randomUUID();
-  const anonUserEmail = `login-req-anon-user-${anonUserId}@lenalorentzendesign.se`;
+  const randomUUID = crypto.randomUUID();
+  const anonUserEmail = `login-req-anon-user-${randomUUID}@lenalorentzendesign.se`;
   const { data: anonUserData, error: anonUserError } =
     await supabaseServiceRole.auth.admin.createUser({
       email: anonUserEmail,
@@ -204,7 +204,7 @@ export const requestLoginAction = async (
 
   // Add login request to db
   const loginReqItemWithOutPairCode = {
-    anonymous_user_id: anonUserId,
+    anonymous_user_id: anonUserData.user.id,
     personal_number: submission.value.personal_number,
   };
 
