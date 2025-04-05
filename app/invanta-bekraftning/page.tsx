@@ -1,10 +1,12 @@
 import { H1 } from "@/components/H1";
 import { P } from "@/components/P";
 import { Spinner } from "@/components/spinner";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -26,12 +28,17 @@ export default function Page() {
             </P>
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center py-6">
+        <CardContent className="flex flex-col items-center py-6 md:py-8">
           <P>Din bekräftelsekod:</P>
           <span className="text-[200px] font-bold text-primary leading-none">
             37
           </span>
         </CardContent>
+        <CardFooter className="flex flex-col items-center">
+          <Button variant="outline" size="lg">
+            Avbryt
+          </Button>
+        </CardFooter>
       </Card>
     </View>
   );
