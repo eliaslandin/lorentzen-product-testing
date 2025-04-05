@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { View } from "@/components/view";
+import { signOutAction } from "../actions";
 
 export default function Page() {
   return (
@@ -35,7 +36,7 @@ export default function Page() {
           </span>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
-          <Button variant="outline" size="lg">
+          <Button variant="outline" size="lg" onClick={signOutAction}>
             Avbryt
           </Button>
         </CardFooter>
