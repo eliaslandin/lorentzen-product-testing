@@ -203,22 +203,44 @@ export const requestLoginAction = async (
   );
 
   // Add login request to db
-  const pairCode = Math.floor(Math.random() * 99);
-  const loginReqItem = {
+  const loginReqItemWithOutPairCode = {
     anonymous_user_id: anonUserId,
     personal_number: submission.value.personal_number,
-    pair_code: pairCode,
   };
-  const { error: logReqError } = await supabaseServiceRole
-    .schema("api")
-    .from("login_requests")
-    .insert(loginReqItem);
 
-  if (logReqError) {
-    console.error(JSON.stringify(logReqError));
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
+  const PAIR_CODE_MAX_VALUE = 99;
+  let loginReqInserted = false;
+  let i = 0;
+
+  // Retry insert if pair code is not unique in database
+  while (!loginReqInserted && i < 100) {
+    const pairCode = Math.floor(Math.random() * PAIR_CODE_MAX_VALUE);
+    const loginReqItem = {
+      ...loginReqItemWithOutPairCode,
+      pair_code: pairCode,
+    };
+
+    const { error: logReqError } = await supabaseServiceRole
+      .schema("api")
+      .from("login_requests")
+      .insert(loginReqItem);
+
+    i += 1;
+
+    if (!logReqError) {
+      loginReqInserted = true;
+    } else {
+      if (logReqError.code === "23505" && i < 100) {
+        console.log(
+          `Login request with same pair code already exists. Attempting to add item again with new pair code. Attempt: ${i}`,
+        );
+      } else {
+        console.error(JSON.stringify(logReqError));
+        return submission.reply({
+          formErrors: ["Servererror"],
+        });
+      }
+    }
   }
 
   console.log(
