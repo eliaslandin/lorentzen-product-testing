@@ -48,6 +48,13 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/logga-in", request.url));
     }
 
+    if (
+      user.error &&
+      request.nextUrl.pathname.startsWith("/invantar-bekraftning")
+    ) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
     // Redirect for logged in users
     if (request.nextUrl.pathname === "/" && !user.error) {
       return NextResponse.redirect(new URL("/protected", request.url));
