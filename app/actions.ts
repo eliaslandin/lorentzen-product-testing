@@ -246,6 +246,6 @@ export const requestLoginAction = async (
   );
   const origin = (await headers()).get("origin");
   redirect(
-    `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/protected")}`,
+    `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/invanta-bekraftning")}`,
   );
 };
