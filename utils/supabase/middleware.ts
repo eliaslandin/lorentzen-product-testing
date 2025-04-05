@@ -1,3 +1,4 @@
+import { Database } from "@/lib/database.types";
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -12,7 +13,7 @@ export const updateSession = async (request: NextRequest) => {
       },
     });
 
-    const supabase = createServerClient(
+    const supabase = createServerClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
@@ -40,6 +41,27 @@ export const updateSession = async (request: NextRequest) => {
     const user = await supabase.auth.getUser();
 
     // Protected routes
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      if (user.error) {
+        return NextResponse.redirect(new URL("/logga-in", request.url));
+      }
+
+      const { data: userRoles } = await supabase
+        .schema("api")
+        .from("role_user_relations")
+        .select("role")
+        .eq("user_id", user.data.user.id);
+
+      if (
+        !userRoles ||
+        !userRoles.some(
+          (role) => role.role === "admin" || role.role === "moderator",
+        )
+      ) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    }
+
     if (
       user.error &&
       (request.nextUrl.pathname.startsWith("/protected") ||
