@@ -50,7 +50,7 @@ export const updateSession = async (request: NextRequest) => {
 
     if (
       user.error &&
-      request.nextUrl.pathname.startsWith("/invantar-bekraftning")
+      request.nextUrl.pathname.startsWith("/invanta-bekraftning")
     ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
