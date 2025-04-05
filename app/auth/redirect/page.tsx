@@ -16,5 +16,5 @@ export default function Page() {
 
     const params = searchParams.toString();
     router.push(`/auth/confirm?${params}`);
-  }, [searchParams]);
+  }, [searchParams, router]);
 }
