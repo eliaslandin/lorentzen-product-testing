@@ -229,6 +229,10 @@ export const requestLoginAction = async (
 
     if (!logReqError) {
       loginReqInserted = true;
+
+      console.log(
+        `Login request successfully added to login requests table as: ${JSON.stringify(loginReqItem)}`,
+      );
     } else {
       if (logReqError.code === "23505" && i < 100) {
         console.log(
@@ -242,10 +246,6 @@ export const requestLoginAction = async (
       }
     }
   }
-
-  console.log(
-    `Login request successfully added to login requests table as: ${JSON.stringify(loginReqItem)}`,
-  );
 
   // Sign in user as anonymous user with magic link
   const { data: magicLinkData, error: magicLinkError } =
