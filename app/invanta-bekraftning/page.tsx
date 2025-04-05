@@ -12,8 +12,28 @@ import {
 } from "@/components/ui/card";
 import { View } from "@/components/view";
 import { signOutAction } from "../actions";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Page() {
+export default async function Page() {
+  const supabase = await createClient();
+  const { data: getUserData, error: getUserError } =
+    await supabase.auth.getUser();
+
+  if (getUserError) {
+    throw new Error("Servererror");
+  }
+
+  const { data, error } = await supabase
+    .schema("api")
+    .from("login_requests")
+    .select()
+    .eq("anonymous_user_id", getUserData.user.id)
+    .single();
+
+  if (error) {
+    throw new Error("Servererror");
+  }
+
   return (
     <View className="bg-muted min-h-screen justify-center items-center">
       <Card className="max-w-3xl">
@@ -32,7 +52,7 @@ export default function Page() {
         <CardContent className="flex flex-col items-center py-6 md:py-8">
           <P>Din bekräftelsekod:</P>
           <span className="text-[200px] font-bold text-primary leading-none">
-            37
+            {data.pair_code}
           </span>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
