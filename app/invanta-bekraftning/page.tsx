@@ -13,10 +13,7 @@ import {
 import { View } from "@/components/view";
 import { signOutAction } from "../actions";
 import { createClient } from "@/utils/supabase/server";
-import { Database } from "@/lib/database.types";
-import { loginTestPerson } from "@/lib/fetchers";
-
-type LoginRequest = Database["api"]["Tables"]["login_requests"]["Row"];
+import { RealtimeListener } from "./realtime-listener";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -38,36 +35,11 @@ export default async function Page() {
     throw new Error("Servererror");
   }
 
-  const channel = supabase
-    .channel("login-requests-changes")
-    .on(
-      "postgres_changes",
-      {
-        event: "UPDATE",
-        schema: "api",
-        table: "login_requests",
-      },
-      async (payload) => {
-        if (payload) {
-          console.log(JSON.stringify(payload));
-          const updatedItem = payload.new as LoginRequest;
-          if (updatedItem.approved) {
-            loginTestPerson(updatedItem.anonymous_user_id);
-          } else {
-            console.log(
-              "Logging out anon user and deleting anon user and login req...",
-            );
-          }
-        }
-      },
-    )
-    .subscribe();
-
   return (
     <View className="bg-muted min-h-screen justify-center items-center">
       <Card className="max-w-3xl">
         <CardHeader className="items-center text-center">
-          <Spinner className="w-10 h-10 text-primary my-6" />
+          <RealtimeListener />
           <CardTitle>
             <H1>Inväntar bekräftning från testhandledare...</H1>
           </CardTitle>

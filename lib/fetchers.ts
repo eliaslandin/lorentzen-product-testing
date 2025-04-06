@@ -100,39 +100,3 @@ export const getTestsTestPersons = cache(
       .range((page - 1) * pageSize, (page - 1) * pageSize + pageSize - 1);
   },
 );
-
-export const loginTestPerson = async (anonUserId: string) => {
-  const supabase = await createClient();
-  const { data: logReqData, error: logReqError } = await supabase
-    .schema("api")
-    .from("login_requests")
-    .select()
-    .eq("anonymous_user_id", anonUserId)
-    .single();
-
-  if (logReqError) {
-    console.error(JSON.stringify(logReqError));
-    throw new Error("Servererror");
-  }
-
-  if (!logReqData.approved) {
-    console.error(
-      `Error: Attempt to log in user request that is not approved by admin.`,
-    );
-    throw new Error("Servererror");
-  }
-
-  const { data: profileData, error: profileError } = await supabase
-    .schema("api")
-    .from("profiles")
-    .select()
-    .eq("personal_number", logReqData.personal_number)
-    .single();
-
-  if (profileError) {
-    console.error(JSON.stringify(profileError));
-    throw new Error("Servererror");
-  }
-
-  console.log(`Logging in test person ${profileData.name}`);
-};
