@@ -14,6 +14,7 @@ import { View } from "@/components/view";
 import { signOutAction } from "../actions";
 import { createClient } from "@/utils/supabase/server";
 import { Database } from "@/lib/database.types";
+import { loginTestPerson } from "@/lib/fetchers";
 
 type LoginRequest = Database["api"]["Tables"]["login_requests"]["Row"];
 
@@ -37,7 +38,7 @@ export default async function Page() {
     throw new Error("Servererror");
   }
 
-  supabase
+  const channel = supabase
     .channel("login-requests-changes")
     .on(
       "postgres_changes",
@@ -46,13 +47,12 @@ export default async function Page() {
         schema: "api",
         table: "login_requests",
       },
-      (payload) => {
+      async (payload) => {
         if (payload) {
+          console.log(JSON.stringify(payload));
           const updatedItem = payload.new as LoginRequest;
           if (updatedItem.approved) {
-            console.log(
-              "Logging in as real user and deleting anon user and login req...",
-            );
+            loginTestPerson(updatedItem.anonymous_user_id);
           } else {
             console.log(
               "Logging out anon user and deleting anon user and login req...",
