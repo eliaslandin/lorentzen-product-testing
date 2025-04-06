@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams, origin } = new URL(request.url);
   const anon_uid = searchParams.get("anon_uid");
 
   if (!anon_uid) {
@@ -12,9 +12,9 @@ export async function GET(request: NextRequest) {
     redirect("/");
   }
 
-  const supabase = await createServiceRoleClient();
+  const supabaseServiceRole = await createServiceRoleClient();
 
-  const { data: logReqData, error: logReqError } = await supabase
+  const { data: logReqData, error: logReqError } = await supabaseServiceRole
     .schema("api")
     .from("login_requests")
     .select()
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     redirect("/");
   }
 
-  const { data: profileData, error: profileError } = await supabase
+  const { data: profileData, error: profileError } = await supabaseServiceRole
     .schema("api")
     .from("profiles")
     .select()
@@ -45,6 +45,32 @@ export async function GET(request: NextRequest) {
     redirect("/");
   }
 
-  console.log(`Logging in test person ${profileData.name}`);
-  redirect("/protected");
+  const { data: userData, error: userError } =
+    await supabaseServiceRole.auth.admin.getUserById(profileData.id);
+
+  if (userError) {
+    console.error(JSON.stringify(userError));
+    redirect("/");
+  }
+
+  if (!userData.user.email) {
+    console.error("No email registered on test person in auth users table.");
+    redirect("/");
+  }
+
+  // Sign in test person with magic link
+  const { data: magicLinkData, error: magicLinkError } =
+    await supabaseServiceRole.auth.admin.generateLink({
+      type: "magiclink",
+      email: userData.user.email,
+    });
+
+  if (magicLinkError) {
+    console.error(JSON.stringify(magicLinkError));
+    redirect("/");
+  }
+
+  redirect(
+    `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/protected")}`,
+  );
 }
