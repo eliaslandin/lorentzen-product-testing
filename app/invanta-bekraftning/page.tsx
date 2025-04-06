@@ -13,6 +13,9 @@ import {
 import { View } from "@/components/view";
 import { signOutAction } from "../actions";
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/lib/database.types";
+
+type LoginRequest = Database["api"]["Tables"]["login_requests"]["Row"];
 
 export default async function Page() {
   const supabase = await createClient();
@@ -23,16 +26,42 @@ export default async function Page() {
     throw new Error("Servererror");
   }
 
-  const { data, error } = await supabase
+  const { data: logReqData, error: logReqError } = await supabase
     .schema("api")
     .from("login_requests")
     .select()
     .eq("anonymous_user_id", getUserData.user.id)
     .single();
 
-  if (error) {
+  if (logReqError) {
     throw new Error("Servererror");
   }
+
+  supabase
+    .channel("login-requests-changes")
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "api",
+        table: "login_requests",
+      },
+      (payload) => {
+        if (payload) {
+          const updatedItem = payload.new as LoginRequest;
+          if (updatedItem.approved) {
+            console.log(
+              "Logging in as real user and deleting anon user and login req...",
+            );
+          } else {
+            console.log(
+              "Logging out anon user and deleting anon user and login req...",
+            );
+          }
+        }
+      },
+    )
+    .subscribe();
 
   return (
     <View className="bg-muted min-h-screen justify-center items-center">
@@ -52,7 +81,7 @@ export default async function Page() {
         <CardContent className="flex flex-col items-center py-6 md:py-8">
           <P>Din bekräftelsekod:</P>
           <span className="text-[200px] font-bold text-primary leading-none">
-            {data.pair_code}
+            {logReqData.pair_code}
           </span>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
