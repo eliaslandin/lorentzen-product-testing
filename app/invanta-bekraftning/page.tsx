@@ -1,6 +1,5 @@
 import { H1 } from "@/components/H1";
 import { P } from "@/components/P";
-import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
