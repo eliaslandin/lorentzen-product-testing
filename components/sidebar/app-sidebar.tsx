@@ -45,6 +45,7 @@ const data = {
       title: "Tester",
       url: "/admin/tester",
       icon: BookOpen,
+      defaultOpen: true,
       items: [
         {
           title: "Visa alla",
@@ -53,6 +54,10 @@ const data = {
         {
           title: "Lägg till",
           url: "/admin/tester/nytt",
+        },
+        {
+          title: "Godkänn inloggningar",
+          url: "/admin/godkann-inloggningar",
         },
       ],
     },
