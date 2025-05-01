@@ -24,15 +24,10 @@ export const RealtimeListener = () => {
         },
         (payload) => {
           if (payload) {
-            console.log(JSON.stringify(payload));
             const updatedItem = payload.new as LoginRequest;
             if (updatedItem.approved) {
               router.replace(
                 `/auth/log-in-test-person?anon_uid=${updatedItem.anonymous_user_id}`,
-              );
-            } else {
-              console.log(
-                "Logging out anon user and deleting anon user and login req...",
               );
             }
           }
