@@ -224,3 +224,25 @@ export const approveLoginRequestAction = async (
     });
   }
 };
+
+export const removeLoginReqAction = async (
+  prevState: { error: string | null } | null,
+  { anon_uid }: { anon_uid: string },
+) => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("login_requests")
+    .delete()
+    .eq("anonymous_user_id", anon_uid);
+
+  revalidatePath("/admin/godkann-inloggningar");
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    error: error ? "Servererror" : null,
+  };
+};

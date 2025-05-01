@@ -1,6 +1,5 @@
 import { H1 } from "@/components/H1";
 import { P } from "@/components/P";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import { ApproveLoginReqForm } from "./approve-login-req-form";
-import { XIcon } from "lucide-react";
+import { RemoveLoginReqButton } from "./remove-login-req-button";
 
 export const LoginApprovalCard = async ({
   anon_uid,
@@ -33,14 +32,7 @@ export const LoginApprovalCard = async ({
         <CardTitle>
           <H1>{profile.data?.name || personal_number}</H1>
         </CardTitle>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-0 right-1.5 text-muted-foreground hover:text-primary"
-          title="Ta bort"
-        >
-          <XIcon className="w-5 h-5" />
-        </Button>
+        <RemoveLoginReqButton anon_uid={anon_uid} />
       </CardHeader>
       <CardContent className="flex flex-col gap-2 items-center py-4 pb-0">
         <P>Bekräftelsekod</P>
