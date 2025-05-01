@@ -23,6 +23,7 @@ export default async function Page() {
           personal_number={logInReq.personal_number}
           anon_uid={logInReq.anonymous_user_id}
           date={logInReq.created_at}
+          approved={logInReq.approved}
         />
       ))}
     </View>
