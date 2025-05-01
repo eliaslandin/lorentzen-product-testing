@@ -1,0 +1,24 @@
+import { View } from "@/components/view";
+import { createClient } from "@/utils/supabase/server";
+import { LoginApprovalCard } from "@/components/login-approval-card";
+
+export default async function Page() {
+  const supabase = await createClient();
+
+  const { data: logReqData, error: logReqError } = await supabase
+    .schema("api")
+    .from("login_requests")
+    .select();
+
+  if (logReqError) {
+    throw new Error("Servererror");
+  }
+
+  return (
+    <View className="bg-muted gap-8 min-h-screen justify-center items-center">
+      {logReqData.map((logInReq) => (
+        <LoginApprovalCard personal_number={logInReq.personal_number} />
+      ))}
+    </View>
+  );
+}
