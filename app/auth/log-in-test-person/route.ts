@@ -70,6 +70,16 @@ export async function GET(request: NextRequest) {
     redirect("/");
   }
 
+  const { error: delLogReqError } = await supabaseServiceRole
+    .schema("api")
+    .from("login_requests")
+    .delete()
+    .eq("anonymous_user_id", anon_uid);
+
+  if (delLogReqError) {
+    console.error("Failed to delete log in request.");
+  }
+
   redirect(
     `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/protected")}`,
   );
