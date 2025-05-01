@@ -14,7 +14,6 @@ export const LoginRequestList = ({
 }) => {
   const [requests, setRequests] =
     useState<(LoginRequest & { name: string })[]>(initialData);
-  const [tick, setTick] = useState(0);
   const supabase = createClient();
 
   useEffect(() => {
