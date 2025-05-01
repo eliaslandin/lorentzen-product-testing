@@ -40,7 +40,7 @@ export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction} ref={ref}>
-      <FormContent>
+      <FormContent className="items-center">
         <FormField
           inputId={fields.pair_code.id}
           errorMessage={fields.pair_code.errors}
