@@ -20,6 +20,7 @@ export default async function Page() {
         <LoginApprovalCard
           personal_number={logInReq.personal_number}
           anon_uid={logInReq.anonymous_user_id}
+          date={logInReq.created_at}
         />
       ))}
     </View>

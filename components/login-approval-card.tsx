@@ -14,9 +14,11 @@ import { RemoveLoginReqButton } from "./remove-login-req-button";
 export const LoginApprovalCard = async ({
   anon_uid,
   personal_number,
+  date,
 }: {
   anon_uid: string;
   personal_number: number;
+  date: string;
 }) => {
   const supabase = await createClient();
   const profile = await supabase
@@ -38,7 +40,9 @@ export const LoginApprovalCard = async ({
         <P>Bekräftelsekod</P>
         <ApproveLoginReqForm anon_uid={anon_uid} />
       </CardContent>
-      <CardFooter className="flex flex-col items-center"></CardFooter>
+      <CardFooter className="flex flex-col items-center">
+        <P className="text-sm md:text-sm">{new Date(date).toLocaleString()}</P>
+      </CardFooter>
     </Card>
   );
 };
