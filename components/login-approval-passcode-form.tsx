@@ -6,10 +6,9 @@ import { parseWithZod } from "@conform-to/zod";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
-import { FormSubmitButton } from "./form-submit-button";
 import { InputOTP, InputOTPGroup } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { requestLoginSchema } from "@/lib/schemas";
+import { passcodeSchema } from "@/lib/schemas";
 import { requestLoginAction } from "@/app/actions";
 import { InputOTPSlotBig } from "./input-otp-slot-big";
 
@@ -27,7 +26,7 @@ export const LoginApprovalPasscodeForm = ({
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, {
-        schema: requestLoginSchema,
+        schema: passcodeSchema,
       });
     },
     shouldRevalidate: "onInput",
@@ -38,17 +37,16 @@ export const LoginApprovalPasscodeForm = ({
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
       <FormContent>
         <FormField
-          inputId={fields.personal_number.id}
-          errorMessage={fields.personal_number.errors}
+          inputId={fields.passcode.id}
+          errorMessage={fields.passcode.errors}
         >
           <InputOTP
-            id={fields.personal_number.id}
-            key={fields.personal_number.key}
-            name={fields.personal_number.name}
-            defaultValue={fields.personal_number.initialValue}
+            id={fields.passcode.id}
+            key={fields.passcode.key}
+            name={fields.passcode.name}
+            defaultValue={fields.passcode.initialValue}
             maxLength={12}
             pattern={REGEXP_ONLY_DIGITS}
-            aria-label="Personnummer (ÅÅÅÅ-MM-DD-NNNN)"
           >
             <InputOTPGroup>
               <InputOTPSlotBig index={0} />
