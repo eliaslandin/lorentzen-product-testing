@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { FormContent } from "./form-content";
@@ -13,6 +13,7 @@ import { InputOTPSlotBig } from "./input-otp-slot-big";
 import { approveLoginRequestAction } from "@/app/admin/actions";
 
 export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
+  const ref = useRef<HTMLFormElement | null>(null);
   const [lastResult, formAction, pending] = useActionState(
     approveLoginRequestAction,
     undefined,
@@ -29,8 +30,16 @@ export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
     shouldValidate: "onSubmit",
   });
 
+  const submitForm = () => {
+    if (!ref.current) {
+      return;
+    }
+
+    ref.current.requestSubmit();
+  };
+
   return (
-    <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
+    <form id={form.id} onSubmit={form.onSubmit} action={formAction} ref={ref}>
       <FormContent>
         <FormField
           inputId={fields.pair_code.id}
@@ -43,6 +52,8 @@ export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
             defaultValue={fields.pair_code.initialValue}
             maxLength={2}
             pattern={REGEXP_ONLY_DIGITS}
+            onComplete={submitForm}
+            disabled={pending}
           >
             <InputOTPGroup>
               <InputOTPSlotBig index={0} />
@@ -55,7 +66,6 @@ export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
           id={fields.anon_uid.id}
           key={fields.anon_uid.key}
           name={fields.anon_uid.name}
-          value={anon_uid}
           defaultValue={anon_uid}
         />
         <FormErrorMessage>{form.errors}</FormErrorMessage>
