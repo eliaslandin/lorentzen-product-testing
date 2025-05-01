@@ -1,7 +1,11 @@
 "use server";
 
 import { checkIfUserIsAdmin } from "@/lib/dal";
-import { createTestPersonSchema, createTestSchema } from "@/lib/schemas";
+import {
+  approveLoginSchema,
+  createTestPersonSchema,
+  createTestSchema,
+} from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { parseWithZod } from "@conform-to/zod";
@@ -169,4 +173,54 @@ export const removePersonFromTestAction = async (
   return {
     error: error ? "Servererror" : null,
   };
+};
+
+export const approveLoginRequestAction = async (
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const submission = parseWithZod(formData, {
+    schema: approveLoginSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const supabase = await createClient();
+  const { data: logReqData, error: logReqError } = await supabase
+    .schema("api")
+    .from("login_requests")
+    .select()
+    .eq("anonymous_user_id", submission.value.anon_uid)
+    .single();
+
+  if (logReqError) {
+    console.error(logReqError);
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  if (logReqData.pair_code !== submission.value.pair_code) {
+    console.error(
+      `Pair code is wrong. Code in DB: ${logReqData.pair_code}. Received code: ${submission.value.pair_code}`,
+    );
+    return submission.reply({
+      formErrors: ["Fel bekräftelsekod"],
+    });
+  }
+
+  const { error } = await supabase
+    .schema("api")
+    .from("login_requests")
+    .update({ approved: true })
+    .eq("anonymous_user_id", submission.value.anon_uid);
+
+  if (error) {
+    console.error(error);
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
 };

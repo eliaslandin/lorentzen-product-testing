@@ -9,9 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
-import { LoginApprovalPasscodeForm } from "./login-approval-passcode-form";
-import { H2 } from "./H2";
-import { CrossIcon, XIcon } from "lucide-react";
+import { ApproveLoginReqForm } from "./approve-login-req-form";
+import { XIcon } from "lucide-react";
 
 export const LoginApprovalCard = async ({
   anon_uid,
@@ -45,7 +44,7 @@ export const LoginApprovalCard = async ({
       </CardHeader>
       <CardContent className="flex flex-col gap-2 items-center py-4 pb-0">
         <P>Bekräftelsekod</P>
-        <LoginApprovalPasscodeForm anon_uid={anon_uid} />
+        <ApproveLoginReqForm anon_uid={anon_uid} />
       </CardContent>
       <CardFooter className="flex flex-col items-center"></CardFooter>
     </Card>

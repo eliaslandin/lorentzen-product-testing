@@ -8,17 +8,13 @@ import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { InputOTP, InputOTPGroup } from "./ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { passcodeSchema } from "@/lib/schemas";
-import { requestLoginAction } from "@/app/actions";
+import { approveLoginSchema } from "@/lib/schemas";
 import { InputOTPSlotBig } from "./input-otp-slot-big";
+import { approveLoginRequestAction } from "@/app/admin/actions";
 
-export const LoginApprovalPasscodeForm = ({
-  anon_uid,
-}: {
-  anon_uid: string;
-}) => {
+export const ApproveLoginReqForm = ({ anon_uid }: { anon_uid: string }) => {
   const [lastResult, formAction, pending] = useActionState(
-    requestLoginAction,
+    approveLoginRequestAction,
     undefined,
   );
 
@@ -26,7 +22,7 @@ export const LoginApprovalPasscodeForm = ({
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, {
-        schema: passcodeSchema,
+        schema: approveLoginSchema,
       });
     },
     shouldRevalidate: "onInput",
@@ -37,14 +33,14 @@ export const LoginApprovalPasscodeForm = ({
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
       <FormContent>
         <FormField
-          inputId={fields.passcode.id}
-          errorMessage={fields.passcode.errors}
+          inputId={fields.pair_code.id}
+          errorMessage={fields.pair_code.errors}
         >
           <InputOTP
-            id={fields.passcode.id}
-            key={fields.passcode.key}
-            name={fields.passcode.name}
-            defaultValue={fields.passcode.initialValue}
+            id={fields.pair_code.id}
+            key={fields.pair_code.key}
+            name={fields.pair_code.name}
+            defaultValue={fields.pair_code.initialValue}
             maxLength={2}
             pattern={REGEXP_ONLY_DIGITS}
           >
@@ -54,6 +50,14 @@ export const LoginApprovalPasscodeForm = ({
             </InputOTPGroup>
           </InputOTP>
         </FormField>
+        <input
+          type="hidden"
+          id={fields.anon_uid.id}
+          key={fields.anon_uid.key}
+          name={fields.anon_uid.name}
+          value={anon_uid}
+          defaultValue={anon_uid}
+        />
         <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
     </form>

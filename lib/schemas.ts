@@ -31,3 +31,8 @@ export const createTestSchema = z.object({
 export const requestLoginSchema = z.object({
   personal_number: personalNumberSchema,
 });
+
+export const approveLoginSchema = z.object({
+  pair_code: z.number().max(99),
+  anon_uid: z.string().uuid(),
+});
