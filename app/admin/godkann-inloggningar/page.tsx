@@ -19,6 +19,7 @@ export default async function Page() {
     <View className="bg-muted gap-8 min-h-screen items-center">
       {logReqData.map((logInReq) => (
         <LoginApprovalCard
+          key={logInReq.anonymous_user_id}
           personal_number={logInReq.personal_number}
           anon_uid={logInReq.anonymous_user_id}
           date={logInReq.created_at}
