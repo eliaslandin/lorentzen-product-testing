@@ -29,9 +29,14 @@ export const LoginRequestList = ({
         (payload) => {
           if (payload) {
             if (payload.eventType === "INSERT") {
-              console.log(payload);
               const item = payload.new as LoginRequest;
-              setRequests((prev) => [...prev, { ...item, name: "Test" }]);
+              setRequests((prev) => [{ ...item, name: "Test" }, ...prev]);
+            } else if (payload.eventType === "DELETE") {
+              const item = payload.old as LoginRequest;
+              const newReqs = requests.filter(
+                (req) => req.anonymous_user_id !== item.anonymous_user_id,
+              );
+              setRequests(newReqs);
             }
           }
         },
