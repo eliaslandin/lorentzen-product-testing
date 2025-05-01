@@ -223,6 +223,8 @@ export const approveLoginRequestAction = async (
       formErrors: ["Servererror"],
     });
   }
+
+  revalidatePath("/admin/godkann-inloggningar");
 };
 
 export const removeLoginReqAction = async (
