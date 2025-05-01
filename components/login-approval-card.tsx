@@ -1,3 +1,5 @@
+"use client";
+
 import { H1 } from "@/components/H1";
 import { P } from "@/components/P";
 import {
@@ -7,35 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createClient } from "@/utils/supabase/server";
 import { ApproveLoginReqForm } from "./approve-login-req-form";
 import { RemoveLoginReqButton } from "./remove-login-req-button";
 import { CheckCircleIcon } from "lucide-react";
 
-export const LoginApprovalCard = async ({
+export const LoginApprovalCard = ({
   anon_uid,
-  personal_number,
   date,
   approved,
+  name,
 }: {
   anon_uid: string;
-  personal_number: number;
   date: string;
   approved: boolean;
+  name: string;
 }) => {
-  const supabase = await createClient();
-  const profile = await supabase
-    .schema("api")
-    .from("profiles")
-    .select()
-    .eq("personal_number", personal_number)
-    .single();
-
   return (
     <Card className="max-w-3xl">
       <CardHeader className="items-center text-center relative">
         <CardTitle>
-          <H1>{profile.data?.name || personal_number}</H1>
+          <H1>{name || "s"}</H1>
         </CardTitle>
         <RemoveLoginReqButton anon_uid={anon_uid} />
       </CardHeader>
@@ -52,7 +45,9 @@ export const LoginApprovalCard = async ({
         )}
       </CardContent>
       <CardFooter className="flex flex-col items-center">
-        <P className="text-sm md:text-sm">{new Date(date).toLocaleString()}</P>
+        <P className="text-sm md:text-sm" suppressHydrationWarning>
+          {new Date(date).toLocaleString()}
+        </P>
       </CardFooter>
     </Card>
   );
