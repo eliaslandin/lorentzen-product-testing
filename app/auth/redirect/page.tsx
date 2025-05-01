@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // Page to redirect from client so auth cookie gets set
@@ -8,13 +8,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const effectHasRun = useRef(false);
 
   useEffect(() => {
-    if (!searchParams) {
-      router.push("/");
-    }
+    if (!effectHasRun.current) {
+      if (!searchParams) {
+        router.push("/");
+      }
 
-    const params = searchParams.toString();
-    router.push(`/auth/confirm?${params}`);
-  }, [searchParams, router]);
+      const params = searchParams.toString();
+      router.push(`/auth/confirm?${params}`);
+
+      effectHasRun.current = true;
+    }
+  }, [searchParams]);
 }
