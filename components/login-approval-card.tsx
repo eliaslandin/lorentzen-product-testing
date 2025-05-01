@@ -9,10 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
+import { LoginApprovalPasscodeForm } from "./login-approval-passcode-form";
+import { H2 } from "./H2";
+import { CrossIcon, XIcon } from "lucide-react";
 
 export const LoginApprovalCard = async ({
+  anon_uid,
   personal_number,
 }: {
+  anon_uid: string;
   personal_number: number;
 }) => {
   const supabase = await createClient();
@@ -25,22 +30,24 @@ export const LoginApprovalCard = async ({
 
   return (
     <Card className="max-w-3xl">
-      <CardHeader className="items-center text-center">
+      <CardHeader className="items-center text-center relative">
         <CardTitle>
-          <H1>{profile.data?.name || "Testperson hittades inte"}</H1>
+          <H1>{profile.data?.name || personal_number}</H1>
         </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col items-center py-6 md:py-8">
-        <P>Personnummer</P>
-        <span className="font-bold text-primary leading-none">
-          {personal_number}
-        </span>
-      </CardContent>
-      <CardFooter className="flex flex-col items-center">
-        <Button variant="outline" size="lg">
-          Neka
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute top-0 right-1.5 text-muted-foreground hover:text-primary"
+          title="Ta bort"
+        >
+          <XIcon className="w-5 h-5" />
         </Button>
-      </CardFooter>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2 items-center py-4 pb-0">
+        <P>Bekräftelsekod</P>
+        <LoginApprovalPasscodeForm anon_uid={anon_uid} />
+      </CardContent>
+      <CardFooter className="flex flex-col items-center"></CardFooter>
     </Card>
   );
 };
