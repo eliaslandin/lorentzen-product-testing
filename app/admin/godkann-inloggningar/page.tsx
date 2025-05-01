@@ -17,7 +17,10 @@ export default async function Page() {
   return (
     <View className="bg-muted gap-8 min-h-screen justify-center items-center">
       {logReqData.map((logInReq) => (
-        <LoginApprovalCard personal_number={logInReq.personal_number} />
+        <LoginApprovalCard
+          personal_number={logInReq.personal_number}
+          anon_uid={logInReq.anonymous_user_id}
+        />
       ))}
     </View>
   );

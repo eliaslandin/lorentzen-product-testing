@@ -45,7 +45,7 @@ export const LoginApprovalPasscodeForm = ({
             key={fields.passcode.key}
             name={fields.passcode.name}
             defaultValue={fields.passcode.initialValue}
-            maxLength={12}
+            maxLength={2}
             pattern={REGEXP_ONLY_DIGITS}
           >
             <InputOTPGroup>
