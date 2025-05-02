@@ -12,23 +12,44 @@ import {
 import { ApproveLoginReqForm } from "./approve-login-req-form";
 import { RemoveLoginReqButton } from "./remove-login-req-button";
 import { CheckCircleIcon } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
 export const LoginApprovalCard = ({
   anon_uid,
   date,
   approved,
-  name,
+  personal_number,
 }: {
   anon_uid: string;
   date: string;
   approved: boolean;
-  name: string;
+  personal_number: number;
 }) => {
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .schema("api")
+      .from("profiles")
+      .select()
+      .eq("personal_number", personal_number)
+      .single()
+      .then((res) => {
+        if (!res.error) {
+          setName(res.data.name);
+        } else {
+          setName("Testperson hittades inte");
+        }
+      });
+  }, [personal_number]);
+
   return (
     <Card className="max-w-3xl">
       <CardHeader className="items-center text-center relative">
         <CardTitle>
-          <H1>{name || "s"}</H1>
+          <H1>{name}</H1>
         </CardTitle>
         <RemoveLoginReqButton anon_uid={anon_uid} />
       </CardHeader>

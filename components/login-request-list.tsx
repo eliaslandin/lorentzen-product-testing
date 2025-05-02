@@ -10,10 +10,9 @@ type LoginRequest = Database["api"]["Tables"]["login_requests"]["Row"];
 export const LoginRequestList = ({
   initialData,
 }: {
-  initialData: (LoginRequest & { name: string })[];
+  initialData: LoginRequest[];
 }) => {
-  const [requests, setRequests] =
-    useState<(LoginRequest & { name: string })[]>(initialData);
+  const [requests, setRequests] = useState<LoginRequest[]>(initialData);
   const supabase = createClient();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export const LoginRequestList = ({
           if (payload) {
             if (payload.eventType === "INSERT") {
               const item = payload.new as LoginRequest;
-              setRequests((prev) => [{ ...item, name: "Test" }, ...prev]);
+              setRequests((prev) => [item, ...prev]);
             } else if (payload.eventType === "DELETE") {
               const item = payload.old as LoginRequest;
               const newReqs = requests.filter(
@@ -50,13 +49,13 @@ export const LoginRequestList = ({
 
   return (
     <>
-      {requests.map((logInReq) => (
+      {requests.map((loginReq) => (
         <LoginApprovalCard
-          key={logInReq.anonymous_user_id}
-          anon_uid={logInReq.anonymous_user_id}
-          date={logInReq.created_at}
-          approved={logInReq.approved}
-          name={logInReq.name}
+          key={loginReq.anonymous_user_id}
+          anon_uid={loginReq.anonymous_user_id}
+          date={loginReq.created_at}
+          approved={loginReq.approved}
+          personal_number={loginReq.personal_number}
         />
       ))}
     </>

@@ -8,11 +8,7 @@ export default async function Page() {
   const { data: logReqData, error: logReqError } = await supabase
     .schema("api")
     .from("login_requests")
-    .select(
-      `*,
-      ...profiles(name)
-    `,
-    )
+    .select()
     .order("created_at", { ascending: false });
 
   if (logReqError) {
