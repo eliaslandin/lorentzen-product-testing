@@ -32,10 +32,11 @@ export const LoginRequestList = ({
               setRequests((prev) => [item, ...prev]);
             } else if (payload.eventType === "DELETE") {
               const item = payload.old as LoginRequest;
-              const newReqs = requests.filter(
-                (req) => req.anonymous_user_id !== item.anonymous_user_id,
+              setRequests((prev) =>
+                prev.filter(
+                  (req) => req.anonymous_user_id !== item.anonymous_user_id,
+                ),
               );
-              setRequests(newReqs);
             }
           }
         },

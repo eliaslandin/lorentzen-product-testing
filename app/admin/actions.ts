@@ -238,8 +238,6 @@ export const removeLoginReqAction = async (
     .delete()
     .eq("anonymous_user_id", anon_uid);
 
-  revalidatePath("/admin/godkann-inloggningar");
-
   if (error) {
     console.error(error);
   }
