@@ -7,6 +7,8 @@ import { parseWithZod } from "@conform-to/zod";
 import { useActionState } from "react";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
+import { FormErrorMessage } from "./form-error-message";
+import { FormSubmitButton } from "./form-submit-button";
 import { Input } from "./ui/input";
 import { View } from "./view";
 import { P } from "./P";
@@ -116,6 +118,8 @@ export const PersonalInfoForm = ({
             />
           </View>
         </FormField>
+        <FormSubmitButton pending={pending}>Fortsätt</FormSubmitButton>
+        <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
     </form>
   );
