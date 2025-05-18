@@ -62,6 +62,7 @@ export const PersonalInfoForm = ({
             id={fields.tel.id}
             key={fields.tel.key}
             defaultValue={fields.tel.initialValue}
+            required
           />
         </FormField>
         <FormField
@@ -74,6 +75,7 @@ export const PersonalInfoForm = ({
             id={fields.address.id}
             key={fields.address.key}
             defaultValue={fields.address.initialValue}
+            required
           />
         </FormField>
         <FormField
@@ -86,6 +88,7 @@ export const PersonalInfoForm = ({
             id={fields.postal_code.id}
             key={fields.postal_code.key}
             defaultValue={fields.postal_code.initialValue}
+            required
           />
         </FormField>
         <FormField
@@ -99,6 +102,7 @@ export const PersonalInfoForm = ({
               id={fields.terms_accepted.id}
               key={fields.terms_accepted.key}
               defaultChecked={fields.terms_accepted.initialValue === "true"}
+              required
             />
           </View>
         </FormField>
@@ -115,6 +119,7 @@ export const PersonalInfoForm = ({
               defaultChecked={
                 fields.privacy_policy_accepted.initialValue === "true"
               }
+              required
             />
           </View>
         </FormField>
