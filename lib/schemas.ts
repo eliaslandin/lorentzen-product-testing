@@ -36,3 +36,14 @@ export const approveLoginSchema = z.object({
   pair_code: z.number().max(99),
   anon_uid: z.string().uuid(),
 });
+
+export const addPersonalInfoSchema = z.object({
+  user_id: z.string().uuid(),
+  test_id: z.number(),
+  email: z.string().email("Ogiltig epostadress").optional(),
+  tel: z.string().max(16, "Ogiltigt telefonnummer"),
+  address: stringMax255Schema,
+  postal_code: z.string().max(16, "Ogiltigt postnummer"),
+  terms_accepted: z.literal<boolean>(true),
+  gdpr_accepted: z.literal<boolean>(true),
+});
