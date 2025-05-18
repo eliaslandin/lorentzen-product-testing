@@ -130,10 +130,10 @@ export type Database = {
           address: string | null
           created_at: string
           email: string | null
-          gdpr_accepted: boolean
-          gdpr_accepted_at: string
           id: number
           postal_code: string | null
+          privacy_policy_accepted: boolean
+          privacy_policy_accepted_at: string
           tel: string | null
           terms_accepted: boolean
           terms_accepted_at: string
@@ -144,10 +144,10 @@ export type Database = {
           address?: string | null
           created_at?: string
           email?: string | null
-          gdpr_accepted: boolean
-          gdpr_accepted_at?: string
           id?: never
           postal_code?: string | null
+          privacy_policy_accepted: boolean
+          privacy_policy_accepted_at?: string
           tel?: string | null
           terms_accepted: boolean
           terms_accepted_at?: string
@@ -158,10 +158,10 @@ export type Database = {
           address?: string | null
           created_at?: string
           email?: string | null
-          gdpr_accepted?: boolean
-          gdpr_accepted_at?: string
           id?: never
           postal_code?: string | null
+          privacy_policy_accepted?: boolean
+          privacy_policy_accepted_at?: string
           tel?: string | null
           terms_accepted?: boolean
           terms_accepted_at?: string
