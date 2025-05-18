@@ -125,6 +125,66 @@ export type Database = {
         }
         Relationships: []
       }
+      personal_info_submissions: {
+        Row: {
+          address: string | null
+          created_at: string
+          email: string | null
+          gdpr_accepted: boolean
+          gdpr_accepted_at: string
+          id: number
+          postal_code: string | null
+          tel: string | null
+          terms_accepted: boolean
+          terms_accepted_at: string
+          test_id: number
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          gdpr_accepted: boolean
+          gdpr_accepted_at?: string
+          id?: never
+          postal_code?: string | null
+          tel?: string | null
+          terms_accepted: boolean
+          terms_accepted_at?: string
+          test_id: number
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          gdpr_accepted?: boolean
+          gdpr_accepted_at?: string
+          id?: never
+          postal_code?: string | null
+          tel?: string | null
+          terms_accepted?: boolean
+          terms_accepted_at?: string
+          test_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "personal_info_submissions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "personal_info_submissions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
