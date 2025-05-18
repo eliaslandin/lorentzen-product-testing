@@ -48,6 +48,7 @@ export const PersonalInfoForm = ({
           <Input
             type="email"
             id={fields.email.id}
+            name={fields.email.name}
             key={fields.email.key}
             defaultValue={fields.email.initialValue}
           />
@@ -60,6 +61,7 @@ export const PersonalInfoForm = ({
           <Input
             type="tel"
             id={fields.tel.id}
+            name={fields.tel.name}
             key={fields.tel.key}
             defaultValue={fields.tel.initialValue}
             required
@@ -73,6 +75,7 @@ export const PersonalInfoForm = ({
           <Input
             type="text"
             id={fields.address.id}
+            name={fields.address.name}
             key={fields.address.key}
             defaultValue={fields.address.initialValue}
             required
@@ -86,6 +89,7 @@ export const PersonalInfoForm = ({
           <Input
             type="text"
             id={fields.postal_code.id}
+            name={fields.postal_code.name}
             key={fields.postal_code.key}
             defaultValue={fields.postal_code.initialValue}
             required
@@ -100,9 +104,9 @@ export const PersonalInfoForm = ({
             <P>Jag godkänner användarvillkoren:</P>
             <Checkbox
               id={fields.terms_accepted.id}
+              name={fields.terms_accepted.name}
               key={fields.terms_accepted.key}
               defaultChecked={fields.terms_accepted.initialValue === "true"}
-              required
             />
           </View>
         </FormField>
@@ -115,11 +119,11 @@ export const PersonalInfoForm = ({
             <P>Jag godkänner integritetspolicyn:</P>
             <Checkbox
               id={fields.privacy_policy_accepted.id}
+              name={fields.privacy_policy_accepted.name}
               key={fields.privacy_policy_accepted.key}
               defaultChecked={
                 fields.privacy_policy_accepted.initialValue === "true"
               }
-              required
             />
           </View>
         </FormField>
