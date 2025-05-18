@@ -118,6 +118,20 @@ export const PersonalInfoForm = ({
             />
           </View>
         </FormField>
+        <input
+          type="hidden"
+          id={fields.user_id.id}
+          key={fields.user_id.key}
+          name={fields.user_id.name}
+          value={userId}
+        />
+        <input
+          type="hidden"
+          id={fields.test_id.id}
+          key={fields.test_id.key}
+          name={fields.test_id.name}
+          value={testId}
+        />
         <FormSubmitButton pending={pending}>Fortsätt</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
