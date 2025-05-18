@@ -1,10 +1,35 @@
 import { H1 } from "@/components/H1";
+import { PersonalInfoForm } from "@/components/personal-info-form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { View } from "@/components/view";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) {
+  const { id: testId } = await params;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error("Servererror");
+  }
+
   return (
     <View className="min-h-screen bg-muted items-center">
-      <H1>Personlig information</H1>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <H1>Personlig information</H1>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PersonalInfoForm userId={data.user.id} testId={testId} />
+        </CardContent>
+      </Card>
     </View>
   );
 }
