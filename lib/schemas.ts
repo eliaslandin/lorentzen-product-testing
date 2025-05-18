@@ -45,5 +45,5 @@ export const addPersonalInfoSchema = z.object({
   address: stringMax255Schema,
   postal_code: z.string().max(16, "Ogiltigt postnummer"),
   terms_accepted: z.literal<boolean>(true),
-  gdpr_accepted: z.literal<boolean>(true),
+  privacy_policy_accepted: z.literal<boolean>(true),
 });
