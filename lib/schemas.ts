@@ -44,6 +44,14 @@ export const addPersonalInfoSchema = z.object({
   tel: z.string().max(16, "Ogiltigt telefonnummer"),
   address: stringMax255Schema,
   postal_code: z.string().max(16, "Ogiltigt postnummer"),
-  terms_accepted: z.literal<boolean>(true),
-  privacy_policy_accepted: z.literal<boolean>(true),
+  terms_accepted: z
+    .boolean({ required_error: "Måste acceptera användarvillkoren" })
+    .refine((val) => val, {
+      message: "Måste acceptera användarvillkoren",
+    }),
+  privacy_policy_accepted: z
+    .boolean({ required_error: "Måste acceptera integritetspolicyn" })
+    .refine((val) => val, {
+      message: "Måste acceptera integritetspolicyn",
+    }),
 });
