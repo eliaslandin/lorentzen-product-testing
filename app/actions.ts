@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { requestLoginSchema } from "@/lib/schemas";
+import { addPersonalInfoSchema, requestLoginSchema } from "@/lib/schemas";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 
 export const signUpAction = async (formData: FormData) => {
@@ -270,4 +270,33 @@ export const requestLoginAction = async (
   redirect(
     `${origin}/auth/redirect?type=email&token_hash=${magicLinkData.properties.hashed_token}&next=${encodeURIComponent("/invanta-bekraftning")}`,
   );
+};
+
+export const addPersonalInfoAction = async (
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const submission = parseWithZod(formData, { schema: addPersonalInfoSchema });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  console.log("Input successfully validated.");
+
+  console.log("Attempting to add personal info submission to database...");
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("personal_info_submissions")
+    .insert({
+      ...submission.value,
+    });
+
+  if (error) {
+    console.error(
+      `Failed to add personal info to database. Error: ${JSON.stringify(error)}`,
+    );
+    throw new Error("Servererror");
+  }
 };
