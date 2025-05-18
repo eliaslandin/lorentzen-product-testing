@@ -284,8 +284,57 @@ export const addPersonalInfoAction = async (
 
   console.log("Input successfully validated.");
 
-  console.log("Attempting to add personal info submission to database...");
+  // Check that user is registered on the test
+  console.log("Attempting to check if user is part of test...");
   const supabase = await createClient();
+  const { data: testData, error: testError } = await supabase
+    .schema("api")
+    .from("user_test_relations")
+    .select(
+      `
+        test_id,
+        ...tests(active)
+      `,
+    )
+    .eq("user_id", submission.value.user_id);
+
+  if (testError) {
+    console.error(
+      `Could not get user's tests from database. Error: ${JSON.stringify(testError)}`,
+    );
+    throw new Error("Servererror");
+  }
+
+  const userIsInTest = testData.some(
+    (test) => test.test_id === submission.value.test_id,
+  );
+
+  if (!userIsInTest) {
+    console.log(
+      `User is not part of test. Received user ID: ${submission.value.user_id}. Received test ID: ${submission.value.test_id}.`,
+    );
+    throw new Error("Personen är inte registrerad i testet");
+  }
+
+  console.log("User is part of test!");
+
+  // Check that the test is active
+  console.log("Attempting to check if test is active...");
+  const testIsActive = testData.find(
+    (test) => test.test_id === submission.value.test_id,
+  )?.active;
+
+  if (!testIsActive) {
+    console.error(
+      `Test is not active. Received test ID: ${submission.value.test_id}.`,
+    );
+    throw new Error("Dålig förfrågan till servern");
+  }
+
+  console.log("Test is active!");
+
+  // Adding personal info submission to database
+  console.log("Attempting to add personal info submission to database...");
   const { error } = await supabase
     .schema("api")
     .from("personal_info_submissions")
@@ -299,4 +348,6 @@ export const addPersonalInfoAction = async (
     );
     throw new Error("Servererror");
   }
+
+  console.log("Successfully added personal info submission to database!");
 };
