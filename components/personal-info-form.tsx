@@ -10,6 +10,7 @@ import { FormField } from "./form-field";
 import { Input } from "./ui/input";
 import { View } from "./view";
 import { P } from "./P";
+import { Checkbox } from "./ui/checkbox";
 
 export const PersonalInfoForm = ({
   userId,
@@ -92,8 +93,7 @@ export const PersonalInfoForm = ({
         >
           <View className="flex-row gap-4 items-center">
             <P>Jag godkänner användarvillkoren:</P>
-            <Input
-              type="checkbox"
+            <Checkbox
               id={fields.terms_accepted.id}
               key={fields.terms_accepted.key}
               defaultChecked={fields.terms_accepted.initialValue === "true"}
@@ -107,8 +107,7 @@ export const PersonalInfoForm = ({
         >
           <View className="flex-row gap-4 items-center">
             <P>Jag godkänner integritetspolicyn:</P>
-            <Input
-              type="checkbox"
+            <Checkbox
               id={fields.privacy_policy_accepted.id}
               key={fields.privacy_policy_accepted.key}
               defaultChecked={
