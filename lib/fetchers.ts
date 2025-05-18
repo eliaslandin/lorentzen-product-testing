@@ -100,3 +100,26 @@ export const getTestsTestPersons = cache(
       .range((page - 1) * pageSize, (page - 1) * pageSize + pageSize - 1);
   },
 );
+
+export const getPersonalInfo = async (user_id: string) => {
+  const supabase = await createClient();
+  const { data: profileData, error: profileError } = await supabase
+    .schema("api")
+    .from("profiles")
+    .select(
+      `
+      personal_info_submissions (
+          *
+        )
+      `,
+    )
+    .eq("id", user_id)
+    .single();
+
+  if (profileError) {
+    console.error(
+      `Could not get profile from database. Error: ${JSON.stringify(profileError)}`,
+    );
+    throw new Error("Servererror");
+  }
+};
