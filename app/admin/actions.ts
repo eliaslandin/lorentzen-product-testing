@@ -247,7 +247,10 @@ export const removeLoginReqAction = async (
   };
 };
 
-export const toggleTestActiveAction = async (id: number) => {
+export const toggleTestActiveAction = async (
+  prevState: unknown,
+  id: number,
+) => {
   const supabase = await createClient();
   const { data: testData, error: testError } = await supabase
     .schema("api")
