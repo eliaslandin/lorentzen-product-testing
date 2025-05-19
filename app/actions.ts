@@ -287,25 +287,20 @@ export const addPersonalInfoAction = async (
   // Check that user is registered on the test
   console.log("Attempting to check if user is part of test...");
   const supabase = await createClient();
-  const { data: testData, error: testError } = await supabase
+  const { data: usersTestData, error: usersTestError } = await supabase
     .schema("api")
     .from("user_test_relations")
-    .select(
-      `
-        test_id,
-        ...tests(active)
-      `,
-    )
+    .select("test_id")
     .eq("user_id", submission.value.user_id);
 
-  if (testError) {
+  if (usersTestError) {
     console.error(
-      `Could not get user's tests from database. Error: ${JSON.stringify(testError)}`,
+      `Could not get user's tests from database. Error: ${JSON.stringify(usersTestError)}`,
     );
     throw new Error("Servererror");
   }
 
-  const userIsInTest = testData.some(
+  const userIsInTest = usersTestData.some(
     (test) => test.test_id === submission.value.test_id,
   );
 
@@ -320,8 +315,22 @@ export const addPersonalInfoAction = async (
 
   // Check that the test is active
   console.log("Attempting to check if test is active...");
+  const supabaseServiceRole = await createServiceRoleClient();
+  const { data: testData, error: testError } = await supabaseServiceRole
+    .schema("api")
+    .from("tests")
+    .select("id, active")
+    .eq("id", submission.value.test_id);
+
+  if (testError) {
+    console.error(
+      `Could not retrieve test from database. Error: ${JSON.stringify(testError)}`,
+    );
+    throw new Error("Servererror");
+  }
+
   const testIsActive = testData.find(
-    (test) => test.test_id === submission.value.test_id,
+    (test) => test.id === submission.value.test_id,
   )?.active;
 
   if (!testIsActive) {
