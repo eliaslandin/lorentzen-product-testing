@@ -9,28 +9,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { View } from "@/components/view";
-import { getTest } from "@/lib/fetchers";
 import { Building2Icon, CalendarIcon, MapPinIcon } from "lucide-react";
+import { getTest } from "@/lib/fetchers";
+import { QueryData } from "@supabase/supabase-js";
 
-export const TestInfoSection = async ({ id }: { id: number }) => {
-  const { data, error } = await getTest(id);
+type Test = QueryData<ReturnType<typeof getTest>>;
 
-  if (error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        {error.message}
-      </div>
-    );
-  }
-
+export const TestInfoSection = async ({ test }: { test: Test }) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          <H1>{data.name}</H1>
+          <H1>{test.name}</H1>
         </CardTitle>
-        <CardDescription>{data.description}</CardDescription>
+        <CardDescription>{test.description}</CardDescription>
       </CardHeader>
       <CardContent>
         <View className="md:flex-row md:justify-between gap-4">
@@ -38,14 +30,14 @@ export const TestInfoSection = async ({ id }: { id: number }) => {
             <H2>Stad</H2>
             <View className="flex-row gap-2 items-center">
               <MapPinIcon className="w-4 h-4" />
-              <P>{data.city_name}</P>
+              <P>{test.city_name}</P>
             </View>
           </View>
           <View>
             <H2>Företag</H2>
             <View className="flex-row gap-2 items-center">
               <Building2Icon className="w-4 h-4" />
-              <P>{data.company_name}</P>
+              <P>{test.company_name}</P>
             </View>
           </View>
           <View>
@@ -53,8 +45,8 @@ export const TestInfoSection = async ({ id }: { id: number }) => {
             <View className="flex-row gap-2 items-center">
               <CalendarIcon className="w-4 h-4" />
               <P>
-                {data.date
-                  ? new Date(data.date).toLocaleDateString()
+                {test.date
+                  ? new Date(test.date).toLocaleDateString()
                   : "Inget datum valt"}
               </P>
             </View>

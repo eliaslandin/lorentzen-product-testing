@@ -30,7 +30,7 @@ export default async function Page({
   return (
     <View className="gap-4">
       <Suspense fallback={<LoadingCard />}>
-        <TestInfoSection id={id} />
+        <TestInfoSection test={test} />
       </Suspense>
       <UnlockTestButton testId={test.id} testIsActive={test.active} />
       <View>
