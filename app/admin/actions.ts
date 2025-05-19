@@ -246,3 +246,33 @@ export const removeLoginReqAction = async (
     error: error ? "Servererror" : null,
   };
 };
+
+export const toggleTestActiveAction = async (id: number) => {
+  const supabase = await createClient();
+  const { data: testData, error: testError } = await supabase
+    .schema("api")
+    .from("tests")
+    .select("active")
+    .eq("id", id)
+    .single();
+
+  if (testError) {
+    console.error(
+      `Couldn't retrieve test. Error: ${JSON.stringify(testError)}`,
+    );
+    throw new Error("Servererror");
+  }
+
+  const { error } = await supabase
+    .schema("api")
+    .from("tests")
+    .update({ active: !testData.active })
+    .eq("id", id);
+
+  if (error) {
+    console.error(
+      `Couldn't update test's active status. Error: ${JSON.stringify(error)}`,
+    );
+    throw new Error("Servererror");
+  }
+};
