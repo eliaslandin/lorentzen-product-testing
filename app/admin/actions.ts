@@ -255,13 +255,27 @@ export const toggleTestActiveAction = async (
   const { data: testData, error: testError } = await supabase
     .schema("api")
     .from("tests")
-    .select("active")
+    .select("id, active")
     .eq("id", id)
     .single();
 
   if (testError) {
     console.error(
       `Couldn't retrieve test. Error: ${JSON.stringify(testError)}`,
+    );
+    throw new Error("Servererror");
+  }
+
+  const { error: oldActiveError } = await supabase
+    .schema("api")
+    .from("tests")
+    .update({ active: false })
+    .eq("active", true)
+    .neq("id", testData.id);
+
+  if (oldActiveError) {
+    console.error(
+      `Couldn't deactivate potential existing active test. Error: ${JSON.stringify(oldActiveError)}`,
     );
     throw new Error("Servererror");
   }
