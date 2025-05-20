@@ -292,4 +292,6 @@ export const toggleTestActiveAction = async (
     );
     throw new Error("Servererror");
   }
+
+  revalidatePath("/admin/tester");
 };
