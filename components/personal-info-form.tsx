@@ -30,8 +30,6 @@ export const PersonalInfoForm = ({
     undefined,
   );
 
-  console.log(initialData);
-
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -113,7 +111,7 @@ export const PersonalInfoForm = ({
               id={fields.terms_accepted.id}
               name={fields.terms_accepted.name}
               key={fields.terms_accepted.key}
-              defaultChecked={fields.terms_accepted.initialValue === "true"}
+              defaultChecked={!!fields.terms_accepted.initialValue}
             />
           </View>
         </FormField>
@@ -128,9 +126,7 @@ export const PersonalInfoForm = ({
               id={fields.privacy_policy_accepted.id}
               name={fields.privacy_policy_accepted.name}
               key={fields.privacy_policy_accepted.key}
-              defaultChecked={
-                fields.privacy_policy_accepted.initialValue === "true"
-              }
+              defaultChecked={!!fields.privacy_policy_accepted.initialValue}
             />
           </View>
         </FormField>
