@@ -41,9 +41,9 @@ export const addPersonalInfoSchema = z.object({
   user_id: z.string().uuid(),
   test_id: z.number(),
   email: z.string().email("Ogiltig epostadress").optional(),
-  tel: z.string().max(16, "Ogiltigt telefonnummer"),
+  tel: nonEmptyStringSchema.max(16, "Ogiltigt telefonnummer"),
   address: stringMax255Schema,
-  postal_code: z.string().max(16, "Ogiltigt postnummer"),
+  postal_code: nonEmptyStringSchema.max(16, "Ogiltigt postnummer"),
   terms_accepted: z
     .boolean({ required_error: "Måste acceptera användarvillkoren" })
     .refine((val) => val, {
