@@ -113,3 +113,14 @@ export const getPersonalInfoSubmission = cache(
       .single();
   },
 );
+
+export const getMostRecentPersonalInfo = cache(async (userId: string) => {
+  const supabase = await createClient();
+  return await supabase
+    .schema("api")
+    .from("personal_info_submissions")
+    .select()
+    .eq("user_id", userId)
+    .order("created_at")
+    .single();
+});
