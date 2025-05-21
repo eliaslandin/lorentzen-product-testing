@@ -4,6 +4,8 @@ import { startTransition, useActionState } from "react";
 import { Button } from "./ui/button";
 import { toggleTestActiveAction } from "@/app/admin/actions";
 import { Spinner } from "./spinner";
+import { cn } from "@/lib/utils";
+import { DoorClosedIcon, DoorOpenIcon } from "lucide-react";
 
 export const UnlockTestButton = ({
   testId,
@@ -18,14 +20,25 @@ export const UnlockTestButton = ({
     <Button
       onClick={() => startTransition(() => formAction(testId))}
       disabled={pending}
-      variant={testIsActive ? "default" : "outline"}
+      variant={"default"}
+      size="lg"
+      className={cn(
+        "w-full max-w-md gap-2 md:text-lg",
+        testIsActive ? "" : "text-white bg-green-600 hover:bg-green-600/90",
+      )}
     >
       {pending ? (
         <Spinner />
       ) : testIsActive ? (
-        "Stäng för deltagare"
+        <>
+          <DoorClosedIcon />
+          Stäng för deltagare
+        </>
       ) : (
-        "Öppna för deltagare"
+        <>
+          <DoorOpenIcon />
+          Öppna för deltagare
+        </>
       )}
     </Button>
   );

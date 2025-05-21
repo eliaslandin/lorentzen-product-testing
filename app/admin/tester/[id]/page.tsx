@@ -28,7 +28,7 @@ export default async function Page({
   }
 
   return (
-    <View className="gap-4">
+    <View className="gap-4 items-center">
       <Suspense fallback={<LoadingCard />}>
         <TestInfoSection test={test} />
       </Suspense>
