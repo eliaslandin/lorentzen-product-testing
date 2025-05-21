@@ -347,9 +347,14 @@ export const addPersonalInfoAction = async (
   const { error } = await supabase
     .schema("api")
     .from("personal_info_submissions")
-    .insert({
-      ...submission.value,
-    });
+    .upsert(
+      {
+        ...submission.value,
+      },
+      {
+        onConflict: "user_id, test_id",
+      },
+    );
 
   if (error) {
     console.error(
