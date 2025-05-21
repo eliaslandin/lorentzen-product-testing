@@ -101,25 +101,24 @@ export const getTestsTestPersons = cache(
   },
 );
 
-export const getPersonalInfo = async (user_id: string) => {
-  const supabase = await createClient();
-  const { data: profileData, error: profileError } = await supabase
-    .schema("api")
-    .from("profiles")
-    .select(
-      `
-      personal_info_submissions (
-          *
-        )
-      `,
-    )
-    .eq("id", user_id)
-    .single();
+export const getPersonalInfoSubmission = cache(
+  async (userId: string, testId: number) => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .schema("api")
+      .from("personal_info_submissions")
+      .select()
+      .eq("user_id", userId)
+      .eq("test_id", testId)
+      .single();
 
-  if (profileError) {
-    console.error(
-      `Could not get profile from database. Error: ${JSON.stringify(profileError)}`,
-    );
-    throw new Error("Servererror");
-  }
-};
+    if (error) {
+      console.error(
+        `Couldn't get personal info. Error: ${JSON.stringify(error)}`,
+      );
+      throw new Error("Servererror");
+    }
+
+    return data;
+  },
+);
