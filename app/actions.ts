@@ -308,7 +308,9 @@ export const addPersonalInfoAction = async (
     console.log(
       `User is not part of test. Received user ID: ${submission.value.user_id}. Received test ID: ${submission.value.test_id}.`,
     );
-    throw new Error("Personen är inte registrerad i testet");
+    return submission.reply({
+      formErrors: ["Personen är inte tillagd i testet"],
+    });
   }
 
   console.log("User is part of test!");
@@ -337,7 +339,9 @@ export const addPersonalInfoAction = async (
     console.error(
       `Test is not active. Received test ID: ${submission.value.test_id}.`,
     );
-    throw new Error("Dålig förfrågan till servern");
+    return submission.reply({
+      formErrors: ["Testet är inte öppet"],
+    });
   }
 
   console.log("Test is active!");
