@@ -104,21 +104,12 @@ export const getTestsTestPersons = cache(
 export const getPersonalInfoSubmission = cache(
   async (userId: string, testId: number) => {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    return await supabase
       .schema("api")
       .from("personal_info_submissions")
       .select()
       .eq("user_id", userId)
       .eq("test_id", testId)
       .single();
-
-    if (error) {
-      console.error(
-        `Couldn't get personal info. Error: ${JSON.stringify(error)}`,
-      );
-      throw new Error("Servererror");
-    }
-
-    return data;
   },
 );

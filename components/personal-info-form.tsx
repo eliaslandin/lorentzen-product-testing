@@ -13,18 +13,24 @@ import { Input } from "./ui/input";
 import { View } from "./view";
 import { P } from "./P";
 import { Checkbox } from "./ui/checkbox";
+import { QueryData } from "@supabase/supabase-js";
+import { getPersonalInfoSubmission } from "@/lib/fetchers";
 
 export const PersonalInfoForm = ({
   userId,
   testId,
+  initialData,
 }: {
   userId: string;
   testId: number;
+  initialData: QueryData<ReturnType<typeof getPersonalInfoSubmission>> | null;
 }) => {
   const [lastResult, formAction, pending] = useActionState(
     addPersonalInfoAction,
     undefined,
   );
+
+  console.log(initialData);
 
   const [form, fields] = useForm({
     lastResult,
@@ -35,6 +41,7 @@ export const PersonalInfoForm = ({
     },
     shouldRevalidate: "onInput",
     shouldValidate: "onBlur",
+    defaultValue: initialData,
   });
 
   return (
