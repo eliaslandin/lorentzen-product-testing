@@ -1,7 +1,6 @@
 import { H1 } from "@/components/H1";
 import { PersonalInfoForm } from "@/components/personal-info-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { View } from "@/components/view";
 import { getPersonalInfoSubmission } from "@/lib/fetchers";
 import { createClient } from "@/utils/supabase/server";
 
@@ -29,21 +28,19 @@ export default async function Page({
   }
 
   return (
-    <View className="min-h-screen bg-muted items-center">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <H1>Personlig information</H1>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <PersonalInfoForm
-            userId={userData.user.id}
-            testId={testId}
-            initialData={persInfoData}
-          />
-        </CardContent>
-      </Card>
-    </View>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <H1>Personlig information</H1>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <PersonalInfoForm
+          userId={userData.user.id}
+          testId={testId}
+          initialData={persInfoData}
+        />
+      </CardContent>
+    </Card>
   );
 }
