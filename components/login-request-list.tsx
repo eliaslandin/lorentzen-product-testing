@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { Database } from "@/lib/database.types";
 import { LoginApprovalCard } from "./login-approval-card";
 import { createClient } from "@/utils/supabase/client";
+import { View } from "./view";
+import { P } from "./P";
+import { UserRoundIcon } from "lucide-react";
 
 type LoginRequest = Database["api"]["Tables"]["login_requests"]["Row"];
 
@@ -59,6 +62,13 @@ export const LoginRequestList = ({
           personal_number={loginReq.personal_number}
         />
       ))}
+
+      {requests.length === 0 && (
+        <View className="items-center gap-4 mt-20 px-4 max-w-xs text-center">
+          <UserRoundIcon className="bg-gray-200 animate-pulse p-3 rounded-full h-8 w-8 box-content" />
+          <P>Testpersoner som försöker logga in dyker upp här automatiskt</P>
+        </View>
+      )}
     </>
   );
 };
