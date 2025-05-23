@@ -4,7 +4,7 @@ import { Database } from "@/lib/database.types";
 import { Button } from "./ui/button";
 import { useActionState, startTransition } from "react";
 import { addPersonToTestAction } from "@/app/admin/actions";
-import { MapPinIcon, UserRoundIcon } from "lucide-react";
+import { CheckCircleIcon, MapPinIcon, UserRoundIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { View } from "./view";
 
@@ -58,11 +58,7 @@ export const AddPersonToTestButton = ({
         </div>
       }
 
-      {alreadyAdded && (
-        <p className="bg-secondary text-secondary-foreground rounded-full px-3">
-          Tillagd
-        </p>
-      )}
+      {alreadyAdded && <CheckCircleIcon className="w-4 h-4 text-green-500" />}
     </Button>
   );
 };
