@@ -297,7 +297,9 @@ export const addPersonalInfoAction = async (
     console.error(
       `Could not get user's tests from database. Error: ${JSON.stringify(usersTestError)}`,
     );
-    throw new Error("Servererror");
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
   }
 
   const userIsInTest = usersTestData.some(
@@ -328,7 +330,9 @@ export const addPersonalInfoAction = async (
     console.error(
       `Could not retrieve test from database. Error: ${JSON.stringify(testError)}`,
     );
-    throw new Error("Servererror");
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
   }
 
   const testIsActive = testData.find(
@@ -364,7 +368,9 @@ export const addPersonalInfoAction = async (
     console.error(
       `Failed to add personal info to database. Error: ${JSON.stringify(error)}`,
     );
-    throw new Error("Servererror");
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
   }
 
   console.log("Successfully added personal info submission to database!");
