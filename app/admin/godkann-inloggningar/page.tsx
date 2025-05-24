@@ -9,7 +9,7 @@ export default async function Page() {
     .schema("api")
     .from("login_requests")
     .select()
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (logReqError) {
     throw new Error("Servererror");

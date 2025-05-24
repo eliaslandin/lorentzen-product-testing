@@ -32,7 +32,7 @@ export const LoginRequestList = ({
           if (payload) {
             if (payload.eventType === "INSERT") {
               const item = payload.new as LoginRequest;
-              setRequests((prev) => [item, ...prev]);
+              setRequests((prev) => [...prev, item]);
             } else if (payload.eventType === "DELETE") {
               const item = payload.old as LoginRequest;
               setRequests((prev) =>
