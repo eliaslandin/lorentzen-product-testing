@@ -11,11 +11,16 @@ import {
 import { View } from "@/components/view";
 import { Building2Icon, CalendarIcon, MapPinIcon } from "lucide-react";
 import { getTest } from "@/lib/fetchers";
-import { QueryData } from "@supabase/supabase-js";
+import { UnlockTestButton } from "./unlock-test-button";
 
-type Test = QueryData<ReturnType<typeof getTest>>;
+export const TestInfoSection = async ({ id }: { id: number }) => {
+  const { data: test, error } = await getTest(id);
 
-export const TestInfoSection = async ({ test }: { test: Test }) => {
+  if (error) {
+    console.error(`Couldn't get test. Error: ${JSON.stringify(error)}`);
+    throw new Error("Servererror");
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -51,6 +56,9 @@ export const TestInfoSection = async ({ test }: { test: Test }) => {
               </P>
             </View>
           </View>
+        </View>
+        <View className="items-center mt-8">
+          <UnlockTestButton testId={id} testIsActive={test.active} />
         </View>
       </CardContent>
     </Card>
