@@ -7,7 +7,7 @@ BEGIN
   RETURN EXISTS (
     SELECT 1
     FROM api.tests
-    WHERE id = test_id AND active = TRUE;
+    WHERE id = test_id AND active = TRUE
   );
 END;
 $$;
