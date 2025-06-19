@@ -1,7 +1,7 @@
 BEGIN;
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA EXTENSIONS;
 
-SELECT plan(7);
+SELECT plan(9);
 
 INSERT INTO auth.users (id, email) 
 VALUES	('123e4567-e89b-12d3-a456-426614174000', 'user1@test.com'),
@@ -22,11 +22,12 @@ VALUES
 ('123e4567-e89b-12d3-a456-426614174000', 1),
 ('123e4567-e89b-12d3-a456-426614174000', 2);
 
-INSERT INTO api.products (name, description, test_id)
+INSERT INTO api.products (id, name, description, test_id)
+OVERRIDING SYSTEM VALUE
 VALUES
-('Test 1 Product 1', 'T1P1 Desc...', 1),
-('Test 1 Product 2', 'T1P2 Desc...', 1),
-('Test 2 Product 1', 'T2P1 Desc...', 2);
+(1, 'Test 1 Product 1', 'T1P1 Desc...', 1),
+(2, 'Test 1 Product 2', 'T1P2 Desc...', 1),
+(3, 'Test 2 Product 1', 'T2P1 Desc...', 2);
 
 -- as User 1
 SET LOCAL ROLE authenticated;
@@ -63,17 +64,21 @@ SELECT results_eq(
 );
 
 SELECT throws_ok(
-	$$ INSERT INTO api.products (name, test_id) VALUES ('User Created Product', 1) $$,
-	'Users should not be able to create products'
+	$$ INSERT INTO api.products (name, test_id) VALUES ('User Created Product', 1) RETURNING 1 $$,
+	'42501',
+	'new row violates row-level security policy for table "products"',
+	'Users should not be able to insert products'
 );
 
-SELECT throws_ok(
-	$$ UPDATE api.products SET name = 'User Updated Product' WHERE id = 1 $$,
+SELECT results_ne(
+	$$ UPDATE api.products SET name = 'User Updated Product' WHERE id = 1 RETURNING 1 $$,
+	'VALUES (1)',
 	'Users should not be able to update products'
 );
 
-SELECT throws_ok(
-	$$ DELETE FROM api.products WHERE id = 1 $$,
+SELECT results_ne(
+	$$ DELETE FROM api.products WHERE id = 1 RETURNING 1 $$,
+	'VALUES (1)',
 	'Users should not be able to delete products'
 );
 
@@ -82,7 +87,7 @@ SET LOCAL request.jwt.claim.sub = '987fcdeb-51a2-43d7-9012-345678901234';
 
 SELECT results_eq(
 	$$ SELECT COUNT(*) FROM api.products $$,
-	ARRAY[0],
+	ARRAY[0::BIGINT],
 	'Users not part of active test should not be able to view test products'
 );
 
