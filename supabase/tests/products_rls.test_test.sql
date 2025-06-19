@@ -31,8 +31,13 @@ SET LOCAL request.jwt.claim.sub = '123e4567-e89b-12d3-a456-426614174000';
 
 SELECT results_eq(
 	$$SELECT COUNT(*) FROM api.products$$,
-	2,
+	ARRAY[2::BIGINT],
 	'Users part of active test can view test products'
+);
+
+SELECT throws_ok(
+	$$INSERT INTO api.products (name, test_id) VALUES ('User Created Product', 1)$$,
+	'Users can not create products'
 );
 
 SELECT * FROM finish();
