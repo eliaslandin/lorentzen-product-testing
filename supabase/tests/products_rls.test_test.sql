@@ -40,5 +40,15 @@ SELECT throws_ok(
 	'Users can not create products'
 );
 
+-- as User 2
+SET LOCAL request.jwt.claim.sub = '987fcdeb-51a2-43d7-9012-345678901234';
+
+SELECT results_ne(
+	$$SELECT COUNT(*) FROM api.products$$,
+	ARRAY[2::BIGINT],
+	'Users not part of active test cant view test products'
+);
+
+
 SELECT * FROM finish();
 ROLLBACK;
