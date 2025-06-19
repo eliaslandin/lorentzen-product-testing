@@ -1,7 +1,7 @@
 BEGIN;
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA EXTENSIONS;
 
-SELECT plan(1);
+SELECT plan(7);
 
 INSERT INTO auth.users (id, email) 
 VALUES	('123e4567-e89b-12d3-a456-426614174000', 'user1@test.com'),
