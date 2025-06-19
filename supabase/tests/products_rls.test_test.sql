@@ -66,6 +66,16 @@ SELECT throws_ok(
 	'Users should not be able to create products'
 );
 
+SELECT throws_ok(
+	$$ UPDATE api.products SET name = 'User Updated Product' WHERE id = 1 $$,
+	'Users should not be able to update products'
+);
+
+SELECT throws_ok(
+	$$ DELETE FROM api.products WHERE id = 1 $$,
+	'Users should not be able to delete products'
+);
+
 -- as User 2
 SET LOCAL request.jwt.claim.sub = '987fcdeb-51a2-43d7-9012-345678901234';
 
