@@ -1,0 +1,2 @@
+ALTER TABLE api.products
+ADD created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL;
