@@ -1,5 +1,6 @@
 import { LoadingCard } from "@/components/loading-card";
 import { ParticipantsSection } from "@/components/participants-section";
+import { ProductsSection } from "@/components/products-section";
 import { TestInfoSection } from "@/components/test-info-section";
 import { View } from "@/components/view";
 import { Suspense } from "react";
@@ -27,6 +28,7 @@ export default async function Page({
       <View>
         <ParticipantsSection id={id} searchParams={search} />
       </View>
+      <ProductsSection />
     </View>
   );
 }
