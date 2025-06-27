@@ -25,10 +25,10 @@ export default async function Page({
       <Suspense fallback={<LoadingCard />}>
         <TestInfoSection id={id} />
       </Suspense>
-      <View>
+      <View className="flex-row gap-4">
         <ParticipantsSection id={id} searchParams={search} />
+        <ProductsSection />
       </View>
-      <ProductsSection />
     </View>
   );
 }
