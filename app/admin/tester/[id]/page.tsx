@@ -15,6 +15,7 @@ export default async function Page({
     q2?: string;
     p1?: string;
     p2?: string;
+    addProduct?: string;
   }>;
 }) {
   const { id } = await params;
@@ -27,7 +28,9 @@ export default async function Page({
       </Suspense>
       <View className="lg:flex-row gap-4">
         <ParticipantsSection id={id} searchParams={search} />
-        <ProductsSection />
+        <ProductsSection
+          addProductView={search?.addProduct === "true" ? true : false}
+        />
       </View>
     </View>
   );

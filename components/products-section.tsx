@@ -6,10 +6,14 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { View } from "./view";
 
-export const ProductsSection = () => {
+export const ProductsSection = ({
+  addProductView,
+}: {
+  addProductView: boolean;
+}) => {
   return (
     <View>
-      <H2 className="pl-4">Produkter</H2>
+      <H2 className="pl-4">Produkter {typeof addProductView}</H2>
       <Card>
         <CardHeader>
           <Button variant="secondary" size="sm">
