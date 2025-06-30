@@ -13,7 +13,7 @@ export const ProductsSection = ({
 }) => {
   return (
     <View>
-      <H2 className="pl-4">Produkter {typeof addProductView}</H2>
+      <H2 className="pl-4">Produkter</H2>
       <Card>
         <CardHeader>
           <Button variant="secondary" size="sm">
