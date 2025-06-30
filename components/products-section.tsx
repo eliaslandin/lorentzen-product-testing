@@ -12,9 +12,11 @@ export const ProductsSection = () => {
       <H2 className="pl-4">Produkter</H2>
       <Card>
         <CardHeader>
-          <Button variant="secondary">Ny produkt</Button>
+          <Button variant="secondary" size="sm">
+            Ny produkt
+          </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-3">
           <List>
             <li>
               <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
