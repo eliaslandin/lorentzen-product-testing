@@ -6,8 +6,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { View } from "./view";
+import { getProducts } from "@/lib/fetchers";
 
-export const ProductsSection = ({ testId }: { testId: number }) => {
+export const ProductsSection = async ({ testId }: { testId: number }) => {
+  const { data, error } = await getProducts(testId);
+
+  if (error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        {error.message}
+      </div>
+    );
+  }
+
   return (
     <View>
       <H2 className="pl-4">Produkter</H2>
@@ -21,18 +33,20 @@ export const ProductsSection = ({ testId }: { testId: number }) => {
         </CardHeader>
         <CardContent className="pt-3">
           <List>
-            <li>
-              <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
-                <Avatar className="rounded-sm self-center h-32 w-32">
-                  <AvatarImage />
-                  <AvatarFallback className="rounded-none bg-secondary" />
-                </Avatar>
-                <View className="py-2">
-                  <h3 className="text-lg">Produkt ett</h3>
-                  <P>hdasjdh ahsdkjhas dashjdkhsa dhsajkdhsa dsahjkdhas</P>
-                </View>
-              </Card>
-            </li>
+            {data.map((product) => (
+              <li key={product.id}>
+                <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
+                  <Avatar className="rounded-sm self-center h-32 w-32">
+                    <AvatarImage />
+                    <AvatarFallback className="rounded-none bg-secondary" />
+                  </Avatar>
+                  <View className="py-2">
+                    <h3 className="text-lg">{product.name}</h3>
+                    <P>{product.description}</P>
+                  </View>
+                </Card>
+              </li>
+            ))}
           </List>
         </CardContent>
       </Card>
