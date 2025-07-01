@@ -3,6 +3,7 @@
 import { checkIfUserIsAdmin } from "@/lib/dal";
 import {
   approveLoginSchema,
+  createProductSchema,
   createTestPersonSchema,
   createTestSchema,
 } from "@/lib/schemas";
@@ -294,4 +295,34 @@ export const toggleTestActiveAction = async (
   }
 
   revalidatePath("/admin/tester");
+};
+
+export const createProductAction = async (
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const submission = parseWithZod(formData, {
+    schema: createProductSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .schema("api")
+    .from("products")
+    .insert({
+      ...submission.value,
+    });
+
+  if (error) {
+    console.error("Failed to add product. Error:" + JSON.stringify(error));
+
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
 };
