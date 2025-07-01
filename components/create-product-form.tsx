@@ -1,27 +1,20 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useActionState, useState } from "react";
-import { createTestPersonAction } from "@/app/admin/actions";
-import { useForm, useInputControl } from "@conform-to/react";
+import { useActionState } from "react";
+import { createProductAction } from "@/app/admin/actions";
+import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { createTestPersonSchema } from "@/lib/schemas";
+import { createProductSchema } from "@/lib/schemas";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
 import { FormErrorMessage } from "./form-error-message";
 import { FormSubmitButton } from "./form-submit-button";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "./ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { InputWithLookup } from "./input-with-lookup";
+import { Textarea } from "./ui/textarea";
 
 export const CreateProductForm = ({ testId }: { testId: number }) => {
   const [lastResult, formAction, pending] = useActionState(
-    createTestPersonAction,
+    createProductAction,
     undefined,
   );
 
@@ -29,18 +22,12 @@ export const CreateProductForm = ({ testId }: { testId: number }) => {
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, {
-        schema: createTestPersonSchema,
+        schema: createProductSchema,
       });
     },
     shouldRevalidate: "onInput",
     shouldValidate: "onBlur",
   });
-
-  const [cityName, setCityName] = useState<string | null>(
-    fields.city.initialValue || null,
-  );
-
-  const cityField = useInputControl(fields.city);
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
@@ -58,62 +45,18 @@ export const CreateProductForm = ({ testId }: { testId: number }) => {
           />
         </FormField>
         <FormField
-          label="Personnummer (ÅÅÅÅ-MM-DD-NNNN)"
-          inputId={fields.personal_number.id}
-          errorMessage={fields.personal_number.errors}
+          label="Beskrivning"
+          inputId={fields.description.id}
+          errorMessage={fields.description.errors}
         >
-          <InputOTP
-            id={fields.personal_number.id}
-            key={fields.personal_number.key}
-            name={fields.personal_number.name}
-            defaultValue={fields.personal_number.initialValue}
-            maxLength={12}
-            pattern={REGEXP_ONLY_DIGITS}
-          >
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={6} />
-              <InputOTPSlot index={7} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={8} />
-              <InputOTPSlot index={9} />
-              <InputOTPSlot index={10} />
-              <InputOTPSlot index={11} />
-            </InputOTPGroup>
-          </InputOTP>
-        </FormField>
-        <FormField
-          label="Stad"
-          inputId={fields.city.id}
-          errorMessage={fields.city.errors}
-        >
-          <InputWithLookup
-            id={fields.city.id}
-            defaultValue={Number(fields.city.initialValue)}
-            table="cities"
-            column="name"
-            field={cityField}
-            setFieldNameAction={setCityName}
+          <Textarea
+            id={fields.description.id}
+            key={fields.description.key}
+            name={fields.description.name}
+            defaultValue={fields.description.initialValue}
           />
-          {cityName && (
-            <p className="text-accent-foreground bg-accent rounded-full px-4 py-2">
-              Vald stad: {cityName}
-            </p>
-          )}
         </FormField>
+        <input type="hidden" name="testId" value={testId} />
         <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
