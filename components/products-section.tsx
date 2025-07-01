@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { H2 } from "./H2";
 import { List } from "./list";
 import { P } from "./P";
@@ -6,18 +7,14 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { View } from "./view";
 
-export const ProductsSection = ({
-  addProductView,
-}: {
-  addProductView: boolean;
-}) => {
+export const ProductsSection = ({ testId }: { testId: number }) => {
   return (
     <View>
       <H2 className="pl-4">Produkter</H2>
       <Card>
         <CardHeader>
-          <Button variant="secondary" size="sm">
-            Ny produkt
+          <Button asChild variant="secondary">
+            <Link href={`/admin/produkter/ny?test=${testId}`}>Ny produkt</Link>
           </Button>
         </CardHeader>
         <CardContent className="pt-3">

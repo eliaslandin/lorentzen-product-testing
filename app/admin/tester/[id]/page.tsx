@@ -28,9 +28,7 @@ export default async function Page({
       </Suspense>
       <View className="lg:flex-row gap-4">
         <ParticipantsSection id={id} searchParams={search} />
-        <ProductsSection
-          addProductView={search?.addProduct === "true" ? true : false}
-        />
+        <ProductsSection testId={id} />
       </View>
     </View>
   );
