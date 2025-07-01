@@ -130,7 +130,6 @@ export type Database = {
           address: string | null
           created_at: string
           email: string | null
-          id: number
           postal_code: string | null
           privacy_policy_accepted: boolean
           privacy_policy_accepted_at: string
@@ -144,7 +143,6 @@ export type Database = {
           address?: string | null
           created_at?: string
           email?: string | null
-          id?: never
           postal_code?: string | null
           privacy_policy_accepted: boolean
           privacy_policy_accepted_at?: string
@@ -158,7 +156,6 @@ export type Database = {
           address?: string | null
           created_at?: string
           email?: string | null
-          id?: never
           postal_code?: string | null
           privacy_policy_accepted?: boolean
           privacy_policy_accepted_at?: string
@@ -181,6 +178,38 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string
+          test_id: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: never
+          name: string
+          test_id: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: never
+          name?: string
+          test_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
             referencedColumns: ["id"]
           },
         ]
@@ -211,6 +240,48 @@ export type Database = {
           tel?: string | null
         }
         Relationships: []
+      }
+      questions: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          product_id: number | null
+          test_id: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: never
+          product_id?: number | null
+          test_id: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: never
+          product_id?: number | null
+          test_id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "questions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       role_permission_relations: {
         Row: {
@@ -391,6 +462,14 @@ export type Database = {
       custom_access_token_hook: {
         Args: { event: Json }
         Returns: Json
+      }
+      test_is_active: {
+        Args: { test_id: number }
+        Returns: boolean
+      }
+      user_is_in_test: {
+        Args: { p_test_id: number }
+        Returns: boolean
       }
     }
     Enums: {
