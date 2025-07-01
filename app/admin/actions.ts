@@ -311,12 +311,11 @@ export const createProductAction = async (
 
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .schema("api")
-    .from("products")
-    .insert({
-      ...submission.value,
-    });
+  const { error } = await supabase.schema("api").from("products").insert({
+    name: submission.value.name,
+    description: submission.value.description,
+    test_id: submission.value.testId,
+  });
 
   if (error) {
     console.error("Failed to add product. Error:" + JSON.stringify(error));
