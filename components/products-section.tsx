@@ -14,7 +14,9 @@ export const ProductsSection = ({ testId }: { testId: number }) => {
       <Card>
         <CardHeader>
           <Button asChild variant="secondary">
-            <Link href={`/admin/produkter/ny?test=${testId}`}>Ny produkt</Link>
+            <Link href={`/admin/tester/${testId}/produkter/ny`}>
+              Ny produkt
+            </Link>
           </Button>
         </CardHeader>
         <CardContent className="pt-3">
