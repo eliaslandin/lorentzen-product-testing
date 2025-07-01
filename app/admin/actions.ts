@@ -324,4 +324,7 @@ export const createProductAction = async (
       formErrors: ["Servererror"],
     });
   }
+
+  revalidatePath("/admin/tester/[id]", "page");
+  redirect(`/admin/tester/${submission.value.testId}`);
 };
