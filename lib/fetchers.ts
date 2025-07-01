@@ -124,3 +124,13 @@ export const getMostRecentPersonalInfo = cache(async (userId: string) => {
     .order("created_at")
     .single();
 });
+
+export const getProducts = cache(async (testId: number) => {
+  const supabase = await createClient();
+  return await supabase
+    .schema("api")
+    .from("products")
+    .select()
+    .eq("test_id", testId)
+    .order("created_at");
+});
