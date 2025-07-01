@@ -55,3 +55,9 @@ export const addPersonalInfoSchema = z.object({
       message: "Måste acceptera integritetspolicyn",
     }),
 });
+
+export const createProductSchema = z.object({
+  name: stringMax255Schema,
+  description: z.string().optional(),
+  testId: z.number(),
+});
