@@ -63,6 +63,6 @@ export const createProductSchema = z.object({
   image: z
     .file()
     .mime(["image/jpeg", "image/png", "image/webp"], "Ogiltig filformat")
-    .max(1024 * 1024 * 1024 * 2, "Max 2MB")
+    .max(2_000_000, "Max 2MB")
     .optional(),
 });
