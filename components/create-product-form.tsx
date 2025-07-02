@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createProductAction } from "@/app/admin/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
@@ -13,6 +13,7 @@ import { FormSubmitButton } from "./form-submit-button";
 import { Textarea } from "./ui/textarea";
 
 export const CreateProductForm = ({ testId }: { testId: number }) => {
+  const [image, setImage] = useState<File | null>(null);
   const [lastResult, formAction, pending] = useActionState(
     createProductAction,
     undefined,
@@ -37,11 +38,22 @@ export const CreateProductForm = ({ testId }: { testId: number }) => {
           inputId={fields.image.id}
           errorMessage={fields.image.errors}
         >
+          {image && (
+            <img
+              src={URL.createObjectURL(image)}
+              className="max-h-96 object-contain border border-secondary rounded-md p-4"
+            />
+          )}
           <Input
             id={fields.image.id}
             key={fields.image.key}
             name={fields.image.name}
             type="file"
+            onChange={(e) => {
+              if (e.target.files) {
+                setImage(e.target.files[0]);
+              }
+            }}
           />
         </FormField>
         <FormField
