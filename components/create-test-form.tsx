@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useActionState, useState } from "react";
 import { createTestAction } from "@/app/admin/actions";
 import { useForm, useInputControl } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { createTestSchema } from "@/lib/schemas";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";

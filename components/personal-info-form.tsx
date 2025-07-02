@@ -3,7 +3,7 @@
 import { addPersonalInfoAction } from "@/app/actions";
 import { addPersonalInfoSchema } from "@/lib/schemas";
 import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { useActionState } from "react";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";

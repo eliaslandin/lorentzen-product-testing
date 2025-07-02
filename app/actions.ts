@@ -4,7 +4,7 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { addPersonalInfoSchema, requestLoginSchema } from "@/lib/schemas";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 

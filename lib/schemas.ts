@@ -1,7 +1,8 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const nonEmptyStringSchema = z.string({
-  required_error: "Måste fyllas i",
+  error: (iss) =>
+    iss.input === undefined ? "Måste fyllas i" : "Ogiltigt värde",
 });
 
 export const stringMax255Schema = nonEmptyStringSchema.max(
@@ -10,7 +11,10 @@ export const stringMax255Schema = nonEmptyStringSchema.max(
 );
 
 export const personalNumberSchema = z
-  .number()
+  .number({
+    error: (iss) =>
+      iss.input === undefined ? "Måste fyllas i" : "Ogiltigt personnummer",
+  })
   .min(190000000000, "Ogiltigt personnummer")
   .max(999999999999, "Ogiltigt personnummber");
 
@@ -34,26 +38,22 @@ export const requestLoginSchema = z.object({
 
 export const approveLoginSchema = z.object({
   pair_code: z.number().max(99),
-  anon_uid: z.string().uuid(),
+  anon_uid: z.uuid(),
 });
 
 export const addPersonalInfoSchema = z.object({
-  user_id: z.string().uuid(),
+  user_id: z.uuid(),
   test_id: z.number(),
-  email: z.string().email("Ogiltig epostadress").optional(),
+  email: z.email("Ogiltig epostadress").optional(),
   tel: nonEmptyStringSchema.max(16, "Ogiltigt telefonnummer"),
   address: stringMax255Schema,
   postal_code: nonEmptyStringSchema.max(16, "Ogiltigt postnummer"),
-  terms_accepted: z
-    .boolean({ required_error: "Måste acceptera användarvillkoren" })
-    .refine((val) => val, {
-      message: "Måste acceptera användarvillkoren",
-    }),
-  privacy_policy_accepted: z
-    .boolean({ required_error: "Måste acceptera integritetspolicyn" })
-    .refine((val) => val, {
-      message: "Måste acceptera integritetspolicyn",
-    }),
+  terms_accepted: z.boolean().refine((val) => val, {
+    message: "Måste acceptera användarvillkoren",
+  }),
+  privacy_policy_accepted: z.refine((val) => val, {
+    message: "Måste acceptera integritetspolicyn",
+  }),
 });
 
 export const createProductSchema = z.object({

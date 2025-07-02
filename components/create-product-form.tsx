@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
 import { createProductAction } from "@/app/admin/actions";
 import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { createProductSchema } from "@/lib/schemas";
 import { FormContent } from "./form-content";
 import { FormField } from "./form-field";
