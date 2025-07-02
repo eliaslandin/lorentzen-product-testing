@@ -127,10 +127,47 @@ export const getMostRecentPersonalInfo = cache(async (userId: string) => {
 
 export const getProducts = cache(async (testId: number) => {
   const supabase = await createClient();
-  return await supabase
+
+  const res = await supabase
     .schema("api")
     .from("products")
     .select()
     .eq("test_id", testId)
     .order("created_at");
+
+  if (res.error) {
+    return res;
+  }
+
+  const products = await Promise.all(
+    res.data.map(async (product) => {
+      let productWithImage: {
+        id: number;
+        name: string;
+        description: string | null;
+        test_id: number;
+        image_url?: string;
+      } = {
+        ...product,
+      };
+
+      if (product.image_name) {
+        const expires = 60 * 60 * 8; // 8 hour expiration of url
+        const { data } = await supabase.storage
+          .from("test_assets")
+          .createSignedUrl(product.image_name, expires);
+
+        if (data) {
+          productWithImage.image_url = data.signedUrl;
+        }
+      }
+
+      return productWithImage;
+    }),
+  );
+
+  return {
+    error: null,
+    data: products,
+  };
 });

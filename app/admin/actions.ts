@@ -311,10 +311,10 @@ export const createProductAction = async (
 
   const supabase = await createClient();
 
-  let imageId;
+  let imageName;
   if (submission.value.image) {
     console.log("Attempting to upload image...");
-    const { data: storageData, error: storageError } = await supabase.storage
+    const { error: storageError } = await supabase.storage
       .from("test_assets")
       .upload(
         `${submission.value.testId}/${submission.value.image.name}`,
@@ -331,14 +331,14 @@ export const createProductAction = async (
       });
     }
 
-    imageId = storageData.id;
+    imageName = `${submission.value.testId}/${submission.value.image.name}`;
   }
 
   const { error } = await supabase.schema("api").from("products").insert({
     name: submission.value.name,
     description: submission.value.description,
     test_id: submission.value.testId,
-    image_id: imageId,
+    image_id: imageName,
   });
 
   if (error) {

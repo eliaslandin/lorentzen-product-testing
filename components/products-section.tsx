@@ -37,7 +37,7 @@ export const ProductsSection = async ({ testId }: { testId: number }) => {
               <li key={product.id}>
                 <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
                   <Avatar className="rounded-sm self-center h-32 w-32">
-                    <AvatarImage />
+                    <AvatarImage src={product.image_url} />
                     <AvatarFallback className="rounded-none bg-secondary" />
                   </Avatar>
                   <View className="py-2">
