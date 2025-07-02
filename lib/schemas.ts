@@ -51,7 +51,7 @@ export const addPersonalInfoSchema = z.object({
   terms_accepted: z.boolean().refine((val) => val, {
     message: "Måste acceptera användarvillkoren",
   }),
-  privacy_policy_accepted: z.refine((val) => val, {
+  privacy_policy_accepted: z.boolean().refine((val) => val, {
     message: "Måste acceptera integritetspolicyn",
   }),
 });
