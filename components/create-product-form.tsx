@@ -33,6 +33,18 @@ export const CreateProductForm = ({ testId }: { testId: number }) => {
     <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
       <FormContent>
         <FormField
+          label="Bild"
+          inputId={fields.image.id}
+          errorMessage={fields.image.errors}
+        >
+          <Input
+            id={fields.image.id}
+            key={fields.image.key}
+            name={fields.image.name}
+            type="file"
+          />
+        </FormField>
+        <FormField
           label="Namn"
           inputId={fields.name.id}
           errorMessage={fields.name.errors}

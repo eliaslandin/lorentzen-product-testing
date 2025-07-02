@@ -60,4 +60,9 @@ export const createProductSchema = z.object({
   name: stringMax255Schema,
   description: z.string().optional(),
   testId: z.number(),
+  image: z
+    .file()
+    .mime(["image/jpeg", "image/png", "image/webp"], "Ogiltig filformat")
+    .max(1024 * 1024 * 1024 * 2, "Max 2MB")
+    .optional(),
 });
