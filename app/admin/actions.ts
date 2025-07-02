@@ -338,7 +338,7 @@ export const createProductAction = async (
     name: submission.value.name,
     description: submission.value.description,
     test_id: submission.value.testId,
-    image_id: imageName,
+    image_name: imageName,
   });
 
   if (error) {
