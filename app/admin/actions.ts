@@ -311,10 +311,34 @@ export const createProductAction = async (
 
   const supabase = await createClient();
 
+  let imageId;
+  if (submission.value.image) {
+    console.log("Attempting to upload image...");
+    const { data: storageData, error: storageError } = await supabase.storage
+      .from("test_assets")
+      .upload(
+        `${submission.value.testId}/${submission.value.image.name}`,
+        submission.value.image,
+      );
+
+    if (storageError) {
+      console.error(
+        "Failed to upload image. Error:" + JSON.stringify(storageError),
+      );
+
+      return submission.reply({
+        formErrors: ["Servererror"],
+      });
+    }
+
+    imageId = storageData.id;
+  }
+
   const { error } = await supabase.schema("api").from("products").insert({
     name: submission.value.name,
     description: submission.value.description,
     test_id: submission.value.testId,
+    image_id: imageId,
   });
 
   if (error) {
