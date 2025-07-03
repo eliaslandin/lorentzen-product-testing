@@ -55,6 +55,7 @@ export const CreateProductForm = ({ testId }: { testId: number }) => {
             key={fields.image.key}
             name={fields.image.name}
             type="file"
+            accept="image/*"
           />
         </FormField>
         <FormField
