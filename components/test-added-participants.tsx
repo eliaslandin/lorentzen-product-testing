@@ -42,7 +42,7 @@ export const TestAddedParticipants = async ({
           <li key={user.user_test_relation_id} className="flex justify-between">
             <Link
               href={`/admin/testpersoner/${user.id}`}
-              className="flex gap-3 w-full items-center hover:bg-accent rounded-xl p-2 transition-colors group"
+              className="flex gap-3 w-full items-center hover:bg-muted rounded-xl p-2 transition-colors group"
             >
               <UserRoundIcon className="bg-secondary rounded-full text-white p-1 h-8 w-8 transition-colors group-hover:bg-primary" />
               {user.name}

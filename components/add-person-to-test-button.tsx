@@ -26,7 +26,7 @@ export const AddPersonToTestButton = ({
 
   return (
     <Button
-      className="w-full justify-start gap-3 px-2 py-2 h-auto rounded-xl disabled:opacity-100 disabled:text-foreground/50"
+      className="w-full justify-start gap-3 px-2 py-2 h-auto rounded-xl hover:bg-muted disabled:opacity-100 disabled:text-foreground/50"
       variant="ghost"
       onClick={() =>
         startTransition(() => formAction({ testId, userId: user.id }))

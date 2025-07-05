@@ -36,7 +36,7 @@ export const ProductsSection = async ({ testId }: { testId: number }) => {
             {data.map((product) => (
               <li key={product.id}>
                 <Link href={`/admin/tester/${testId}/produkter/${product.id}`}>
-                  <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
+                  <Card className="flex width-full border border-secondary flex-row gap-5 p-3 hover:bg-muted">
                     <Avatar className="rounded-sm self-center h-32 w-32">
                       <AvatarImage
                         src={product.image_url}
