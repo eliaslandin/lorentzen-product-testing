@@ -284,74 +284,9 @@ export const addPersonalInfoAction = async (
 
   console.log("Input successfully validated.");
 
-  // Check that user is registered on the test
-  console.log("Attempting to check if user is part of test...");
-  const supabase = await createClient();
-  const { data: usersTestData, error: usersTestError } = await supabase
-    .schema("api")
-    .from("user_test_relations")
-    .select("test_id")
-    .eq("user_id", submission.value.user_id);
-
-  if (usersTestError) {
-    console.error(
-      `Could not get user's tests from database. Error: ${JSON.stringify(usersTestError)}`,
-    );
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
-  }
-
-  const userIsInTest = usersTestData.some(
-    (test) => test.test_id === submission.value.test_id,
-  );
-
-  if (!userIsInTest) {
-    console.log(
-      `User is not part of test. Received user ID: ${submission.value.user_id}. Received test ID: ${submission.value.test_id}.`,
-    );
-    return submission.reply({
-      formErrors: ["Personen är inte tillagd i testet"],
-    });
-  }
-
-  console.log("User is part of test!");
-
-  // Check that the test is active
-  console.log("Attempting to check if test is active...");
-  const supabaseServiceRole = await createServiceRoleClient();
-  const { data: testData, error: testError } = await supabaseServiceRole
-    .schema("api")
-    .from("tests")
-    .select("id, active")
-    .eq("id", submission.value.test_id);
-
-  if (testError) {
-    console.error(
-      `Could not retrieve test from database. Error: ${JSON.stringify(testError)}`,
-    );
-    return submission.reply({
-      formErrors: ["Servererror"],
-    });
-  }
-
-  const testIsActive = testData.find(
-    (test) => test.id === submission.value.test_id,
-  )?.active;
-
-  if (!testIsActive) {
-    console.error(
-      `Test is not active. Received test ID: ${submission.value.test_id}.`,
-    );
-    return submission.reply({
-      formErrors: ["Testet är inte öppet"],
-    });
-  }
-
-  console.log("Test is active!");
-
   // Adding personal info submission to database
   console.log("Attempting to add personal info submission to database...");
+  const supabase = await createClient();
   const { error } = await supabase
     .schema("api")
     .from("personal_info_submissions")
