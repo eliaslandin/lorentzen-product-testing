@@ -29,7 +29,7 @@ export const TestInfoSection = async ({ id }: { id: number }) => {
           <CardTitle>
             <H1>{test.name}</H1>
           </CardTitle>
-          <TestActionsMenu />
+          <TestActionsMenu testId={id} />
         </View>
         <CardDescription>{test.description}</CardDescription>
       </CardHeader>
