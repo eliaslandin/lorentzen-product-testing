@@ -16,10 +16,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export function DatePicker({
   setDateAction,
+  defaultValue,
 }: {
   setDateAction?: Dispatch<SetStateAction<Date | undefined>>;
+  defaultValue?: Date;
 }) {
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState<Date | undefined>(defaultValue);
 
   useEffect(() => {
     if (setDateAction) {

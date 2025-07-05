@@ -1,8 +1,9 @@
 import { View } from "@/components/view";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CreateTestForm } from "@/components/create-test-form";
+import { EditTestForm } from "@/components/edit-test-form";
 import { H1 } from "@/components/H1";
 import { getTest } from "@/lib/fetchers";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Page({
   params,
@@ -23,7 +24,7 @@ export default async function Page({
           <H1>Redigera test {data.name}</H1>
         </CardHeader>
         <CardContent>
-          <CreateTestForm />
+          <EditTestForm test={data} />
         </CardContent>
       </Card>
     </View>

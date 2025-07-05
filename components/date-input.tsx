@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 export const DateInput = ({
   id,
   field,
+  defaultValue,
 }: {
   id: string;
   field: ReturnType<typeof useInputControl<string>>;
+  defaultValue?: Date;
 }) => {
   const [date, setDate] = useState<Date>();
 
@@ -22,5 +24,5 @@ export const DateInput = ({
     }
   }, [date, field]);
 
-  return <DatePicker setDateAction={setDate} />;
+  return <DatePicker defaultValue={defaultValue} setDateAction={setDate} />;
 };
