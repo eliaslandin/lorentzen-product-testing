@@ -12,6 +12,7 @@ import { View } from "@/components/view";
 import { Building2Icon, CalendarIcon, MapPinIcon } from "lucide-react";
 import { getTest } from "@/lib/fetchers";
 import { UnlockTestButton } from "./unlock-test-button";
+import { TestActionsMenu } from "./test-actions-menu";
 
 export const TestInfoSection = async ({ id }: { id: number }) => {
   const { data: test, error } = await getTest(id);
@@ -24,9 +25,12 @@ export const TestInfoSection = async ({ id }: { id: number }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          <H1>{test.name}</H1>
-        </CardTitle>
+        <View className="flex-row gap-4 items-center justify-between">
+          <CardTitle>
+            <H1>{test.name}</H1>
+          </CardTitle>
+          <TestActionsMenu />
+        </View>
         <CardDescription>{test.description}</CardDescription>
       </CardHeader>
       <CardContent>
