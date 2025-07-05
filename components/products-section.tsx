@@ -35,19 +35,21 @@ export const ProductsSection = async ({ testId }: { testId: number }) => {
           <List>
             {data.map((product) => (
               <li key={product.id}>
-                <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
-                  <Avatar className="rounded-sm self-center h-32 w-32">
-                    <AvatarImage
-                      src={product.image_url}
-                      className="object-contain"
-                    />
-                    <AvatarFallback className="rounded-none bg-secondary" />
-                  </Avatar>
-                  <View className="py-2">
-                    <h3 className="text-lg">{product.name}</h3>
-                    <P>{product.description}</P>
-                  </View>
-                </Card>
+                <Link href={`/admin/tester/${testId}/produkter/${product.id}`}>
+                  <Card className="flex width-full border border-secondary flex-row gap-5 p-3">
+                    <Avatar className="rounded-sm self-center h-32 w-32">
+                      <AvatarImage
+                        src={product.image_url}
+                        className="object-contain"
+                      />
+                      <AvatarFallback className="rounded-none bg-secondary" />
+                    </Avatar>
+                    <View className="py-2">
+                      <h3 className="text-lg">{product.name}</h3>
+                      <P>{product.description}</P>
+                    </View>
+                  </Card>
+                </Link>
               </li>
             ))}
           </List>
