@@ -6,6 +6,7 @@ import {
   createProductSchema,
   createTestPersonSchema,
   createTestSchema,
+  updateTestSchema,
 } from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
@@ -14,7 +15,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/client/components/navigation";
 
 export const createTestPersonAction = async (
-  prevState: unknown,
+  _: unknown,
   formData: FormData,
 ) => {
   const submission = parseWithZod(formData, {
@@ -72,11 +73,11 @@ export const createTestPersonAction = async (
   if (addUserRes.error || addUserCityRes?.error) {
     addUserRes.error &&
       console.error(
-        JSON.stringify("Add user profile error:" + addUserRes.error),
+        `Failed to add user profile. Error: ${JSON.stringify(addUserRes.error)}`,
       );
     addUserCityRes?.error &&
       console.error(
-        "Add user city relation error:" + JSON.stringify(addUserCityRes.error),
+        `Failed to add user city relation. Error: ${JSON.stringify(addUserCityRes.error)}`,
       );
     return submission.reply({
       formErrors: ["Servererror"],
@@ -92,10 +93,7 @@ export const createTestPersonAction = async (
   redirect("/admin/testpersoner");
 };
 
-export const createTestAction = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
+export const createTestAction = async (_: unknown, formData: FormData) => {
   const submission = parseWithZod(formData, {
     schema: createTestSchema,
   });
@@ -106,7 +104,7 @@ export const createTestAction = async (
 
   const supabase = await createClient();
 
-  const addTest = await supabase
+  const { error } = await supabase
     .schema("api")
     .from("tests")
     .insert({
@@ -117,8 +115,8 @@ export const createTestAction = async (
       date: submission.value.date && submission.value.date.toISOString(),
     });
 
-  if (addTest.error) {
-    console.error(addTest.error);
+  if (error) {
+    console.error(`Failed to create test. Error: ${JSON.stringify(error)}`);
     return submission.reply({
       formErrors: ["Servererror"],
     });
@@ -128,10 +126,65 @@ export const createTestAction = async (
   redirect("/admin/tester");
 };
 
+export const updateTestAction = async (_: unknown, formData: FormData) => {
+  const submission = parseWithZod(formData, {
+    schema: updateTestSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("tests")
+    .update({
+      name: submission.value.name,
+      city: submission.value.city,
+      company: submission.value.company,
+      description: submission.value.description,
+      date: submission.value.date && submission.value.date.toISOString(),
+    })
+    .eq("id", submission.value.id);
+
+  if (error) {
+    console.error(`Failed to update test. Error: ${JSON.stringify(error)}`);
+    return submission.reply({
+      formErrors: ["Servererror"],
+    });
+  }
+
+  revalidatePath(`/admin/tester/${submission.value.id}`);
+  redirect(`/admin/tester/${submission.value.id}`);
+};
+
+export const removeTestAction = async (
+  _: { error: string | null } | null,
+  { id }: { id: number },
+): Promise<{ error: string | null }> => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .schema("api")
+    .from("tests")
+    .delete()
+    .eq("id", id);
+
+  revalidatePath("/admin/tester");
+
+  if (error) {
+    console.error(`Failed to remove test. Error: ${JSON.stringify(error)}`);
+  }
+
+  return {
+    error: error ? "Servererror" : null,
+  };
+};
+
 export const addPersonToTestAction = async (
-  prevState: { error: string | null } | null,
+  _: unknown,
   { testId, userId }: { testId: number; userId: string },
-) => {
+): Promise<{ error: string | null }> => {
   const supabase = await createClient();
   const { error, status } = await supabase
     .schema("api")
@@ -146,7 +199,7 @@ export const addPersonToTestAction = async (
   revalidatePath(`/admin/tester/${testId}`);
 
   if (error) {
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 
   return {
@@ -155,9 +208,9 @@ export const addPersonToTestAction = async (
 };
 
 export const removePersonFromTestAction = async (
-  prevState: { error: string | null } | null,
+  _: unknown,
   { id, testId }: { id: number; testId: number },
-) => {
+): Promise<{ error: string | null }> => {
   const supabase = await createClient();
   const { error } = await supabase
     .schema("api")
@@ -168,7 +221,7 @@ export const removePersonFromTestAction = async (
   revalidatePath(`/admin/tester/${testId}`);
 
   if (error) {
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 
   return {
@@ -177,7 +230,7 @@ export const removePersonFromTestAction = async (
 };
 
 export const approveLoginRequestAction = async (
-  prevState: unknown,
+  _: unknown,
   formData: FormData,
 ) => {
   const submission = parseWithZod(formData, {
@@ -197,7 +250,7 @@ export const approveLoginRequestAction = async (
     .single();
 
   if (logReqError) {
-    console.error(logReqError);
+    console.error(JSON.stringify(logReqError));
     return submission.reply({
       formErrors: ["Servererror"],
     });
@@ -219,7 +272,7 @@ export const approveLoginRequestAction = async (
     .eq("anonymous_user_id", submission.value.anon_uid);
 
   if (error) {
-    console.error(error);
+    console.error(JSON.stringify(error));
     return submission.reply({
       formErrors: ["Servererror"],
     });
@@ -229,9 +282,9 @@ export const approveLoginRequestAction = async (
 };
 
 export const removeLoginReqAction = async (
-  prevState: { error: string | null } | null,
+  _: unknown,
   { anon_uid }: { anon_uid: string },
-) => {
+): Promise<{ error: string | null }> => {
   const supabase = await createClient();
   const { error } = await supabase
     .schema("api")
@@ -240,7 +293,7 @@ export const removeLoginReqAction = async (
     .eq("anonymous_user_id", anon_uid);
 
   if (error) {
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 
   return {
@@ -248,10 +301,7 @@ export const removeLoginReqAction = async (
   };
 };
 
-export const toggleTestActiveAction = async (
-  prevState: unknown,
-  id: number,
-) => {
+export const toggleTestActiveAction = async (_: unknown, id: number) => {
   const supabase = await createClient();
   const { data: testData, error: testError } = await supabase
     .schema("api")
@@ -262,7 +312,7 @@ export const toggleTestActiveAction = async (
 
   if (testError) {
     console.error(
-      `Couldn't retrieve test. Error: ${JSON.stringify(testError)}`,
+      `Failed to retrieve test. Error: ${JSON.stringify(testError)}`,
     );
     throw new Error("Servererror");
   }
@@ -276,7 +326,7 @@ export const toggleTestActiveAction = async (
 
   if (oldActiveError) {
     console.error(
-      `Couldn't deactivate potential existing active test. Error: ${JSON.stringify(oldActiveError)}`,
+      `Failed to deactivate potentially active test. Error: ${JSON.stringify(oldActiveError)}`,
     );
     throw new Error("Servererror");
   }
@@ -289,7 +339,7 @@ export const toggleTestActiveAction = async (
 
   if (error) {
     console.error(
-      `Couldn't update test's active status. Error: ${JSON.stringify(error)}`,
+      `Failed to update test's active status. Error: ${JSON.stringify(error)}`,
     );
     throw new Error("Servererror");
   }
@@ -297,10 +347,7 @@ export const toggleTestActiveAction = async (
   revalidatePath("/admin/tester");
 };
 
-export const createProductAction = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
+export const createProductAction = async (_: unknown, formData: FormData) => {
   const submission = parseWithZod(formData, {
     schema: createProductSchema,
   });

@@ -32,6 +32,15 @@ export const createTestSchema = z.object({
   date: z.date().optional(),
 });
 
+export const updateTestSchema = z.object({
+  id: z.number(),
+  name: stringMax255Schema,
+  description: z.string().optional(),
+  city: z.number().optional(),
+  company: z.number().optional(),
+  date: z.date().optional(),
+});
+
 export const requestLoginSchema = z.object({
   personal_number: personalNumberSchema,
 });
