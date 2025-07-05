@@ -162,7 +162,7 @@ export const updateTestAction = async (_: unknown, formData: FormData) => {
 export const removeTestAction = async (
   _: { error: string | null } | null,
   { id }: { id: number },
-): Promise<{ error: string | null }> => {
+): Promise<{ error: string } | void> => {
   const supabase = await createClient();
   const { error } = await supabase
     .schema("api")
@@ -170,15 +170,15 @@ export const removeTestAction = async (
     .delete()
     .eq("id", id);
 
-  revalidatePath("/admin/tester");
-
   if (error) {
     console.error(`Failed to remove test. Error: ${JSON.stringify(error)}`);
+    return {
+      error: "Servererror",
+    };
   }
 
-  return {
-    error: error ? "Servererror" : null,
-  };
+  revalidatePath("/admin/tester");
+  redirect("/admin/tester");
 };
 
 export const addPersonToTestAction = async (
