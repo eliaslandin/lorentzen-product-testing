@@ -135,7 +135,7 @@ export const EditTestForm = ({
           />
         </FormField>
         <input type="hidden" name="id" value={test.id} />
-        <FormSubmitButton pending={pending}>Skapa</FormSubmitButton>
+        <FormSubmitButton pending={pending}>Spara</FormSubmitButton>
         <FormErrorMessage>{form.errors}</FormErrorMessage>
       </FormContent>
     </form>

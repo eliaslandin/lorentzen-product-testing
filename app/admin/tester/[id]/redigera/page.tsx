@@ -21,7 +21,7 @@ export default async function Page({
     <View className="items-center">
       <Card className="max-w-2xl">
         <CardHeader>
-          <H1>Redigera test {data.name}</H1>
+          <H1>Redigera: {data.name}</H1>
         </CardHeader>
         <CardContent>
           <EditTestForm test={data} />
