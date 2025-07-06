@@ -11,6 +11,7 @@ import { View } from "./view";
 import { ProductWithImage } from "@/lib/types";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { ChevronRightIcon } from "lucide-react";
 
 export const ProductSelector = ({
   products,
@@ -41,7 +42,9 @@ export const ProductSelector = ({
                   onClick={() => setSelected(product)}
                   className={cn(
                     "flex w-full h-auto text-left items-start justify-start border border-secondary flex-row gap-5 p-3 hover:bg-muted",
-                    selected.id === product.id ? "border-primary" : "",
+                    selected.id === product.id
+                      ? "border-primary/30 border-2"
+                      : "",
                   )}
                 >
                   <Avatar className="rounded-sm self-center h-32 w-32">
@@ -55,6 +58,9 @@ export const ProductSelector = ({
                     <h3 className="text-lg">{product.name}</h3>
                     <P>{product.description}</P>
                   </View>
+                  {selected.id === product.id && (
+                    <ChevronRightIcon className="self-center w-12 h-12 text-primary/50" />
+                  )}
                 </Button>
               </li>
             ))}
