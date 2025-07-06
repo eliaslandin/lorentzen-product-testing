@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { cache } from "react";
+import { ProductWithImage } from "./types";
 
 export const getTestPersons = cache(
   async (
@@ -141,14 +142,11 @@ export const getProducts = cache(async (testId: number) => {
 
   const products = await Promise.all(
     res.data.map(async (product) => {
-      let productWithImage: {
-        id: number;
-        name: string;
-        description: string | null;
-        test_id: number;
-        image_url?: string;
-      } = {
-        ...product,
+      let productWithImage: ProductWithImage = {
+        id: product.id,
+        name: product.name,
+        test_id: product.test_id,
+        description: product.description,
       };
 
       if (product.image_name) {

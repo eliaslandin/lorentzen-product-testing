@@ -1,12 +1,5 @@
-import Link from "next/link";
-import { H2 } from "./H2";
-import { List } from "./list";
-import { P } from "./P";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { View } from "./view";
 import { getProducts } from "@/lib/fetchers";
+import { ProductSelector } from "./product-selector";
 
 export const ProductsSection = async ({ testId }: { testId: number }) => {
   const { data, error } = await getProducts(testId);
@@ -20,41 +13,5 @@ export const ProductsSection = async ({ testId }: { testId: number }) => {
     );
   }
 
-  return (
-    <View>
-      <Card>
-        <CardHeader className="text-center">
-          <H2 className="pl-4">Produkter</H2>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <Button asChild variant="secondary">
-            <Link href={`/admin/tester/${testId}/produkter/ny`}>
-              Ny produkt
-            </Link>
-          </Button>
-          <List>
-            {data.map((product) => (
-              <li key={product.id}>
-                <Link href={`/admin/tester/${testId}/produkter/${product.id}`}>
-                  <Card className="flex width-full border border-secondary flex-row gap-5 p-3 hover:bg-muted">
-                    <Avatar className="rounded-sm self-center h-32 w-32">
-                      <AvatarImage
-                        src={product.image_url}
-                        className="object-contain"
-                      />
-                      <AvatarFallback className="rounded-none bg-secondary" />
-                    </Avatar>
-                    <View className="py-2">
-                      <h3 className="text-lg">{product.name}</h3>
-                      <P>{product.description}</P>
-                    </View>
-                  </Card>
-                </Link>
-              </li>
-            ))}
-          </List>
-        </CardContent>
-      </Card>
-    </View>
-  );
+  return <ProductSelector products={data} testId={testId} />;
 };

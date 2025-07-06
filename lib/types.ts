@@ -11,3 +11,11 @@ export type ServerSuccessResponse<T> = {
 };
 
 export type ImageOptionalProps = Omit<ImageProps, "src" | "alt">;
+
+export type ProductWithImage = {
+  id: number;
+  name: string;
+  description: string | null;
+  test_id: number;
+  image_url?: string;
+};
