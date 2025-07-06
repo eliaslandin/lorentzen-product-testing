@@ -22,16 +22,16 @@ export const ProductsSection = async ({ testId }: { testId: number }) => {
 
   return (
     <View>
-      <H2 className="pl-4">Produkter</H2>
       <Card>
-        <CardHeader>
+        <CardHeader className="text-center">
+          <H2 className="pl-4">Produkter</H2>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
           <Button asChild variant="secondary">
             <Link href={`/admin/tester/${testId}/produkter/ny`}>
               Ny produkt
             </Link>
           </Button>
-        </CardHeader>
-        <CardContent className="pt-3">
           <List>
             {data.map((product) => (
               <li key={product.id}>

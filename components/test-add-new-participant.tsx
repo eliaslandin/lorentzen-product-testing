@@ -4,6 +4,8 @@ import { AddPersonToTestButton } from "./add-person-to-test-button";
 import { View } from "./view";
 import { SearchInput } from "./search-input";
 import { PaginationUrlState } from "./pagination-url-state";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { H2 } from "./H2";
 
 const PAGINATION_PAGE_SIZE = 10;
 
@@ -42,28 +44,35 @@ export const TestAddNewParticipant = async ({
   }
 
   return (
-    <View className="gap-3">
-      <div className="px-2">
-        <SearchInput queryKey="q2" placeholder="Sök testperson..." />
-      </div>
-      <List className="gap-1">
-        {data.map((user) => (
-          <li key={user.id}>
-            <AddPersonToTestButton
-              testId={id}
-              user={user}
-              alreadyAdded={addedPersons.some(
-                (addedPerson) => addedPerson.id === user.id,
-              )}
-            />
-          </li>
-        ))}
-      </List>
-      <PaginationUrlState
-        itemCount={count}
-        pageSize={PAGINATION_PAGE_SIZE}
-        queryKey="p2"
-      />
-    </View>
+    <Card>
+      <CardHeader className="text-center">
+        <H2>Alla testpersoner</H2>
+      </CardHeader>
+      <CardContent>
+        <View className="gap-3">
+          <div className="px-2">
+            <SearchInput queryKey="q2" placeholder="Sök testperson..." />
+          </div>
+          <List className="gap-1">
+            {data.map((user) => (
+              <li key={user.id}>
+                <AddPersonToTestButton
+                  testId={id}
+                  user={user}
+                  alreadyAdded={addedPersons.some(
+                    (addedPerson) => addedPerson.id === user.id,
+                  )}
+                />
+              </li>
+            ))}
+          </List>
+          <PaginationUrlState
+            itemCount={count}
+            pageSize={PAGINATION_PAGE_SIZE}
+            queryKey="p2"
+          />
+        </View>
+      </CardContent>
+    </Card>
   );
 };
