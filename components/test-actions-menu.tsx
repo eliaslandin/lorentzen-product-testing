@@ -1,4 +1,4 @@
-import { EditIcon, EllipsisIcon, TrashIcon } from "lucide-react";
+import { EditIcon, EllipsisIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTriggerIcon,
@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import Link from "next/link";
+import { RemoveTestButton } from "./remove-test-button";
 
 export const TestActionsMenu = ({ testId }: { testId: number }) => {
   return (
@@ -20,9 +21,8 @@ export const TestActionsMenu = ({ testId }: { testId: number }) => {
             Redigera
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className="flex items-center gap-3 p-2">
-          <TrashIcon className="w-5 h-5" />
-          Radera
+        <DropdownMenuItem className="p-0">
+          <RemoveTestButton testId={testId} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

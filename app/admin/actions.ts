@@ -159,10 +159,11 @@ export const updateTestAction = async (_: unknown, formData: FormData) => {
   redirect(`/admin/tester/${submission.value.id}`);
 };
 
-export const removeTestAction = async (
-  _: { error: string | null } | null,
-  { id }: { id: number },
-): Promise<{ error: string } | void> => {
+export const removeTestAction = async ({
+  id,
+}: {
+  id: number;
+}): Promise<{ error: string } | void> => {
   const supabase = await createClient();
   const { error } = await supabase
     .schema("api")
