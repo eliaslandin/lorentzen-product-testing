@@ -1,11 +1,11 @@
 import { LoadingCard } from "@/components/loading-card";
-import { ParticipantsSection } from "@/components/participants-section";
 import { ProductsSection } from "@/components/products-section";
 import { TestAddNewParticipant } from "@/components/test-add-new-participant";
 import { TestAddedParticipants } from "@/components/test-added-participants";
 import { TestInfoSection } from "@/components/test-info-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { View } from "@/components/view";
+import { BoxesIcon, UsersIcon } from "lucide-react";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -31,8 +31,14 @@ export default async function Page({
       </Suspense>
       <Tabs className="w-full" defaultValue="participants">
         <TabsList>
-          <TabsTrigger value="participants">Testpersoner</TabsTrigger>
-          <TabsTrigger value="products">Produkter</TabsTrigger>
+          <TabsTrigger value="participants">
+            <UsersIcon className="w-5 h-5" />
+            Testpersoner
+          </TabsTrigger>
+          <TabsTrigger value="products">
+            <BoxesIcon className="w-5 h-5" />
+            Produkter
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="participants">
           <View className="lg:flex-row gap-4">
