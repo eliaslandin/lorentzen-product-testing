@@ -71,3 +71,42 @@ export const createProductSchema = z.object({
   testId: z.number(),
   image: z.file().max(2_000_000, "Max 2MB").optional(),
 });
+
+const blockCore = z.object({
+  position: z.number(),
+});
+
+const headingBlock = blockCore.extend({
+  type: "heading",
+  data: z.object({
+    text: stringMax255Schema,
+  }),
+});
+
+const imageBlock = blockCore.extend({
+  type: "image",
+  data: z.object({
+    name: stringMax255Schema,
+  }),
+});
+
+const textBlock = blockCore.extend({
+  type: "text",
+  data: z.object({
+    text: nonEmptyStringSchema,
+  }),
+});
+
+const questionBlock = blockCore.extend({
+  type: "question",
+  data: z.object({
+    text: nonEmptyStringSchema,
+  }),
+});
+
+export const createFormBlockSchema = z.discriminatedUnion("type", [
+  headingBlock,
+  imageBlock,
+  textBlock,
+  questionBlock,
+]);
