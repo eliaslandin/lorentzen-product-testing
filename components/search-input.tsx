@@ -25,7 +25,9 @@ export const SearchInput = ({
         params.delete(queryKey);
       }
 
-      replace(`${pathname}?${params.toString()}`);
+      replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     }, DEBOUNCE_TIME_MS);
 
     return () => clearTimeout(debounce);
