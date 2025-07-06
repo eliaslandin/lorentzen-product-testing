@@ -68,15 +68,15 @@ export const ProductSelector = ({
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="text-center">
-          <H2 className="pl-4">{selected.name}</H2>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardHeader>
           <Avatar className="rounded-sm self-center h-60 w-60">
             <AvatarImage src={selected.image_url} className="object-contain" />
             <AvatarFallback className="rounded-none bg-secondary" />
           </Avatar>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
           <View className="py-2">
+            <H2>{selected.name}</H2>
             <P>{selected.description}</P>
           </View>
           <List>
