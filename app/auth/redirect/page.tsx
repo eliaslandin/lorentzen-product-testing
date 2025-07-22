@@ -1,14 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, use } from "react";
+import { useRouter } from "next/navigation";
 
 // Page to redirect from client so auth cookie gets set
 // Used for logging in users with magic link without emails
-export default function Page() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export default function Page({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string> | undefined>;
+}) {
   const effectHasRun = useRef(false);
+  const search = use(searchParams);
+  const router = useRouter();
 
   useEffect(() => {
     if (!effectHasRun.current) {
@@ -16,7 +20,7 @@ export default function Page() {
         router.push("/");
       }
 
-      const params = searchParams.toString();
+      const params = new URLSearchParams(search);
       router.push(`/auth/confirm?${params}`);
 
       effectHasRun.current = true;
