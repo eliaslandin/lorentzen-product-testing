@@ -360,7 +360,7 @@ export const createProductAction = async (_: unknown, formData: FormData) => {
   const supabase = await createClient();
 
   let imageName;
-  if (submission.value.image) {
+  if (submission.value.image?.size) {
     console.log("Attempting to upload image...");
     const { error: storageError } = await supabase.storage
       .from("test_assets")
