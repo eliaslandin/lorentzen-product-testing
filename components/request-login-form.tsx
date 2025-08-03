@@ -31,7 +31,12 @@ export const RequestLoginForm = () => {
   });
 
   return (
-    <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
+    <form
+      id={form.id}
+      onSubmit={form.onSubmit}
+      action={formAction}
+      data-testid="request-login-form"
+    >
       <FormContent>
         <FormField
           inputId={fields.personal_number.id}
@@ -48,7 +53,7 @@ export const RequestLoginForm = () => {
             containerClassName="gap-2"
           >
             <InputOTPGroup>
-              <InputOTPSlotBig index={0} />
+              <InputOTPSlotBig data-testid="input-1" index={0} />
               <InputOTPSlotBig index={1} />
               <InputOTPSlotBig index={2} />
               <InputOTPSlotBig index={3} />
