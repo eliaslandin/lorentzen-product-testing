@@ -11,10 +11,10 @@ const ResizeObserverMock = vi.fn(() => ({
 vi.stubGlobal("ResizeObserver", ResizeObserverMock);
 
 describe("RequestLoginForm", () => {
-  it("renders the form", () => {
+  it("renders the input field", () => {
     render(<RequestLoginForm />);
-    const form = screen.getByLabelText("Personnummer (ÅÅÅÅ-MM-DD-NNNN)");
+    const input = screen.getByLabelText("Personnummer (ÅÅÅÅ-MM-DD-NNNN)");
 
-    expect(form).toBeDefined();
+    expect(input).toBeDefined();
   });
 });
