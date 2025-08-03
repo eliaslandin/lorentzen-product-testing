@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "pull:types": "npx supabase gen types typescript --project-id ggbqlmncfsjmdipndufo --schema api > lib/database.types.ts"
+    "pull:types": "npx supabase gen types typescript --project-id ggbqlmncfsjmdipndufo --schema api > lib/database.types.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "@conform-to/react": "^1.8.0",
