@@ -137,7 +137,7 @@ export const signOutAction = async () => {
 };
 
 export const requestLoginAction = async (
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ) => {
   const submission = parseWithZod(formData, {
@@ -273,7 +273,7 @@ export const requestLoginAction = async (
 };
 
 export const addPersonalInfoAction = async (
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ) => {
   const submission = parseWithZod(formData, { schema: addPersonalInfoSchema });
