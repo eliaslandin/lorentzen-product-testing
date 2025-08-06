@@ -13,3 +13,7 @@ export function capitalize(string: string) {
 
   return capWords.join(" ");
 }
+
+export async function wait(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}

@@ -2,6 +2,8 @@ import { RequestLoginForm } from "@/components/request-login-form";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+import { userEvent } from "@testing-library/user-event";
+import { wait } from "@/lib/utils";
 
 const ResizeObserverMock = vi.fn(() => ({
   observe: vi.fn(),
@@ -30,13 +32,42 @@ describe("RequestLoginForm", () => {
     const input = screen.getByLabelText(
       "Personnummer (ÅÅÅÅ-MM-DD-NNNN)",
     ) as HTMLInputElement;
-    input.value = "000000000000";
+    await userEvent.type(input, "000000000000");
 
     const submitButton = screen.getByRole("button");
-    submitButton.click();
+    await userEvent.click(submitButton);
 
     await waitFor(() =>
       expect(screen.getByText(/Ogiltigt personnummer/i)).toBeInTheDocument(),
     );
+  });
+
+  it("revalidates on valid input", async () => {
+    render(<RequestLoginForm />);
+
+    const input = screen.getByLabelText(
+      "Personnummer (ÅÅÅÅ-MM-DD-NNNN)",
+    ) as HTMLInputElement;
+
+    await userEvent.type(input, "000000000000");
+
+    const submitButton = screen.getByRole("button");
+    await userEvent.click(submitButton);
+
+    await waitFor(() =>
+      expect(screen.getByText(/Ogiltigt personnummer/i)).toBeInTheDocument(),
+    );
+
+    await userEvent.clear(input);
+    await userEvent.type(input, "199001011234");
+
+    await waitFor(() =>
+      expect(
+        screen.queryByText(/Ogiltigt personnummer/i),
+      ).not.toBeInTheDocument(),
+    );
+
+    // Allow input-otp's internal timeouts to resolve
+    await wait(100);
   });
 });
