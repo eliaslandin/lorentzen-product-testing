@@ -382,20 +382,27 @@ export const createProductAction = async (_: unknown, formData: FormData) => {
     imageName = `${submission.value.testId}/${submission.value.image.name}`;
   }
 
-  const { error } = await supabase.schema("api").from("products").insert({
-    name: submission.value.name,
-    description: submission.value.description,
-    test_id: submission.value.testId,
-    image_name: imageName,
-  });
+  const { data, error } = await supabase
+    .schema("api")
+    .from("products")
+    .insert({
+      name: submission.value.name,
+      description: submission.value.description,
+      test_id: submission.value.testId,
+      image_name: imageName,
+    })
+    .select()
+    .single();
 
   if (error) {
-    console.error("Failed to add product. Error:" + JSON.stringify(error));
+    console.error("Failed to create product. Error:" + JSON.stringify(error));
 
     return submission.reply({
       formErrors: ["Servererror"],
     });
   }
+
+  console.log(`Successfully created product: ${JSON.stringify(data)}`);
 
   revalidatePath("/admin/tester/[id]", "page");
   redirect(`/admin/tester/${submission.value.testId}`);
@@ -439,6 +446,8 @@ export const removeProductAction = async (
       };
     }
   }
+
+  console.log(`Successfully removed product: ${JSON.stringify(data)}`);
 
   revalidatePath("/admin/tester/[id]", "page");
 };
