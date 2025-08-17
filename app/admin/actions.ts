@@ -400,3 +400,42 @@ export const createProductAction = async (_: unknown, formData: FormData) => {
   revalidatePath("/admin/tester/[id]", "page");
   redirect(`/admin/tester/${submission.value.testId}`);
 };
+
+export const removeProductAction = async ({
+  id,
+}: {
+  id: number;
+}): Promise<{ error: string } | void> => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .schema("api")
+    .from("products")
+    .delete()
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Failed to remove product. Error: ${JSON.stringify(error)}`);
+    return {
+      error: "Servererror",
+    };
+  }
+
+  if (data.image_name) {
+    const { error: storageError } = await supabase.storage
+      .from("test_assets")
+      .remove([data.image_name]);
+
+    if (storageError) {
+      console.error(
+        `Failed to remove product image from storage. Error: ${JSON.stringify(error)}`,
+      );
+      return {
+        error: "Servererror",
+      };
+    }
+  }
+
+  revalidatePath("/admin/tester/[id]", "page");
+};
