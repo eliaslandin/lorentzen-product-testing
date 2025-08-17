@@ -139,7 +139,7 @@ export function AppSidebar({
       </SidebarContent>
       <SidebarFooter>
         <View className="flex-row gap-4 justify-center items-center">
-          <p>Theme:</p>
+          <p className="group-data-[collapsible=icon]:hidden">Theme:</p>
           <ThemeSwitcher />
         </View>
       </SidebarFooter>
