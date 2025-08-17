@@ -13,7 +13,9 @@ export const ProductSelector = ({
   products: ProductWithImage[];
   testId: number;
 }) => {
-  const [selected, setSelected] = useState<ProductWithImage>(products[0]);
+  const [selected, setSelected] = useState<ProductWithImage | null>(
+    products[0] || null,
+  );
 
   return (
     <View className="lg:flex-row gap-4">
