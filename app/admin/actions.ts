@@ -401,11 +401,14 @@ export const createProductAction = async (_: unknown, formData: FormData) => {
   redirect(`/admin/tester/${submission.value.testId}`);
 };
 
-export const removeProductAction = async ({
-  id,
-}: {
-  id: number;
-}): Promise<{ error: string } | void> => {
+export const removeProductAction = async (
+  _prevState: unknown,
+  {
+    id,
+  }: {
+    id: number;
+  },
+): Promise<{ error: string } | void> => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .schema("api")

@@ -12,6 +12,7 @@ import { ProductWithImage } from "@/lib/types";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon } from "lucide-react";
+import { RemoveProductButton } from "./remove-product-button";
 
 export const ProductSelector = ({
   products,
@@ -68,11 +69,14 @@ export const ProductSelector = ({
         </CardContent>
       </Card>
       <Card>
-        <CardHeader>
+        <CardHeader className="gap-2">
           <Avatar className="rounded-sm self-center h-60 w-60">
             <AvatarImage src={selected.image_url} className="object-contain" />
             <AvatarFallback className="rounded-none bg-secondary" />
           </Avatar>
+          <View className="flex-row border rounded-md p-1">
+            <RemoveProductButton id={selected.id} />
+          </View>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <View className="py-2">
