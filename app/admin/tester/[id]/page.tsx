@@ -18,7 +18,6 @@ export default async function Page({
     q2?: string;
     p1?: string;
     p2?: string;
-    addProduct?: string;
   }>;
 }) {
   const { id } = await params;
