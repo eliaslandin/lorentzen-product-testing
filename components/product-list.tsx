@@ -20,8 +20,8 @@ export const ProductList = ({
   testId,
 }: {
   products: ProductWithImage[];
-  selected: ProductWithImage;
-  setSelectedAction: Dispatch<SetStateAction<ProductWithImage>>;
+  selected: ProductWithImage | null;
+  setSelectedAction: Dispatch<SetStateAction<ProductWithImage | null>>;
   testId: number;
 }) => {
   return (
@@ -41,7 +41,7 @@ export const ProductList = ({
                 onClick={() => setSelectedAction(product)}
                 className={cn(
                   "flex w-full h-auto text-left items-start justify-start border border-secondary flex-row gap-5 p-3 hover:bg-muted",
-                  selected.id === product.id
+                  selected?.id === product.id
                     ? "border-primary/30 border-2"
                     : "",
                 )}
@@ -57,7 +57,7 @@ export const ProductList = ({
                   <h3 className="text-lg">{product.name}</h3>
                   <P>{product.description}</P>
                 </View>
-                {selected.id === product.id && (
+                {selected?.id === product.id && (
                   <ChevronRightIcon className="self-center w-12 h-12 text-primary/50" />
                 )}
               </Button>

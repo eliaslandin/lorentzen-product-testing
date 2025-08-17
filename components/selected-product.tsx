@@ -15,10 +15,14 @@ export const SelectedProduct = ({
   products,
   setSelectedAction,
 }: {
-  product: ProductWithImage;
+  product: ProductWithImage | null;
   products: ProductWithImage[];
-  setSelectedAction: Dispatch<SetStateAction<ProductWithImage>>;
+  setSelectedAction: Dispatch<SetStateAction<ProductWithImage | null>>;
 }) => {
+  if (!product) {
+    return <Card></Card>;
+  }
+
   return (
     <Card>
       <CardHeader className="gap-2">
@@ -27,7 +31,11 @@ export const SelectedProduct = ({
           <AvatarFallback className="rounded-none bg-secondary" />
         </Avatar>
         <View className="flex-row border rounded-md p-1">
-          <RemoveProductButton id={product.id} />
+          <RemoveProductButton
+            product={product}
+            products={products}
+            setSelectedAction={setSelectedAction}
+          />
         </View>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
