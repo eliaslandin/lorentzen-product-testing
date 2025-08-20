@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { H2 } from "./H2";
 import { List } from "./list";
 import { P } from "./P";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -10,7 +9,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { View } from "./view";
 import { ProductWithImage } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 export const ProductList = ({
@@ -27,12 +26,14 @@ export const ProductList = ({
   return (
     <Card>
       <CardHeader className="text-center">
-        <H2 className="pl-4">Produkter</H2>
+        <Button asChild variant="outline" className="max-w-48">
+          <Link className="gap-1" href={`/admin/tester/${testId}/produkter/ny`}>
+            <PlusIcon />
+            Ny produkt
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Button asChild variant="secondary">
-          <Link href={`/admin/tester/${testId}/produkter/ny`}>Ny produkt</Link>
-        </Button>
         <List>
           {products.map((product) => (
             <li key={product.id}>
