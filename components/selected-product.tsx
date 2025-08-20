@@ -26,17 +26,19 @@ export const SelectedProduct = ({
   return (
     <Card>
       <CardHeader className="gap-2">
-        <Avatar className="rounded-sm self-center h-60 w-60">
+        <Avatar className="rounded-sm self-center h-60 w-full">
           <AvatarImage src={product.image_url} className="object-contain" />
           <AvatarFallback className="rounded-none bg-secondary" />
         </Avatar>
-        <View className="flex-row border rounded-md p-1">
-          <RemoveProductButton
-            product={product}
-            products={products}
-            setSelectedAction={setSelectedAction}
-          />
-        </View>
+        <div className="px-4 w-auto flex justify-center">
+          <View className="flex-row flex-0 min-w-72 justify-between border rounded-full py-1 px-4 bg-white">
+            <RemoveProductButton
+              product={product}
+              products={products}
+              setSelectedAction={setSelectedAction}
+            />
+          </View>
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <View className="py-2">

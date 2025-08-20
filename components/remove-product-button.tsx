@@ -54,7 +54,6 @@ export const RemoveProductButton = ({
     <Button
       variant="ghost"
       size="icon"
-      className="text-muted-foreground hover:text-primary"
       title="Ta bort"
       onClick={handleClick}
       disabled={isPending}

@@ -31,12 +31,11 @@ export const RemovePersonFromTestButton = ({
       }
       title="Ta bort"
       disabled={isPending}
-      className="h-auto group"
     >
       {isPending ? (
-        <Spinner className="w-5 h-5 text-foreground" />
+        <Spinner className="w-5 h-5 text-muted-foreground" />
       ) : (
-        <XIcon className="w-5 h-5 transition-colors group-hover:text-primary" />
+        <XIcon className="w-5 h-5" />
       )}
     </Button>
   );

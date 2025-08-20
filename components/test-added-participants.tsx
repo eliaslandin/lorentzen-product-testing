@@ -48,7 +48,7 @@ export const TestAddedParticipants = async ({
             {data.map((user) => (
               <li
                 key={user.user_test_relation_id}
-                className="flex justify-between"
+                className="flex justify-between items-center"
               >
                 <Link
                   href={`/admin/testpersoner/${user.id}`}
