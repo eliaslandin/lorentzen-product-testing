@@ -24,7 +24,7 @@ export const ProductList = ({
   testId: number;
 }) => {
   return (
-    <Card>
+    <Card className="flex-[0]">
       <CardHeader className="text-center">
         <Button asChild variant="outline" className="max-w-48">
           <Link className="gap-1" href={`/admin/tester/${testId}/produkter/ny`}>
@@ -41,10 +41,8 @@ export const ProductList = ({
                 variant="ghost"
                 onClick={() => setSelectedAction(product)}
                 className={cn(
-                  "flex w-full h-auto text-left items-start justify-start border border-secondary flex-row gap-5 p-3 hover:bg-muted",
-                  selected?.id === product.id
-                    ? "border-primary/30 border-2"
-                    : "",
+                  "flex w-full h-auto text-left items-start justify-start lg:w-[500px] border border-secondary flex-row gap-4 p-3 hover:bg-muted",
+                  selected?.id === product.id ? "border-primary" : "",
                 )}
               >
                 <Avatar className="rounded-sm self-center h-32 w-32">
@@ -54,13 +52,14 @@ export const ProductList = ({
                   />
                   <AvatarFallback className="rounded-none bg-secondary" />
                 </Avatar>
-                <View className="py-2">
-                  <h3 className="text-lg">{product.name}</h3>
-                  <P>{product.description}</P>
+                <View className="py-2 overflow-hidden">
+                  <h3 className="text-lg text-foreground text-ellipsis overflow-hidden">
+                    {product.name}
+                  </h3>
+                  <P className="text-ellipsis overflow-hidden line-clamp-3 text-wrap">
+                    {product.description}
+                  </P>
                 </View>
-                {selected?.id === product.id && (
-                  <ChevronRightIcon className="self-center w-12 h-12 text-primary/50" />
-                )}
               </Button>
             </li>
           ))}

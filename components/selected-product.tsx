@@ -24,14 +24,14 @@ export const SelectedProduct = ({
   }
 
   return (
-    <Card>
+    <Card className="lg:flex-1">
       <CardHeader className="gap-2">
         <Avatar className="rounded-sm self-center h-60 w-full">
           <AvatarImage src={product.image_url} className="object-contain" />
           <AvatarFallback className="rounded-none bg-secondary" />
         </Avatar>
-        <div className="px-4 w-auto flex justify-center">
-          <View className="flex-row flex-0 min-w-72 justify-between border rounded-full py-1 px-4 bg-white">
+        <div className="px-4">
+          <View className="flex-row gap-2 border rounded-full py-1 px-4 bg-white">
             <RemoveProductButton
               product={product}
               products={products}
